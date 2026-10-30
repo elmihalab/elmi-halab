@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>شعبة الشؤون العلمية — مديرية أوقاف حلب</title>
+  <meta name="description" content="الصفحة الرسمية لشعبة الشؤون العلمية في مديرية أوقاف حلب: اللقاء التطويري الشهري للأئمة والخطباء، والدورات العلمية، والإصدارات، والنماذج، وخطب الجمعة.">
+  <meta name="theme-color" content="#002623">
+
+  <!-- المعاينة عند مشاركة الرابط في واتساب وفيسبوك
+       إن اخترت في Vercel اسمًا غير elmi-halab فغيّر الرابطين التاليين -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ar_AR">
+  <meta property="og:title" content="شعبة الشؤون العلمية — مديرية أوقاف حلب">
+  <meta property="og:description" content="اللقاء التطويري الشهري، والدورات العلمية، والإصدارات، والنماذج، وخطب الجمعة.">
+  <meta property="og:url" content="https://elmi-halab.vercel.app/">
+  <meta property="og:image" content="https://elmi-halab.vercel.app/images/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css?v=1.0">
+</head>
+<body>
+
+  <header class="hero">
+    <div class="wrap">
+      <img class="hero-logo" src="images/eagle.svg" alt="شعار مديرية أوقاف حلب" width="112" height="92">
+      <span class="kicker" id="orgName">مديرية أوقاف حلب</span>
+      <h1 id="siteTitle">شعبة الشؤون العلمية</h1>
+      <p class="tagline" id="tagline">تنظيم الدروس والدورات والبرامج العلمية في مساجد حلب وتطويرها</p>
+      <div class="hero-actions">
+        <a class="btn btn-gold" id="waBtn" href="https://www.whatsapp.com/channel/0029Vb7F8jREKyZPQP4L4A2y" target="_blank" rel="noopener"></a>
+        <button class="btn btn-ghost-light" id="shareBtn" type="button"></button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="chips" aria-label="أقسام الصفحة">
+    <div class="chips-row" id="chips"></div>
+  </nav>
+
+  <main>
+    <div class="wrap">
+      <section class="block" id="meeting" aria-labelledby="meetingHead">
+        <div class="block-head">
+          <span class="kicker">للأئمة والخطباء</span>
+          <h2 id="meetingHead">اللقاء التطويري الشهري</h2>
+        </div>
+        <div id="meetingBox"><div class="skeleton" style="height:220px"></div></div>
+      </section>
+
+      <div id="sections">
+        <div class="skeleton" style="margin-top:28px"></div>
+        <div class="skeleton" style="margin-top:10px"></div>
+      </div>
+
+      <section class="block" id="about" aria-labelledby="aboutHead">
+        <div class="block-head">
+          <span class="kicker">تعريف</span>
+          <h2 id="aboutHead">عن الشعبة</h2>
+        </div>
+        <div class="about" id="aboutBox"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <img src="images/eagle.svg" alt="" width="46" height="38">
+    <div><b>مديرية أوقاف حلب</b> · <span id="ver">الإصدار 1.0</span></div>
+  </footer>
+
+  <dialog class="sheet" id="shareSheet">
+    <div class="sheet-in">
+      <h3>شارك الموقع</h3>
+      <p>امسح الباركود بكاميرا الهاتف، أو انسخ الرابط</p>
+      <div class="qr-box" id="qrBox"></div>
+      <div class="url-line" id="urlLine"></div>
+      <div class="sheet-actions">
+        <button class="btn btn-forest" id="copyBtn" type="button">نسخ الرابط</button>
+        <button class="btn btn-outline" id="closeShare" type="button">إغلاق</button>
+      </div>
+    </div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="config.js?v=1.0"></script>
+  <script src="content.js?v=1.0"></script>
+  <script src="icons.js?v=1.0"></script>
+  <script src="vendor/qrcode.js"></script>
+  <script src="app.js?v=1.0"></script>
+</body>
+</html>

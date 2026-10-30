@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>لوحة الإدارة — شعبة الشؤون العلمية</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#002623">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css?v=1.0">
+</head>
+<body>
+
+  <header class="adm-top">
+    <div class="wrap">
+      <img src="images/eagle.svg" alt="" width="46" height="38">
+      <div class="t"><b>لوحة الإدارة</b><span>شعبة الشؤون العلمية · مديرية أوقاف حلب</span></div>
+      <a class="btn btn-ghost-light" href="./" target="_blank" rel="noopener">الموقع</a>
+      <button class="btn btn-ghost-light" id="logoutBtn" type="button" hidden>خروج</button>
+    </div>
+  </header>
+
+  <!-- يظهر إن لم يُربط Supabase بعد -->
+  <main class="wrap" id="setupView" hidden style="padding-top:18px">
+    <div class="panel warn">
+      <h2>لم يُربط الموقع بقاعدة البيانات بعد</h2>
+      <p>الموقع يعمل الآن بالمحتوى الأساسي. لتفعيل لوحة الإدارة:</p>
+      <ol class="steps">
+        <li>أنشئ مشروعًا في Supabase وشغّل فيه ملف <code class="k">setup.sql</code></li>
+        <li>افتح ملف <code class="k">config.js</code> وضع فيه الرابط والمفتاح العام</li>
+        <li>ارفع <code class="k">config.js</code> إلى GitHub مكان القديم، وانتظر دقيقة</li>
+      </ol>
+      <p style="margin-top:10px">التفاصيل خطوة بخطوة في دليل التشغيل.</p>
+    </div>
+  </main>
+
+  <!-- تسجيل الدخول -->
+  <main class="wrap" id="loginView" hidden style="padding-top:18px">
+    <form class="panel" id="loginForm" autocomplete="on">
+      <h2>تسجيل الدخول</h2>
+      <p>ادخل بالبريد وكلمة السر اللذين أنشأتهما في Supabase.</p>
+      <label class="field"><span>البريد الإلكتروني</span>
+        <input class="inp ltr" type="email" name="email" id="email" required autocomplete="username"></label>
+      <label class="field"><span>كلمة السر</span>
+        <input class="inp ltr" type="password" name="password" id="password" required autocomplete="current-password"></label>
+      <button class="btn btn-forest" type="submit" id="loginBtn" style="width:100%">دخول</button>
+      <p id="loginMsg" style="margin:12px 0 0;color:var(--umber-500);font-size:14px"></p>
+    </form>
+  </main>
+
+  <!-- اللوحة -->
+  <div id="appView" hidden>
+    <nav class="adm-tabs" id="tabs">
+      <button class="adm-tab on" data-tab="meetings" type="button">اللقاءات الشهرية</button>
+      <button class="adm-tab" data-tab="sections" type="button">الأقسام والروابط</button>
+      <button class="adm-tab" data-tab="settings" type="button">بيانات الموقع</button>
+      <button class="adm-tab" data-tab="qr" type="button">الباركود</button>
+    </nav>
+    <main class="wrap" style="padding-bottom:40px">
+      <div id="notAdmin" class="panel danger" hidden>
+        <h2>هذا الحساب ليس مشرفًا</h2>
+        <p>دخلت بنجاح، لكن بريدك غير مضاف في جدول المشرفين، فلن يُحفظ أي تعديل. أضفه بهذا السطر في SQL Editor:</p>
+        <p><code class="k" id="adminSql"></code></p>
+      </div>
+      <div id="seedBox" class="panel warn" hidden>
+        <h2>قاعدة البيانات فارغة</h2>
+        <p>انقل المحتوى الأساسي (الأقسام والروابط واللقاء الأول) إلى قاعدة البيانات بضغطة واحدة، ثم عدّل عليه كما تشاء.</p>
+        <button class="btn btn-gold" id="seedBtn" type="button">استيراد المحتوى الأساسي</button>
+      </div>
+
+      <section data-view="meetings">
+        <div class="panel">
+          <h2>اللقاءات الشهرية</h2>
+          <p>يظهر في الموقع أقرب لقاء قادم، والسابقة في أرشيف تحته. ضع رابط الدخول قبل الموعد، ورابط التسجيل بعده.</p>
+          <div id="meetList"></div>
+          <button class="btn btn-forest" id="addMeet" type="button" style="width:100%;margin-top:6px">+ لقاء جديد</button>
+        </div>
+      </section>
+
+      <section data-view="sections" hidden>
+        <div class="panel">
+          <h2>الأقسام والروابط</h2>
+          <p>كل قسم يجمع روابط أو ملفات. أضف قسمًا لكل دورة أو برنامج جديد، وارفع ملفاته من داخله.</p>
+          <div id="secList"></div>
+          <button class="btn btn-forest" id="addSec" type="button" style="width:100%;margin-top:6px">+ قسم جديد</button>
+        </div>
+      </section>
+
+      <section data-view="settings" hidden>
+        <form class="panel" id="setForm">
+          <h2>بيانات الموقع</h2>
+          <p>النصوص العامة التي تظهر في رأس الصفحة وفي قسم «عن الشعبة».</p>
+          <div id="setFields"></div>
+          <button class="btn btn-forest" type="submit" style="width:100%">حفظ</button>
+        </form>
+      </section>
+
+      <section data-view="qr" hidden>
+        <div class="panel" style="text-align:center">
+          <h2>باركود الموقع</h2>
+          <p>للطباعة على الإعلانات أو عرضه على الشاشة في اللقاءات. يبقى صالحًا مهما غيّرت محتوى الموقع.</p>
+          <div class="qr-box" id="qrAdmin" style="padding:8px"></div>
+          <div class="url-line" id="qrUrl"></div>
+          <div class="sheet-actions">
+            <button class="btn btn-forest" id="dlQr" type="button">تنزيل الباركود</button>
+            <button class="btn btn-outline" id="dlPoster" type="button">تنزيل نسخة الطباعة</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog class="sheet editor" id="editor">
+    <form class="sheet-in" id="editorForm" method="dialog">
+      <h3 id="editorTitle"></h3>
+      <div id="editorFields"></div>
+      <div class="editor-actions">
+        <button class="btn btn-forest" type="submit" id="editorSave">حفظ</button>
+        <button class="btn btn-outline" type="button" id="editorCancel">إلغاء</button>
+      </div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="config.js?v=1.0"></script>
+  <script src="content.js?v=1.0"></script>
+  <script src="icons.js?v=1.0"></script>
+  <script src="vendor/qrcode.js"></script>
+  <script src="vendor/supabase.js"></script>
+  <script src="admin.js?v=1.0"></script>
+</body>
+</html>

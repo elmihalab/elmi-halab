@@ -1,0 +1,17 @@
+{
+  "name": "شعبة الشؤون العلمية — مديرية أوقاف حلب",
+  "short_name": "الشؤون العلمية",
+  "description": "اللقاء التطويري الشهري، والدورات العلمية، والإصدارات، والنماذج، وخطب الجمعة.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#002623",
+  "theme_color": "#002623",
+  "icons": [
+    { "src": "images/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "images/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "images/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

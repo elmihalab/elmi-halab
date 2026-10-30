@@ -1,0 +1,9 @@
+ضع في هذا المجلد ملفات خط قمرة الأربعة بهذه الأسماء حرفيًا (الأحرف الكبيرة مهمة):
+
+ITFQOMRAARABIC-REGULAR.TTF
+ITFQOMRAARABIC-MEDIUM.TTF
+ITFQOMRAARABIC-BOLD.TTF
+ITFQOMRAARABIC-BLACK.TTF
+
+إن كانت أسماء ملفاتك مختلفة فأعد تسميتها قبل الرفع.
+وإن لم تضعها يعمل الموقع بخط «تجوّل» الاحتياطي الموجود هنا، فلا يتعطل شيء.
