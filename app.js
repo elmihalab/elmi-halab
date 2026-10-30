@@ -20,6 +20,8 @@
   function safeUrl(u) {
     u = String(u || '').trim();
     if (/^https?:\/\//i.test(u) || /^(tel|mailto):/i.test(u)) return u;
+    // ملفات مرفوعة مع الموقع نفسه، مثل files/book.pdf
+    if (/^\/?files\/[\w\-.\/]+$/i.test(u) && u.indexOf('..') < 0) return u;
     return '';
   }
   function lines(s) {

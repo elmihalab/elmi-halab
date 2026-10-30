@@ -48,10 +48,10 @@ window.DEFAULT_CONTENT = {
   ],
 
   items: [
-    { id: 'd-it-1', section_id: 'd-sec-1', title: 'المادة العلمية للدورة', description: 'المادة الكاملة لدورة فقه الخلاف', url: '', file_url: '', file_name: '', icon: 'graduation-cap', badge: 'قريبًا', sort: 10, visible: true },
+    { id: 'd-it-1', section_id: 'd-sec-1', title: 'فقه الخلاف: من فهم الاختلاف إلى العمل المشترك', description: 'المادة العلمية الكاملة للدورة', url: '', file_url: 'files/fiqh-alkhilaf.pdf', file_name: 'fiqh-alkhilaf.pdf', icon: 'graduation-cap', badge: '', sort: 10, visible: true },
     { id: 'd-it-2', section_id: 'd-sec-1', title: 'ملخص الملخص', description: 'خلاصة الدورة في صفحات قليلة', url: '', file_url: '', file_name: '', icon: 'notebook-pen', badge: 'قريبًا', sort: 20, visible: true },
 
-    { id: 'd-it-3', section_id: 'd-sec-2', title: 'مصنَّف أسماء الله الحسنى', description: 'مادة إيمانية للتدريس في المساجد', url: '', file_url: '', file_name: '', icon: 'book-marked', badge: 'قريبًا', sort: 10, visible: true },
+    { id: 'd-it-3', section_id: 'd-sec-2', title: 'أسماء الله الحسنى: مجالس إيمانية في معرفة الله بأسمائه الحسنى', description: 'عشرة مجالس للتدريس في المساجد', url: '', file_url: 'files/asma-allah-alhusna.pdf', file_name: 'asma-allah-alhusna.pdf', icon: 'book-marked', badge: '', sort: 10, visible: true },
 
     { id: 'd-it-4', section_id: 'd-sec-3', title: 'مجلس سماع صحيح البخاري', description: 'التسجيل والحضور والشهادات والتحقق منها', url: 'https://majlis-albukhari.vercel.app/', file_url: '', file_name: '', icon: 'book-open', badge: '', sort: 10, visible: true },
 
