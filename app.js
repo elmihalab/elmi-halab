@@ -22,6 +22,8 @@
     if (/^https?:\/\//i.test(u) || /^(tel|mailto):/i.test(u)) return u;
     // ملفات مرفوعة مع الموقع نفسه، مثل files/book.pdf
     if (/^\/?files\/[\w\-.\/]+$/i.test(u) && u.indexOf('..') < 0) return u;
+    // رابط داخل الصفحة نفسها، مثل #meeting
+    if (/^#[\w-]+$/.test(u)) return u;
     return '';
   }
   function lines(s) {
@@ -187,8 +189,20 @@
     return map[ext] || 'ملف';
   }
 
+  // يمكن أن يحمل الرابط أكثر من عنوان بينها «|»: الأول للحاسوب،
+  // ورابط Google Play للأندرويد، ورابط App Store للآيفون
+  function pickUrl(u) {
+    var list = String(u || '').split('|').map(function (x) { return safeUrl(x); }).filter(Boolean);
+    if (list.length < 2) return list[0] || '';
+    var ua = navigator.userAgent || '';
+    var want = /android/i.test(ua) ? /play\.google\.com/i
+      : (/iphone|ipad|ipod/i.test(ua) || (/macintosh/i.test(ua) && navigator.maxTouchPoints > 1)) ? /apps\.apple\.com/i : null;
+    if (want) for (var i = 0; i < list.length; i++) if (want.test(list[i])) return list[i];
+    return list[0];
+  }
+
   function itemHTML(it) {
-    var href = safeUrl(it.file_url) || safeUrl(it.url);
+    var href = safeUrl(it.file_url) || pickUrl(it.url);
     var ic = it.icon || 'link';
     var icCls = ic === 'whatsapp' ? ' wa' : ic === 'facebook' ? ' fb' : '';
     var badge = '';
@@ -202,26 +216,120 @@
       (it.description ? '<span class="item-desc">' + esc(it.description) + '</span>' : '') + '</span>';
 
     if (!href) return '<div class="item is-soon">' + inner + '</div>';
-    return '<a class="item" href="' + esc(href) + '" target="_blank" rel="noopener">' + inner +
+    var tgt = href.charAt(0) === '#' ? '' : ' target="_blank" rel="noopener"';
+    return '<a class="item" href="' + esc(href) + '"' + tgt + '>' + inner +
       '<span class="item-go">' + icon('arrow-up-left', 20) + '</span></a>';
   }
 
   function renderSections(sections, items) {
-    var out = '', chips = [{ id: 'meeting', t: 'اللقاء الشهري' }];
+    // القسم الأول في الترتيب يُعرض أعلى الصفحة قبل اللقاء الشهري، والباقي بعده
+    var top = '', out = '', chips = [];
+    var n = 0;
     sections.slice().sort(bySort).forEach(function (s, i) {
       var its = items.filter(function (it) { return it.section_id === s.id; }).sort(bySort);
       if (!its.length) return;
       var sid = 'sec-' + (i + 1);
-      chips.push({ id: sid, t: s.title });
-      out += '<section class="block" id="' + sid + '"><div class="block-head">';
-      if (s.kicker) out += '<span class="kicker">' + esc(s.kicker) + '</span>';
-      out += '<h2>' + esc(s.title) + '</h2>';
-      if (s.description) out += '<p>' + esc(s.description) + '</p>';
-      out += '</div><div class="items">' + its.map(itemHTML).join('') + '</div></section>';
+      var html = '<section class="block" id="' + sid + '"><div class="block-head">';
+      if (s.kicker) html += '<span class="kicker">' + esc(s.kicker) + '</span>';
+      html += '<h2>' + esc(s.title) + '</h2>';
+      if (s.description) html += '<p>' + esc(s.description) + '</p>';
+      html += '</div><div class="items">' + its.map(itemHTML).join('') + '</div></section>';
+      if (n === 0) { top = html; chips.push({ id: sid, t: s.title }, { id: 'meeting', t: 'اللقاء الشهري' }); }
+      else { out += html; chips.push({ id: sid, t: s.title }); }
+      n++;
     });
+    if (!n) chips.push({ id: 'meeting', t: 'اللقاء الشهري' });
     chips.push({ id: 'about', t: 'عن الشعبة' });
+    if ($('sectionsTop')) $('sectionsTop').innerHTML = top; else out = top + out;
     $('sections').innerHTML = out;
-    $('chips').innerHTML = chips.map(function (c) { return '<a class="chip" href="#' + c.id + '">' + esc(c.t) + '</a>'; }).join('');
+    renderNav(chips);
+  }
+
+  /* ---------- الشريط العلوي وقائمة الأقسام والتذييل ---------- */
+  function renderNav(chips) {
+    var a = function (c) { return '<a href="#' + c.id + '">' + esc(c.t) + '</a>'; };
+    $('tbLinks').innerHTML = chips.slice(0, 4).map(a).join('');
+    $('menuList').innerHTML = chips.map(function (c) {
+      return '<a href="#' + c.id + '"><span>' + esc(c.t) + '</span>' + icon('arrow-up-left', 18) + '</a>';
+    }).join('');
+    $('footSections').innerHTML = chips.slice(0, 6).map(function (c) { return '<li>' + a(c) + '</li>'; }).join('');
+  }
+
+  // سطور «العنوان :: النص»
+  function pairs(text) {
+    return lines(text).map(function (l) {
+      var i = l.indexOf('::');
+      return i < 0 ? [l, ''] : [l.slice(0, i).trim(), l.slice(i + 2).trim()];
+    });
+  }
+  var AR_DIGITS = '٠١٢٣٤٥٦٧٨٩';
+  function arDigits(n) { return String(n).replace(/\d/g, function (d) { return AR_DIGITS[d]; }); }
+
+  function renderExtras(s) {
+    // نقاط رأس الصفحة والزر الرئيسي
+    var FEAT_IC = ['file-check', 'mic', 'graduation-cap', 'calendar-days', 'book-open', 'users'];
+    $('heroPoints').innerHTML = lines(s.hero_points).slice(0, 3).map(function (x, i) {
+      return '<li><span class="feat-ic" aria-hidden="true">' + icon(FEAT_IC[i % FEAT_IC.length], 22) + '</span>' + esc(x) + '</li>';
+    }).join('');
+    var cta = pickUrl(s.cta_url);
+    var ctaBtn = $('ctaBtn');
+    if (cta && s.cta_label) {
+      ctaBtn.href = cta;
+      if (cta.charAt(0) !== '#') { ctaBtn.target = '_blank'; ctaBtn.rel = 'noopener'; }
+      ctaBtn.innerHTML = icon('file-check', 18) + esc(s.cta_label);
+      ctaBtn.hidden = false;
+    } else ctaBtn.hidden = true;
+
+    // كيف تستفيد
+    var st = pairs(s.steps);
+    $('steps').hidden = !st.length;
+    $('stepsBox').innerHTML = st.map(function (x, i) {
+      return '<li class="step"><span class="step-n">' + arDigits(i + 1) + '</span><b>' + esc(x[0]) + '</b>' + (x[1] ? '<p>' + esc(x[1]) + '</p>' : '') + '</li>';
+    }).join('');
+
+    // الأسئلة الشائعة
+    var fq = pairs(s.faq);
+    $('faq').hidden = !fq.length;
+    $('faqBox').innerHTML = fq.map(function (x) {
+      return '<details class="faq-item"><summary><span class="faq-q" aria-hidden="true">؟</span><span>' + esc(x[0]) + '</span>' + icon('chevron-down', 20) + '</summary><p>' + esc(x[1]) + '</p></details>';
+    }).join('');
+
+    // الدعوة الختامية وروابط التواصل
+    var wa = safeUrl(s.whatsapp_channel), chat = waContact(s);
+    var ext = ' target="_blank" rel="noopener"';
+    var btns = '';
+    if (wa) btns += '<a class="btn btn-gold" href="' + esc(wa) + '"' + ext + '>' + icon('megaphone', 18) + 'قناة الشعبة على واتساب</a>';
+    if (chat) btns += '<a class="btn btn-ghost-light" href="' + esc(chat) + '"' + ext + '>' + icon('whatsapp', 18) + 'مراسلة الشعبة</a>';
+    btns += '<button class="btn btn-ghost-light" type="button" data-share>' + icon('qr-code', 18) + 'باركود الموقع</button>';
+    $('ctaActions').innerHTML = btns;
+
+    var fc = '';
+    if (wa) fc += '<li><a href="' + esc(wa) + '"' + ext + '>قناة الشعبة على واتساب</a></li>';
+    if (chat) fc += '<li><a href="' + esc(chat) + '"' + ext + '>مراسلة الشعبة</a></li>';
+    var phone = String(s.contact_phone || '').replace(/[^\d+]/g, '');
+    if (phone) fc += '<li><a href="tel:' + esc(phone) + '">اتصال: <span dir="ltr">' + esc(s.contact_phone) + '</span></a></li>';
+    fc += '<li><button type="button" data-share>باركود الموقع ومشاركته</button></li>';
+    $('footContact').innerHTML = fc;
+
+    $('footLinks').innerHTML = pairs(s.footer_links).map(function (x) {
+      var u = pickUrl(x[1]); if (!u) return '';
+      return '<li><a href="' + esc(u) + '"' + ext + '>' + esc(x[0]) + '</a></li>';
+    }).join('');
+    $('footTag').textContent = s.tagline || '';
+  }
+
+  function setupMenu() {
+    var dlg = $('menuSheet');
+    var close = function () { if (dlg.close) dlg.close(); else dlg.removeAttribute('open'); };
+    $('menuBtn').addEventListener('click', function () { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); });
+    $('menuClose').addEventListener('click', close);
+    $('menuList').addEventListener('click', function (e) { if (e.target.closest('a')) close(); });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
+    $('menuShare').addEventListener('click', function () { close(); openShare(); });
+    document.addEventListener('click', function (e) { if (e.target.closest('[data-share]')) openShare(); });
+    var bar = $('topbar');
+    var onScroll = function () { bar.classList.toggle('scrolled', window.scrollY > 8); };
+    window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
   }
 
   /* ---------- عن الشعبة ---------- */
@@ -229,23 +337,22 @@
     var html = lines(s.about).map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');
     var t = lines(s.tasks);
     if (t.length) html += '<h3>من مهام الشعبة</h3><ul class="sq-list">' + t.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
-    var phone = String(s.contact_phone || '').replace(/[^\d+]/g, '');
-    var wa = safeUrl(s.whatsapp_channel);
-    if (phone || wa) {
-      html += '<h3>تواصل مع الشعبة</h3><div class="contact-row">';
-      if (phone) {
-        var intl = phone.replace(/^\+/, '').replace(/^00/, '').replace(/^0/, '963');
-        html += '<a class="btn btn-forest" href="https://wa.me/' + esc(intl) + '" target="_blank" rel="noopener">' + icon('whatsapp', 18) + 'مراسلة الشعبة</a>';
-        html += '<a class="btn btn-outline" href="tel:' + esc(phone) + '">' + icon('phone', 18) + 'اتصال</a>';
-      }
-      if (wa) html += '<a class="btn btn-outline" href="' + esc(wa) + '" target="_blank" rel="noopener">' + icon('megaphone', 18) + 'القناة</a>';
-      html += '</div>';
-    }
     $('aboutBox').innerHTML = html;
   }
 
   /* ---------- المشاركة والباركود ---------- */
   function siteUrl() { return location.origin + location.pathname.replace(/index\.html$/, ''); }
+
+  // رابط المراسلة المباشرة: رابط واتساب للأعمال إن وُجد، وإلا يُبنى من رقم الهاتف
+  function waContact(s) {
+    var link = safeUrl(s && s.whatsapp_contact);
+    if (link) return link;
+    var phone = String((s && s.contact_phone) || '').replace(/[^\d+]/g, '');
+    if (!phone) return '';
+    return 'https://wa.me/' + phone.replace(/^\+/, '').replace(/^00/, '').replace(/^0/, '963');
+  }
+  var SETTINGS = DEF.settings;
+  var openShare = function () { };
 
   function drawQR(text, px) {
     var qr = window.qrcode(0, 'M');
@@ -271,20 +378,41 @@
 
   function setupShare() {
     var dlg = $('shareSheet');
-    $('shareBtn').innerHTML = icon('qr-code', 18) + 'باركود ومشاركة';
-    $('shareBtn').addEventListener('click', function () {
-      var url = siteUrl();
+    var mode = 'site';
+    var TXT = {
+      site: { h: 'شارك الموقع', p: 'امسح الباركود بكاميرا الهاتف، أو انسخ الرابط' },
+      wa: { h: 'راسل الشعبة على واتساب', p: 'امسح الباركود لتبدأ محادثة مع الشعبة مباشرة' }
+    };
+    function target() { return mode === 'wa' ? waContact(SETTINGS) : siteUrl(); }
+    function paint() {
+      var url = target();
       var box = $('qrBox'); box.innerHTML = '';
-      if (window.qrcode) box.appendChild(drawQR(url, 440));
+      if (window.qrcode && url) box.appendChild(drawQR(url, 440));
       $('urlLine').textContent = url;
-      if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+      $('shareHead').textContent = TXT[mode].h;
+      $('shareNote').textContent = TXT[mode].p;
+      var seg = $('qrSeg');
+      seg.hidden = !waContact(SETTINGS);
+      Array.prototype.forEach.call(seg.querySelectorAll('button'), function (b) {
+        var on = b.dataset.k === mode; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+    }
+    $('qrSeg').addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-k]'); if (!b) return;
+      mode = b.dataset.k; paint();
     });
+    openShare = function () {
+      mode = 'site'; paint();
+      if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+    };
+    $('shareBtn').innerHTML = icon('qr-code', 16) + 'باركود الموقع ومشاركته';
+    $('shareBtn').addEventListener('click', function () { openShare(); });
     $('closeShare').addEventListener('click', function () { dlg.close ? dlg.close() : dlg.removeAttribute('open'); });
     dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
     $('copyBtn').addEventListener('click', function () {
-      var url = siteUrl();
+      var url = target();
       if (navigator.share) {
-        navigator.share({ title: document.title, url: url }).catch(function () { /* أُلغيت */ });
+        navigator.share({ title: mode === 'wa' ? 'مراسلة شعبة الشؤون العلمية' : document.title, url: url }).catch(function () { /* أُلغيت */ });
         return;
       }
       (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject())
@@ -297,6 +425,7 @@
   /* ---------- التشغيل ---------- */
   function render(d) {
     var s = d.settings;
+    SETTINGS = s;
     $('siteTitle').textContent = s.site_title || DEF.settings.site_title;
     $('orgName').textContent = s.org_name || DEF.settings.org_name;
     $('tagline').textContent = s.tagline || '';
@@ -308,9 +437,11 @@
     renderMeeting(d.meetings || []);
     renderSections(d.sections || [], d.items || []);
     renderAbout(s);
+    renderExtras(s);
   }
 
   setupShare();
+  setupMenu();
   var cached = hasDb() && cacheGet();
   if (cached) render(cached);       // عرض سريع من آخر نسخة محفوظة
   load().then(render);

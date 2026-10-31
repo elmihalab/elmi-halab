@@ -12,11 +12,26 @@ window.DEFAULT_CONTENT = {
     site_title: 'شعبة الشؤون العلمية',
     org_name: 'مديرية أوقاف حلب',
     tagline: 'تنظيم الدروس والدورات والبرامج العلمية في مساجد حلب وتطويرها',
-    about: 'تُعنى شعبة الشؤون العلمية في مديرية أوقاف حلب بالعمل العلمي في مساجد المدينة: تنظّم الدروس والدورات والبرامج العلمية وتشرف عليها، وتنفّذ الخطط العلمية المعتمدة من وزارة الأوقاف، وتنسّق مع المشايخ والجهات العلمية في المدينة.\nوتجمع هذه الصفحة خدمات الشعبة للأئمة والخطباء والمحاضرين، وهي صلة وصل بين أهل حلب ومساجدهم في كل ما يتعلق بالدروس والنشاطات العلمية.',
-    tasks: 'تنفيذ الخطط والبرامج العلمية المعتمدة من وزارة الأوقاف\nتنظيم الدروس والدورات والبرامج العلمية والإشراف عليها\nمتابعة المواد والخطط العلمية مع الأئمة والخطباء ومعاونتهم على تطبيقها\nالتنسيق مع المشايخ والجهات العلمية في المدينة\nرصد الواقع العلمي في المساجد ورفع التقارير عنه\nإجراء الاختبارات العلمية للمتقدمين إلى الوظائف المسجدية',
+    about: 'تُعنى شعبة الشؤون العلمية في حلب بالعمل العلمي في مساجد المدينة: تنظّم الدروس والدورات والبرامج العلمية وتشرف عليها، وتنفّذ الخطط العلمية المعتمدة من وزارة الأوقاف، وتنسّق مع المشايخ والجهات العلمية في المدينة.\nوتجمع هذه الصفحة خدمات الشعبة للأئمة والخطباء والمحاضرين، وهي صلة وصل بين أهل حلب ومساجدهم في كل ما يتعلق بالدروس والنشاطات العلمية.',
+    tasks: 'تنفيذ الخطط والبرامج العلمية المعتمدة من وزارة الأوقاف\nتنظيم الدروس والدورات والبرامج العلمية والإشراف عليها\nمتابعة المواد والخطط العلمية مع الأئمة والخطباء ومعاونتهم على تطبيقها\nالتنسيق مع المشايخ والجهات العلمية في المدينة\nرصد الواقع العلمي في المساجد ورفع التقارير عنه',
     whatsapp_channel: 'https://www.whatsapp.com/channel/0029Vb7F8jREKyZPQP4L4A2y',
+    whatsapp_contact: 'https://wa.me/message/ZOI2GZURI6OEN1',
     contact_phone: '',
-    version: '1.0'
+    version: '1.3',
+
+    // رأس الصفحة: نقاط تحت السطر التعريفي، وزر رئيسي
+    hero_points: 'طلب إذن الدروس والنشاطات العلمية في مساجد حلب\nاللقاء التطويري الشهري للأئمة والخطباء\nالدورات والإصدارات العلمية ومواد الدروس',
+    cta_label: 'طلب إذن درس',
+    cta_url: 'https://docs.google.com/forms/d/e/1FAIpQLSeGv2XMq6JrHC2tkCN8G-q1dL7SUPEXoV-WcRCrN0MDqGO-Nw/viewform',
+
+    // «كيف تستفيد من الشعبة؟» — كل خطوة في سطر: العنوان :: الوصف
+    steps: 'اطلب الإذن :: املأ نموذج «طلب إذن درس» قبل أن تبدأ درسًا أو دورة في مسجدك.\nسجّل درسك :: أضف درسك القائم إلى دليل الدروس، ليصل إليه طلابه من كل أحياء حلب.\nاحضر اللقاء الشهري :: لقاء تطويري عن بُعد للأئمة والخطباء كل شهر، فيه محاضرة وحوار.\nتابع القناة :: اشترك في قناة الشعبة على واتساب، فتصلك الدورات والإعلانات أولًا.',
+
+    // الأسئلة الشائعة — كل سؤال في سطر: السؤال :: الجواب
+    faq: 'كيف أطلب إذنًا لدرس أو دورة في مسجدي؟ :: من قسم «الخدمات» أعلى الصفحة: افتح «طلب إذن درس» واملأ النموذج.\nمتى يُعقد اللقاء التطويري الشهري؟ :: مرة كل شهر عن بُعد، ويُعلَن موعده ورابط الدخول في هذه الصفحة وفي قناة الشعبة على واتساب.\nأين أجد مواد الدورات والإصدارات؟ :: في قسمَي «دورة فقه الخلاف» و«إصدارات الشعبة»، وتُفتح الملفات وتُنزَّل مباشرة.\nكيف أضيف مسجدي ومعلوماته؟ :: من تطبيق «مسجدك» التابع لوزارة الأوقاف، ورابطه في قسم «الدروس العلمية في حلب».\nهل مواقيت الصلاة أعلى الصفحة رسمية؟ :: نعم، هي من تقويم وزارة الأوقاف لكل مناطق سورية. اضغط اسم المدينة لتختار مدينتك.\nكيف أتواصل مع الشعبة؟ :: راسلها على واتساب من زر «مراسلة الشعبة»، أو اشترك في قناتها لتصلك الأخبار.',
+
+    // روابط التذييل — كل رابط في سطر: العنوان :: الرابط
+    footer_links: 'تطبيق «مسجدك» :: https://masjidak.mow.gov.sy/ar | https://play.google.com/store/apps/details?id=mobile.masjidak.app | https://apps.apple.com/us/app/masjidak-your-mosques-way/id6768942028\nوزارة الأوقاف :: https://www.facebook.com/SyMOfE\nمديرية أوقاف حلب :: https://www.facebook.com/Awqaf.Aleppo\nأطلس سوريا للصلاة :: https://syria-prayer-atlas.vercel.app/'
   },
 
   meetings: [
@@ -39,30 +54,51 @@ window.DEFAULT_CONTENT = {
   ],
 
   sections: [
-    { id: 'd-sec-1', title: 'دورة فقه الخلاف', kicker: 'الدورات العلمية', description: 'المواد العلمية للدورة وكل ما يخصها، وملخص مركّز لمن أراد الخلاصة.', sort: 10, visible: true },
+    { id: 'd-sec-4', title: 'الخدمات', kicker: 'للأئمة والمحاضرين', description: '', sort: 5, visible: true },
+    { id: 'd-sec-7', title: 'الدروس العلمية في حلب', kicker: 'الدروس', description: 'دليلٌ للدروس القائمة في مساجد حلب، يُبنى من تسجيل الأئمة والمدرّسين لدروسهم.', sort: 8, visible: true },
+    { id: 'd-sec-1', title: 'دورة فقه الخلاف', kicker: 'الدورة القائمة', description: 'المادة العلمية للدورة: خلاصة الكتاب في فصوله التسعة عشر.', sort: 10, visible: true },
+    { id: 'd-sec-8', title: 'الدورات التخصصية', kicker: 'قريبًا بإذن الله', description: 'برامج علمية متدرجة تُفتح تباعًا، ويُعلن عن كل برنامج هنا وفي قناة الشعبة.', sort: 12, visible: true },
     { id: 'd-sec-2', title: 'إصدارات الشعبة', kicker: 'الإصدارات', description: '', sort: 20, visible: true },
     { id: 'd-sec-3', title: 'المجالس العلمية', kicker: 'المجالس', description: '', sort: 30, visible: true },
-    { id: 'd-sec-4', title: 'الخدمات والنماذج', kicker: 'للأئمة والمحاضرين', description: '', sort: 40, visible: true },
-    { id: 'd-sec-5', title: 'خطب الجمعة', kicker: 'المكتبة', description: '', sort: 50, visible: true },
-    { id: 'd-sec-6', title: 'تابعونا', kicker: 'التواصل', description: '', sort: 60, visible: true }
+    { id: 'd-sec-5', title: 'خطب الجمعة', kicker: 'المكتبة', description: '', sort: 50, visible: true }
   ],
 
   items: [
-    { id: 'd-it-1', section_id: 'd-sec-1', title: 'فقه الخلاف: من فهم الاختلاف إلى العمل المشترك', description: 'المادة العلمية الكاملة للدورة', url: '', file_url: 'files/fiqh-alkhilaf.pdf', file_name: 'fiqh-alkhilaf.pdf', icon: 'graduation-cap', badge: '', sort: 10, visible: true },
-    { id: 'd-it-2', section_id: 'd-sec-1', title: 'ملخص الملخص', description: 'خلاصة الدورة في صفحات قليلة', url: '', file_url: '', file_name: '', icon: 'notebook-pen', badge: 'قريبًا', sort: 20, visible: true },
-
-    { id: 'd-it-3', section_id: 'd-sec-2', title: 'أسماء الله الحسنى: مجالس إيمانية في معرفة الله بأسمائه الحسنى', description: 'عشرة مجالس للتدريس في المساجد', url: '', file_url: 'files/asma-allah-alhusna.pdf', file_name: 'asma-allah-alhusna.pdf', icon: 'book-marked', badge: '', sort: 10, visible: true },
-
-    { id: 'd-it-4', section_id: 'd-sec-3', title: 'مجلس سماع صحيح البخاري', description: 'التسجيل والحضور والشهادات والتحقق منها', url: 'https://majlis-albukhari.vercel.app/', file_url: '', file_name: '', icon: 'book-open', badge: '', sort: 10, visible: true },
-
-    { id: 'd-it-5', section_id: 'd-sec-4', title: 'طلب إذن نشاط علمي', description: 'نموذج طلب إذن لدرس أو دورة أو نشاط علمي في مسجد', url: 'https://docs.google.com/forms/d/e/1FAIpQLSeGv2XMq6JrHC2tkCN8G-q1dL7SUPEXoV-WcRCrN0MDqGO-Nw/viewform', file_url: '', file_name: '', icon: 'file-check', badge: '', sort: 10, visible: true },
+    // الخدمات
+    { id: 'd-it-5', section_id: 'd-sec-4', title: 'طلب إذن درس', description: 'لإلقاء درس أو دورة أو نشاط علمي في أحد مساجد حلب', url: 'https://docs.google.com/forms/d/e/1FAIpQLSeGv2XMq6JrHC2tkCN8G-q1dL7SUPEXoV-WcRCrN0MDqGO-Nw/viewform', file_url: '', file_name: '', icon: 'file-check', badge: '', sort: 10, visible: true },
     { id: 'd-it-6', section_id: 'd-sec-4', title: 'بيانات المحاضرين', description: 'سجّل سيرتك العلمية إن كنت تلقي دروسًا في مساجد حلب', url: 'https://docs.google.com/forms/d/e/1FAIpQLSf6q75zhkG_onivlrb62FrXdmaOnf7YX8lXb2JjYQJVdPmgsA/viewform', file_url: '', file_name: '', icon: 'pen-line', badge: '', sort: 20, visible: true },
     { id: 'd-it-7', section_id: 'd-sec-4', title: 'سجل علماء ومشايخ حلب', description: 'اقترح عالمًا أو شيخًا لإدراجه في السجل', url: 'https://docs.google.com/forms/d/e/1FAIpQLScqMigcBw4Fl8nquudoUeOjEH30fcGTE9_6lLV_Xr6DUK9_3w/viewform', file_url: '', file_name: '', icon: 'users', badge: '', sort: 30, visible: true },
+    { id: 'd-it-16', section_id: 'd-sec-4', title: 'مراسلة الشعبة على واتساب', description: 'لكل سؤال أو اقتراح أو طلب', url: 'https://wa.me/message/ZOI2GZURI6OEN1', file_url: '', file_name: '', icon: 'whatsapp', badge: '', sort: 40, visible: true },
 
-    { id: 'd-it-8', section_id: 'd-sec-5', title: 'مكتبة خطب الجمعة', description: 'خطب الوزارة والشعبة في مكان واحد', url: 'https://padlet.com/elmihalab/padlet-r5zsfzkhgsnv0wzx', file_url: '', file_name: '', icon: 'scroll-text', badge: '', sort: 10, visible: true },
+    // الدروس العلمية في حلب
+    { id: 'd-it-12', section_id: 'd-sec-7', title: 'الدروس العلمية القائمة الآن', description: 'الدرس والشيخ والموعد، والمسجد على الخريطة', url: '', file_url: '', file_name: '', icon: 'map-pin', badge: 'قريبًا', sort: 10, visible: true },
+    { id: 'd-it-13', section_id: 'd-sec-7', title: 'سجّل درسك', description: 'للأئمة والمدرّسين: سجّل درسك القائم ليظهر في الدليل', url: '', file_url: '', file_name: '', icon: 'calendar-days', badge: 'قريبًا', sort: 20, visible: true },
+    // رابط واحد يختار المتجر المناسب: الموقع للحاسوب، Google Play للأندرويد، App Store للآيفون
+    { id: 'd-it-14', section_id: 'd-sec-7', title: 'أضف مسجدك في تطبيق «مسجدك»', description: 'تطبيق وزارة الأوقاف للمساجد: أضف موقع مسجدك ومعلوماته، وتابع دروسه وأنشطته', url: 'https://masjidak.mow.gov.sy/ar | https://play.google.com/store/apps/details?id=mobile.masjidak.app | https://apps.apple.com/us/app/masjidak-your-mosques-way/id6768942028', file_url: '', file_name: '', icon: 'landmark', badge: '', sort: 30, visible: true },
 
-    { id: 'd-it-9', section_id: 'd-sec-6', title: 'قناة الشعبة على واتساب', description: 'أخبار الدروس والدورات أولًا بأول', url: 'https://www.whatsapp.com/channel/0029Vb7F8jREKyZPQP4L4A2y', file_url: '', file_name: '', icon: 'whatsapp', badge: '', sort: 10, visible: true },
-    { id: 'd-it-10', section_id: 'd-sec-6', title: 'وزارة الأوقاف', description: 'الصفحة الرسمية على فيسبوك', url: 'https://www.facebook.com/SyMOfE', file_url: '', file_name: '', icon: 'facebook', badge: '', sort: 20, visible: true },
-    { id: 'd-it-11', section_id: 'd-sec-6', title: 'مديرية أوقاف حلب', description: 'الصفحة الرسمية على فيسبوك', url: 'https://www.facebook.com/Awqaf.Aleppo', file_url: '', file_name: '', icon: 'facebook', badge: '', sort: 30, visible: true }
+    // دورة فقه الخلاف
+    { id: 'd-it-1', section_id: 'd-sec-1', title: 'فقه الخلاف — مختصر المختصر', description: 'نسخة المتدرّب: من فهم الاختلاف إلى العمل المشترك', url: '', file_url: 'files/fiqh-alkhilaf.pdf', file_name: 'fiqh-alkhilaf.pdf', icon: 'graduation-cap', badge: '', sort: 10, visible: true },
+
+    // الدورات التخصصية
+    { id: 'd-it-20', section_id: 'd-sec-8', title: '«مفاتيح الطلب» — الدورة المكثفة', description: 'لطلبة العلم والأئمة الشباب — ٧ أيام، ٢٨ مجلسًا', url: '', file_url: '', file_name: '', icon: 'sparkles', badge: 'قريبًا', sort: 10, visible: true },
+    { id: 'd-it-21', section_id: 'd-sec-8', title: '«مدارج الطلب» — السلّم المتدرج', description: 'لطلبة العلم الملتزمين — ٣ مستويات، كل مستوى ١٢ أسبوعًا', url: '', file_url: '', file_name: '', icon: 'graduation-cap', badge: 'قريبًا', sort: 20, visible: true },
+    { id: 'd-it-22', section_id: 'd-sec-8', title: 'السلالم المذهبية الأربعة', description: 'لطلبة العلم والأئمة، كلٌّ في مذهبه — ٤ درجات متصاعدة', url: '', file_url: '', file_name: '', icon: 'book-open', badge: 'قريبًا', sort: 30, visible: true },
+    { id: 'd-it-23', section_id: 'd-sec-8', title: 'كراسي المذاهب الأربعة', description: 'للمتقدمين ومستمعين من العموم — مجلس أسبوعي دائم لكل كرسي', url: '', file_url: '', file_name: '', icon: 'landmark', badge: 'قريبًا', sort: 40, visible: true },
+    { id: 'd-it-24', section_id: 'd-sec-8', title: 'الدورة الصيفية التأصيلية', description: 'للشباب وطلاب الجامعات — أسبوعان، ٢٨ مجلسًا', url: '', file_url: '', file_name: '', icon: 'calendar-days', badge: 'قريبًا', sort: 50, visible: true },
+    { id: 'd-it-25', section_id: 'd-sec-8', title: 'محو الأمية الشرعية', description: 'للمؤذنين والخدام — ٨ أسابيع، ١٦ لقاءً', url: '', file_url: '', file_name: '', icon: 'pen-line', badge: 'قريبًا', sort: 60, visible: true },
+    { id: 'd-it-26', section_id: 'd-sec-8', title: 'دورة فقه الخلاف', description: 'للخطباء — ٤ أيام، ٢٠ ساعة', url: '', file_url: 'files/fiqh-alkhilaf.pdf', file_name: 'fiqh-alkhilaf.pdf', icon: 'users', badge: 'قائمة الآن', sort: 70, visible: true },
+    { id: 'd-it-27', section_id: 'd-sec-8', title: 'رفع المستوى العلمي', description: 'للأئمة والخطباء — لقاء شهري، ١٠ لقاءات في السنة', url: '#meeting', file_url: '', file_name: '', icon: 'mic', badge: 'انطلق', sort: 80, visible: true },
+    { id: 'd-it-28', section_id: 'd-sec-8', title: 'التحقيق والمكتبات الوقفية', description: 'للباحثين وأمناء المكتبات — ١٠ مجالس وتطبيق على مخطوط', url: '', file_url: '', file_name: '', icon: 'library', badge: 'قريبًا', sort: 90, visible: true },
+    { id: 'd-it-29', section_id: 'd-sec-8', title: 'أداة مراجعة مناهج الحلقات', description: 'للجنة المراجعة — معايير موحّدة لاعتماد مناهج الحلقات القرآنية والتربوية', url: '', file_url: '', file_name: '', icon: 'file-check', badge: 'قريبًا', sort: 100, visible: true },
+    { id: 'd-it-30', section_id: 'd-sec-8', title: 'الدورات عن بُعد', description: 'لأهل الريف والنساء ومن لا يستطيع الحضور — مسار دائم موازٍ', url: '', file_url: '', file_name: '', icon: 'video', badge: 'قريبًا', sort: 110, visible: true },
+
+    // الإصدارات
+    { id: 'd-it-3', section_id: 'd-sec-2', title: 'أسماء الله الحسنى: مجالس إيمانية في معرفة الله بأسمائه الحسنى', description: 'عشرة مجالس للتدريس في المساجد', url: '', file_url: 'files/asma-allah-alhusna.pdf', file_name: 'asma-allah-alhusna.pdf', icon: 'book-marked', badge: '', sort: 10, visible: true },
+
+    // المجالس
+    { id: 'd-it-4', section_id: 'd-sec-3', title: 'مجلس سماع صحيح البخاري', description: 'التسجيل والحضور والشهادات والتحقق منها', url: 'https://majlis-albukhari.vercel.app/', file_url: '', file_name: '', icon: 'book-open', badge: '', sort: 10, visible: true },
+
+    // خطب الجمعة
+    { id: 'd-it-8', section_id: 'd-sec-5', title: 'مكتبة خطب الجمعة', description: 'خطب الوزارة والشعبة في مكان واحد', url: 'https://padlet.com/elmihalab/padlet-r5zsfzkhgsnv0wzx', file_url: '', file_name: '', icon: 'scroll-text', badge: '', sort: 10, visible: true }
   ]
 };

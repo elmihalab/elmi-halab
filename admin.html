@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>لوحة الإدارة — شعبة الشؤون العلمية</title>
+  <title>لوحة الإدارة — شعبة الشؤون العلمية في حلب</title>
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#002623">
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-  <link rel="stylesheet" href="style.css?v=1.0">
+  <link rel="stylesheet" href="style.css?v=1.3">
 </head>
 <body>
 
   <header class="adm-top">
     <div class="wrap">
-      <img src="images/eagle.svg" alt="" width="46" height="38">
-      <div class="t"><b>لوحة الإدارة</b><span>شعبة الشؤون العلمية · مديرية أوقاف حلب</span></div>
+      <img src="images/eagle.svg" alt="" width="46" height="35">
+      <div class="t"><b>لوحة الإدارة</b><span>شعبة الشؤون العلمية في حلب</span></div>
       <a class="btn btn-ghost-light" href="./" target="_blank" rel="noopener">الموقع</a>
       <button class="btn btn-ghost-light" id="logoutBtn" type="button" hidden>خروج</button>
     </div>
@@ -82,7 +82,7 @@
       <section data-view="sections" hidden>
         <div class="panel">
           <h2>الأقسام والروابط</h2>
-          <p>كل قسم يجمع روابط أو ملفات. أضف قسمًا لكل دورة أو برنامج جديد، وارفع ملفاته من داخله.</p>
+          <p>كل قسم يجمع روابط أو ملفات. أضف قسمًا لكل دورة أو برنامج جديد، وارفع ملفاته من داخله. <b>القسم الأول في الترتيب يظهر في أعلى الموقع قبل اللقاء الشهري</b>، فرتّب بالسهمين ▲▼.</p>
           <div id="secList"></div>
           <button class="btn btn-forest" id="addSec" type="button" style="width:100%;margin-top:6px">+ قسم جديد</button>
         </div>
@@ -99,8 +99,12 @@
 
       <section data-view="qr" hidden>
         <div class="panel" style="text-align:center">
-          <h2>باركود الموقع</h2>
+          <h2>الباركود</h2>
           <p>للطباعة على الإعلانات أو عرضه على الشاشة في اللقاءات. يبقى صالحًا مهما غيّرت محتوى الموقع.</p>
+          <div class="seg" id="qrSegAdmin">
+            <button type="button" data-k="site" class="on">باركود الموقع</button>
+            <button type="button" data-k="wa">واتساب الشعبة</button>
+          </div>
           <div class="qr-box" id="qrAdmin" style="padding:8px"></div>
           <div class="url-line" id="qrUrl"></div>
           <div class="sheet-actions">
@@ -124,11 +128,11 @@
   </dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="config.js?v=1.0"></script>
-  <script src="content.js?v=1.0"></script>
-  <script src="icons.js?v=1.0"></script>
+  <script src="config.js?v=1.3"></script>
+  <script src="content.js?v=1.3"></script>
+  <script src="icons.js?v=1.3"></script>
   <script src="vendor/qrcode.js"></script>
   <script src="vendor/supabase.js"></script>
-  <script src="admin.js?v=1.0"></script>
+  <script src="admin.js?v=1.3"></script>
 </body>
 </html>

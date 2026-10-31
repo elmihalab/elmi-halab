@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>شعبة الشؤون العلمية — مديرية أوقاف حلب</title>
-  <meta name="description" content="الصفحة الرسمية لشعبة الشؤون العلمية في مديرية أوقاف حلب: اللقاء التطويري الشهري للأئمة والخطباء، والدورات العلمية، والإصدارات، والنماذج، وخطب الجمعة.">
+  <title>شعبة الشؤون العلمية في حلب</title>
+  <meta name="description" content="موقع شعبة الشؤون العلمية في حلب: خدمات الأئمة والخطباء، واللقاء التطويري الشهري، والدروس العلمية في مساجد حلب، والدورات والإصدارات، ومواقيت الصلاة.">
   <meta name="theme-color" content="#002623">
 
   <!-- المعاينة عند مشاركة الرابط في واتساب وفيسبوك
        إن اخترت في Vercel اسمًا غير elmi-halab فغيّر الرابطين التاليين -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ar_AR">
-  <meta property="og:title" content="شعبة الشؤون العلمية — مديرية أوقاف حلب">
-  <meta property="og:description" content="اللقاء التطويري الشهري، والدورات العلمية، والإصدارات، والنماذج، وخطب الجمعة.">
+  <meta property="og:title" content="شعبة الشؤون العلمية في حلب">
+  <meta property="og:description" content="خدمات الأئمة والخطباء، واللقاء التطويري الشهري، والدروس والدورات العلمية، ومواقيت الصلاة.">
   <meta property="og:url" content="https://elmi-halab.vercel.app/">
   <meta property="og:image" content="https://elmi-halab.vercel.app/images/og.png">
   <meta property="og:image:width" content="1200">
@@ -23,29 +23,70 @@
   <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="style.css?v=1.0">
+  <link rel="stylesheet" href="style.css?v=1.3">
 </head>
 <body>
 
-  <header class="hero">
-    <div class="wrap">
-      <img class="hero-logo" src="images/eagle.svg" alt="شعار مديرية أوقاف حلب" width="112" height="92">
-      <span class="kicker" id="orgName">مديرية أوقاف حلب</span>
-      <h1 id="siteTitle">شعبة الشؤون العلمية</h1>
-      <p class="tagline" id="tagline">تنظيم الدروس والدورات والبرامج العلمية في مساجد حلب وتطويرها</p>
-      <div class="hero-actions">
-        <a class="btn btn-gold" id="waBtn" href="https://www.whatsapp.com/channel/0029Vb7F8jREKyZPQP4L4A2y" target="_blank" rel="noopener"></a>
-        <button class="btn btn-ghost-light" id="shareBtn" type="button"></button>
+  <!-- الشريط العلوي الثابت -->
+  <nav class="topbar" id="topbar" aria-label="التنقل">
+    <div class="wrap topbar-in">
+      <a class="brand" href="#top" aria-label="أعلى الصفحة">
+        <img src="images/eagle.svg" alt="" width="40" height="30">
+        <span><b id="brandTitle">شعبة الشؤون العلمية</b><small id="brandOrg">مديرية أوقاف حلب</small></span>
+      </a>
+      <div class="tb-links" id="tbLinks"></div>
+      <button class="tb-next" id="tbNext" type="button" hidden aria-label="مواقيت الصلاة"></button>
+      <button class="tb-menu" id="menuBtn" type="button" aria-haspopup="dialog">
+        <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <span>الأقسام</span>
+      </button>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div class="hero-text">
+        <span class="kicker" id="orgName">مديرية أوقاف حلب</span>
+        <h1 id="siteTitle">شعبة الشؤون العلمية</h1>
+        <p class="tagline" id="tagline">تنظيم الدروس والدورات والبرامج العلمية في مساجد حلب وتطويرها</p>
+        <ul class="hero-feats" id="heroPoints"></ul>
+        <div class="hero-actions">
+          <a class="btn btn-dark" id="ctaBtn" href="#sectionsTop"></a>
+          <a class="btn btn-line" id="waBtn" href="https://www.whatsapp.com/channel/0029Vb7F8jREKyZPQP4L4A2y" target="_blank" rel="noopener"></a>
+        </div>
+        <button class="hero-share" id="shareBtn" type="button"></button>
+      </div>
+
+      <!-- بطاقة مواقيت الصلاة: تُملأ من prayer.js -->
+      <div class="hero-side">
+        <div class="pcard" id="pbar" role="region" aria-label="مواقيت الصلاة">
+          <img class="pc-mark" src="images/eagle.svg" alt="" width="120" height="91" aria-hidden="true">
+          <div class="pc-head">
+            <div class="pc-next"><small>الصلاة القادمة</small><b id="pNextName">—</b></div>
+            <div class="pc-time"><b id="pNextTime">–</b><span id="pNextLeft"></span></div>
+          </div>
+          <div class="pbar-times" id="pTimes">
+            <div class="pt"><small>الفجر</small><b>–</b></div><div class="pt sun"><small>الشروق</small><b>–</b></div><div class="pt"><small>الظهر</small><b>–</b></div><div class="pt"><small>العصر</small><b>–</b></div><div class="pt"><small>المغرب</small><b>–</b></div><div class="pt"><small>العشاء</small><b>–</b></div>
+          </div>
+          <div class="pc-foot">
+            <button class="pbar-city" id="pCity" type="button" aria-haspopup="dialog" title="تغيير المدينة">
+              <svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+              <b id="pCityName">حلب</b>
+              <svg class="ic chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <span class="pbar-date" id="pDate"></span>
+          </div>
+        </div>
       </div>
     </div>
+    <div class="hero-sky" aria-hidden="true"></div>
   </header>
-
-  <nav class="chips" aria-label="أقسام الصفحة">
-    <div class="chips-row" id="chips"></div>
-  </nav>
 
   <main>
     <div class="wrap">
+      <!-- القسم الأول في الترتيب (الخدمات) يظهر هنا قبل اللقاء الشهري -->
+      <div id="sectionsTop"></div>
+
       <section class="block" id="meeting" aria-labelledby="meetingHead">
         <div class="block-head">
           <span class="kicker">للأئمة والخطباء</span>
@@ -59,6 +100,22 @@
         <div class="skeleton" style="margin-top:10px"></div>
       </div>
 
+      <section class="block" id="steps" aria-labelledby="stepsHead" hidden>
+        <div class="block-head">
+          <span class="kicker">للإمام والخطيب</span>
+          <h2 id="stepsHead">كيف تستفيد من الشعبة؟</h2>
+        </div>
+        <ol class="steps-grid" id="stepsBox"></ol>
+      </section>
+
+      <section class="block" id="faq" aria-labelledby="faqHead" hidden>
+        <div class="block-head">
+          <span class="kicker">أسئلة شائعة</span>
+          <h2 id="faqHead">قبل أن تسأل</h2>
+        </div>
+        <div class="faq" id="faqBox"></div>
+      </section>
+
       <section class="block" id="about" aria-labelledby="aboutHead">
         <div class="block-head">
           <span class="kicker">تعريف</span>
@@ -67,17 +124,57 @@
         <div class="about" id="aboutBox"></div>
       </section>
     </div>
+
+    <!-- دعوة ختامية -->
+    <section class="cta-band" aria-labelledby="ctaHead">
+      <div class="wrap">
+        <div class="cta-card">
+          <span class="kicker">تواصل</span>
+          <h2 id="ctaHead">كن على صلة بالشعبة</h2>
+          <p>أخبار الدروس والدورات واللقاءات تصلك أولًا بأول، ولكل سؤال أو اقتراح رسالة على واتساب.</p>
+          <div class="cta-actions" id="ctaActions"></div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="foot">
-    <img src="images/eagle.svg" alt="" width="46" height="38">
-    <div><b>مديرية أوقاف حلب</b> · <span id="ver">الإصدار 1.0</span></div>
+    <div class="foot-sky" aria-hidden="true"></div>
+    <div class="foot-in">
+      <div class="wrap foot-grid">
+        <div class="foot-brand">
+          <img src="images/eagle.svg" alt="" width="58" height="44">
+          <b>شعبة الشؤون العلمية في حلب</b>
+          <p id="footTag">تنظيم الدروس والدورات والبرامج العلمية في مساجد حلب وتطويرها</p>
+        </div>
+        <div class="foot-col"><h3>الأقسام</h3><ul id="footSections"></ul></div>
+        <div class="foot-col"><h3>تواصل</h3><ul id="footContact"></ul></div>
+        <div class="foot-col"><h3>روابط</h3><ul id="footLinks"></ul></div>
+      </div>
+      <div class="wrap foot-bottom"><span>شعبة الشؤون العلمية في حلب</span> · <span id="ver">الإصدار 1.3</span></div>
+    </div>
   </footer>
+
+  <!-- قائمة الأقسام -->
+  <dialog class="sheet menu-sheet" id="menuSheet" aria-labelledby="menuHead">
+    <div class="sheet-in">
+      <h3 id="menuHead">أقسام الموقع</h3>
+      <nav class="menu-list" id="menuList"></nav>
+      <div class="sheet-actions">
+        <button class="btn btn-forest" id="menuShare" type="button">باركود ومشاركة</button>
+        <button class="btn btn-outline" id="menuClose" type="button">إغلاق</button>
+      </div>
+    </div>
+  </dialog>
 
   <dialog class="sheet" id="shareSheet">
     <div class="sheet-in">
-      <h3>شارك الموقع</h3>
-      <p>امسح الباركود بكاميرا الهاتف، أو انسخ الرابط</p>
+      <h3 id="shareHead">شارك الموقع</h3>
+      <p id="shareNote">امسح الباركود بكاميرا الهاتف، أو انسخ الرابط</p>
+      <div class="seg" id="qrSeg" hidden>
+        <button type="button" data-k="site" class="on" aria-pressed="true">باركود الموقع</button>
+        <button type="button" data-k="wa" aria-pressed="false">واتساب الشعبة</button>
+      </div>
       <div class="qr-box" id="qrBox"></div>
       <div class="url-line" id="urlLine"></div>
       <div class="sheet-actions">
@@ -86,12 +183,23 @@
       </div>
     </div>
   </dialog>
+  <dialog class="sheet city-sheet" id="citySheet" aria-labelledby="cityHead">
+    <div class="sheet-in">
+      <h3 id="cityHead">اختر مدينتك</h3>
+      <p>مواقيت تقويم وزارة الأوقاف لكل مناطق سورية</p>
+      <input class="inp" id="citySearch" type="search" placeholder="ابحث: منبج، عفرين، دمشق…" autocomplete="off" aria-label="ابحث عن مدينة">
+      <div class="city-list" id="cityList"></div>
+      <a class="atlas-link" id="masjidakLink" href="https://masjidak.mow.gov.sy/ar" target="_blank" rel="noopener">مواقيت الصلاة وخريطة المساجد ودروسها في تطبيق <b>«مسجدك»</b> من وزارة الأوقاف</a>
+      <div class="sheet-actions"><button class="btn btn-outline" id="cityClose" type="button">إغلاق</button></div>
+    </div>
+  </dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="config.js?v=1.0"></script>
-  <script src="content.js?v=1.0"></script>
-  <script src="icons.js?v=1.0"></script>
+  <script src="config.js?v=1.3"></script>
+  <script src="content.js?v=1.3"></script>
+  <script src="icons.js?v=1.3"></script>
   <script src="vendor/qrcode.js"></script>
-  <script src="app.js?v=1.0"></script>
+  <script src="app.js?v=1.3"></script>
+  <script src="prayer.js?v=1.3"></script>
 </body>
 </html>

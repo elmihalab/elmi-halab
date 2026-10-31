@@ -353,7 +353,7 @@
     { key: 'title', label: 'العنوان', required: true },
     { key: 'description', label: 'سطر وصف قصير' },
     { key: 'icon', type: 'icon' },
-    { key: 'url', label: 'الرابط', type: 'url', help: 'رابط نموذج أو صفحة أو فيديو. اتركه فارغًا إن كنت سترفع ملفًا' },
+    { key: 'url', label: 'الرابط', type: 'url', help: 'رابط نموذج أو صفحة أو فيديو. اتركه فارغًا إن كنت سترفع ملفًا. ولتطبيق له متجران ضع الروابط بينها | فيفتح كل جهاز متجره' },
     { key: '__file', label: 'أو ارفع ملفًا (PDF أو Word أو صورة…)', type: 'file', help: 'إن رفعت ملفًا يفتحه الزر بدل الرابط. وإن تركت الرابط والملف فارغين يظهر العنصر بعلامة «قريبًا». الحد الأقصى ٥٠ ميغابايت' },
     { key: 'badge', label: 'علامة صغيرة بجانب العنوان (اختيارية)', list: ['جديد', 'قريبًا', 'مهم', 'محدَّث'] },
     { key: 'visible', label: 'ظاهر في الموقع', type: 'check' }
@@ -459,8 +459,15 @@
     { key: 'tagline', label: 'السطر التعريفي تحت الاسم', type: 'textarea', rows: 2 },
     { key: 'about', label: 'نبذة عن الشعبة', type: 'textarea', rows: 6, help: 'كل فقرة في سطر مستقل' },
     { key: 'tasks', label: 'مهام الشعبة', type: 'textarea', rows: 6, help: 'كل مهمة في سطر' },
+    { key: 'hero_points', label: 'النقاط الثلاث تحت السطر التعريفي', type: 'textarea', rows: 3, help: 'كل نقطة في سطر — تظهر أول ثلاث' },
+    { key: 'cta_label', label: 'نص الزر الرئيسي في أعلى الموقع', help: 'مثل: طلب إذن درس' },
+    { key: 'cta_url', label: 'رابط الزر الرئيسي', type: 'url' },
+    { key: 'steps', label: 'خطوات «كيف تستفيد من الشعبة؟»', type: 'textarea', rows: 5, help: 'كل خطوة في سطر: العنوان :: الوصف — اتركه فارغًا لإخفاء القسم' },
+    { key: 'faq', label: 'الأسئلة الشائعة', type: 'textarea', rows: 7, help: 'كل سؤال في سطر: السؤال :: الجواب — اتركه فارغًا لإخفاء القسم' },
+    { key: 'footer_links', label: 'روابط التذييل', type: 'textarea', rows: 4, help: 'كل رابط في سطر: العنوان :: الرابط' },
     { key: 'whatsapp_channel', label: 'رابط قناة واتساب', type: 'url' },
-    { key: 'contact_phone', label: 'رقم تواصل الشعبة (واتساب)', type: 'tel', help: 'مثل 0944123456 — إن تركته فارغًا لا يظهر زر المراسلة' },
+    { key: 'whatsapp_contact', label: 'رابط مراسلة الشعبة على واتساب', type: 'url', help: 'رابط واتساب للأعمال، مثل https://wa.me/message/… — منه زر «مراسلة الشعبة» وباركود واتساب' },
+    { key: 'contact_phone', label: 'رقم هاتف للاتصال (اختياري)', type: 'tel', help: 'مثل 0944123456 — يظهر زر «اتصال». وإن تركت رابط واتساب فارغًا تُبنى المراسلة من هذا الرقم' },
     { key: 'version', label: 'رقم الإصدار في التذييل', ltr: true }
   ];
 
@@ -530,7 +537,7 @@
       roundRect(g, x - cell, x - cell, box + 2 * cell, box + 2 * cell, cell * 2); g.fill();
       g.fillStyle = '#002623';
       roundRect(g, x, x, box, box, cell * 2); g.fill();
-      var w = box * 0.8, h = w * 135 / 164;
+      var w = box * 0.8, h = w * 168.086 / 221.166;
       g.drawImage(eagleImg, x + (box - w) / 2, x + (box - h) / 2, w, h);
     }
     return c;
@@ -547,20 +554,42 @@
     }, 'image/png');
   }
 
+  // رابط المراسلة المباشرة على واتساب
+  function waContact() {
+    var link = String(S.settings.whatsapp_contact || '').trim();
+    if (/^https?:\/\//i.test(link)) return link;
+    var phone = String(S.settings.contact_phone || '').replace(/[^\d+]/g, '');
+    return phone ? 'https://wa.me/' + phone.replace(/^\+/, '').replace(/^00/, '').replace(/^0/, '963') : '';
+  }
+  var qrMode = 'site';
+  function qrTarget() { return qrMode === 'wa' ? waContact() : siteUrl(); }
+
   function renderQR() {
     var draw = function () {
       var box = $('qrAdmin'); box.innerHTML = '';
-      var c = qrCanvas(siteUrl(), 600, true);
+      var url = qrTarget();
+      if (!url) { box.innerHTML = '<div class="empty">ضع رابط مراسلة واتساب في «بيانات الموقع» أولًا</div>'; $('qrUrl').textContent = ''; return; }
+      var c = qrCanvas(url, 600, true);
       c.style.width = '240px'; c.style.height = '240px';
       box.appendChild(c);
-      $('qrUrl').textContent = siteUrl();
+      $('qrUrl').textContent = url;
+      Array.prototype.forEach.call($('qrSegAdmin').querySelectorAll('button'), function (b) { b.classList.toggle('on', b.dataset.k === qrMode); });
     };
     if (eagleImg.complete) draw(); else eagleImg.onload = draw;
   }
+  $('qrSegAdmin').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-k]'); if (!b) return;
+    qrMode = b.dataset.k; renderQR();
+  });
 
-  $('dlQr').addEventListener('click', function () { download(qrCanvas(siteUrl(), 1200, true), 'باركود-شعبة-الشؤون-العلمية.png'); });
+  $('dlQr').addEventListener('click', function () {
+    var url = qrTarget(); if (!url) return;
+    download(qrCanvas(url, 1200, true), qrMode === 'wa' ? 'باركود-واتساب-الشعبة.png' : 'باركود-شعبة-الشؤون-العلمية.png');
+  });
 
   $('dlPoster').addEventListener('click', function () {
+    var url = qrTarget(); if (!url) return;
+    var isWa = qrMode === 'wa';
     var fontsReady = document.fonts && document.fonts.load
       ? Promise.all(['900 80px Qomra', '900 80px TajawalLocal', '500 40px Qomra', '500 40px TajawalLocal'].map(function (f) { return document.fonts.load(f).catch(function () {}); }))
       : Promise.resolve();
@@ -574,20 +603,20 @@
       g.fillStyle = 'rgba(66,129,119,.22)'; g.beginPath(); g.arc(80, 40, 300, 0, Math.PI * 2); g.fill();
       g.fillStyle = 'rgba(152,133,97,.16)'; g.beginPath(); g.arc(W - 60, 560, 240, 0, Math.PI * 2); g.fill();
       g.fillStyle = '#002623'; g.fillRect(0, 560, W, 0);
-      if (eagleImg.naturalWidth) g.drawImage(eagleImg, (W - 240) / 2, 70, 240, 240 * 135 / 164);
+      if (eagleImg.naturalWidth) g.drawImage(eagleImg, (W - 240) / 2, 70, 240, 240 * 168.086 / 221.166);
       g.direction = 'rtl'; g.textAlign = 'center';
-      g.fillStyle = '#b9a779'; g.font = '500 40px ' + FF; g.fillText(S.settings.org_name || 'مديرية أوقاف حلب', W / 2, 380);
+      g.fillStyle = '#b9a779'; g.font = '500 40px ' + FF; g.fillText('مديرية أوقاف حلب', W / 2, 380);
       g.fillStyle = '#ffffff'; g.font = '900 84px ' + FF; g.fillText(S.settings.site_title || 'شعبة الشؤون العلمية', W / 2, 480);
-      var q = qrCanvas(siteUrl(), 760, true);
+      var q = qrCanvas(url, 760, true);
       var qx = (W - q.width) / 2, qy = 660;
       g.fillStyle = '#ffffff'; roundRect(g, qx - 30, qy - 30, q.width + 60, q.height + 60, 40); g.fill();
       g.drawImage(q, qx, qy);
-      g.fillStyle = '#054239'; g.font = '900 56px ' + FF; g.fillText('امسح الباركود بكاميرا هاتفك', W / 2, qy + q.height + 130);
-      g.fillStyle = '#3d3a3b'; g.font = '500 36px ' + FF; g.fillText('اللقاء الشهري · الدورات · الإصدارات · النماذج · خطب الجمعة', W / 2, qy + q.height + 200);
-      g.direction = 'ltr'; g.fillStyle = '#988561'; g.font = '500 34px ' + FF; g.fillText(siteUrl().replace(/^https?:\/\//, '').replace(/\/$/, ''), W / 2, qy + q.height + 262);
+      g.fillStyle = '#054239'; g.font = '900 56px ' + FF; g.fillText(isWa ? 'راسل الشعبة على واتساب' : 'امسح الباركود بكاميرا هاتفك', W / 2, qy + q.height + 122);
+      g.fillStyle = '#3d3a3b'; g.font = '500 36px ' + FF; g.fillText(isWa ? 'امسح الباركود لتبدأ محادثة مع الشعبة مباشرة' : 'الخدمات · اللقاء الشهري · الدروس · الدورات · الإصدارات', W / 2, qy + q.height + 186);
+      g.direction = 'ltr'; g.fillStyle = '#988561'; g.font = '500 34px ' + FF; g.fillText(url.replace(/^https?:\/\//, '').replace(/\/$/, ''), W / 2, qy + q.height + 238);
       g.fillStyle = '#002623'; g.fillRect(0, H - 90, W, 90);
       g.direction = 'rtl'; g.fillStyle = '#edebe0'; g.font = '500 32px ' + FF; g.fillText('مديرية أوقاف حلب', W / 2, H - 34);
-      download(c, 'باركود-للطباعة.png');
+      download(c, isWa ? 'باركود-واتساب-للطباعة.png' : 'باركود-للطباعة.png');
     });
   });
 
