@@ -23,7 +23,7 @@
   <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="style.css?v=1.3">
+  <link rel="stylesheet" href="style.css?v=1.5">
 </head>
 <body>
 
@@ -63,11 +63,15 @@
           <img class="pc-mark" src="images/eagle.svg" alt="" width="120" height="91" aria-hidden="true">
           <div class="pc-head">
             <div class="pc-next"><small>الصلاة القادمة</small><b id="pNextName">—</b></div>
-            <div class="pc-time"><b id="pNextTime">–</b><span id="pNextLeft"></span></div>
+            <div class="pc-time"><small>الأذان</small><b id="pNextTime">–</b></div>
           </div>
+          <div class="pc-left"><small>الوقت المتبقي</small><b id="pLeft" class="num">–</b></div>
+          <div class="pc-prog" aria-hidden="true"><span id="pProg"></span></div>
+          <div class="pc-since"><span>مضى على <b id="pPrevName">—</b></span><b id="pSince" class="num">–</b></div>
           <div class="pbar-times" id="pTimes">
             <div class="pt"><small>الفجر</small><b>–</b></div><div class="pt sun"><small>الشروق</small><b>–</b></div><div class="pt"><small>الظهر</small><b>–</b></div><div class="pt"><small>العصر</small><b>–</b></div><div class="pt"><small>المغرب</small><b>–</b></div><div class="pt"><small>العشاء</small><b>–</b></div>
           </div>
+          <a class="pc-adhkar" id="pAdhkar" href="adhkar.html"><span id="pAdhkarText">الأذكار</span><span aria-hidden="true">←</span></a>
           <div class="pc-foot">
             <button class="pbar-city" id="pCity" type="button" aria-haspopup="dialog" title="تغيير المدينة">
               <svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
@@ -195,11 +199,11 @@
   </dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="config.js?v=1.3"></script>
-  <script src="content.js?v=1.3"></script>
-  <script src="icons.js?v=1.3"></script>
+  <script src="config.js?v=1.5"></script>
+  <script src="content.js?v=1.5"></script>
+  <script src="icons.js?v=1.5"></script>
   <script src="vendor/qrcode.js"></script>
-  <script src="app.js?v=1.3"></script>
-  <script src="prayer.js?v=1.3"></script>
+  <script src="app.js?v=1.5"></script>
+  <script src="prayer.js?v=1.5"></script>
 </body>
 </html>

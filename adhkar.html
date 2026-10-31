@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>الأذكار — شعبة الشؤون العلمية في حلب</title>
+  <meta name="description" content="أذكار الصباح والمساء وأذكار ما بعد الصلاة، مع عدّاد يتنقل بين الأذكار وحده.">
+  <meta name="theme-color" content="#002623">
+  <meta property="og:title" content="الأذكار — شعبة الشؤون العلمية في حلب">
+  <meta property="og:description" content="أذكار الصباح والمساء وما بعد الصلاة، مع عدّاد.">
+  <meta property="og:image" content="https://elmi-halab.vercel.app/images/og.png">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css?v=1.5">
+</head>
+<body class="adhkar-page">
+
+  <nav class="topbar scrolled" aria-label="التنقل">
+    <div class="wrap topbar-in">
+      <a class="brand" href="./" aria-label="الصفحة الرئيسية">
+        <img src="images/eagle.svg" alt="" width="40" height="30">
+        <span><b>شعبة الشؤون العلمية</b><small>مديرية أوقاف حلب</small></span>
+      </a>
+      <a class="tb-menu" href="./">
+        <svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+        <span>الرئيسية</span>
+      </a>
+    </div>
+  </nav>
+
+  <header class="ad-head">
+    <div class="wrap">
+      <div class="ad-tabs" role="tablist" aria-label="أنواع الأذكار">
+        <button class="ad-tab" data-tab="sabah" role="tab" type="button">الصباح</button>
+        <button class="ad-tab" data-tab="masa" role="tab" type="button">المساء</button>
+        <button class="ad-tab" data-tab="salah" role="tab" type="button">بعد الصلاة</button>
+      </div>
+      <h1 id="adHeadTitle">الأذكار</h1>
+      <p class="ad-when" id="adWhen"></p>
+    </div>
+  </header>
+
+  <main class="wrap ad-main">
+    <div class="ad-progress">
+      <span id="adStep"></span>
+      <div class="ad-bar" aria-hidden="true"><span id="adBar"></span></div>
+      <button class="ad-mini" id="adListBtn" type="button">القائمة</button>
+    </div>
+
+    <div id="adStage">
+      <div class="ad-variants" id="adTasbih" hidden></div>
+
+      <article class="ad-card" id="adCard" tabindex="0" role="button" aria-label="اضغط على البطاقة للعدّ">
+        <div class="ad-title" id="adTitle"></div>
+        <div class="ad-text" id="adText"></div>
+        <div class="ad-foot">
+          <button class="ad-src-btn" id="adSrcBtn" type="button" aria-expanded="false">المصدر والفضل</button>
+          <div class="ad-src" id="adSrc" hidden></div>
+        </div>
+      </article>
+
+      <div class="ad-dock">
+        <button class="ad-nav" id="adPrev" type="button" aria-label="الذكر السابق">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+        <button class="ad-ring" id="adRing" type="button" aria-label="عُدّ">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="ad-ring-bg" cx="60" cy="60" r="52"/>
+            <circle class="ad-ring-fg" id="adRingFg" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="326.73"/>
+          </svg>
+          <span class="ad-ring-in"><b id="adLeft" aria-live="polite">–</b><small id="adOf"></small></span>
+        </button>
+        <button class="ad-nav" id="adNext" type="button" aria-label="الذكر التالي">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+      </div>
+
+      <div class="ad-tools">
+        <button class="ad-mini" id="adSmaller" type="button" aria-label="تصغير الخط">أ−</button>
+        <button class="ad-mini" id="adBigger" type="button" aria-label="تكبير الخط">أ+</button>
+        <button class="ad-mini" id="adReset" type="button">البدء من جديد</button>
+      </div>
+    </div>
+
+    <section class="ad-done" id="adDone" hidden>
+      <div class="ad-done-ic" aria-hidden="true">✓</div>
+      <h2 id="adDoneTitle"></h2>
+      <p>تقبّل الله منك</p>
+      <div class="ad-done-actions">
+        <button class="btn btn-dark" id="adDoneExtra" type="button" hidden></button>
+        <button class="btn btn-line" id="adDoneBack" type="button" hidden>العودة إلى الأذكار الأساسية</button>
+        <button class="btn btn-line" id="adRestart" type="button">البدء من جديد</button>
+      </div>
+    </section>
+
+    <p class="ad-credit">نصوص الأذكار من ورقة الشعبة ومن كتاب «أذكار الصباح والمساء رواية ودراية» للطريفي، والآيات من «المكتبة الشاملة».</p>
+  </main>
+
+  <footer class="foot">
+    <div class="foot-in">
+      <div class="wrap foot-bottom" style="margin-top:0;border-top:0;padding-top:0"><span>شعبة الشؤون العلمية في حلب</span> · <span>الإصدار 1.5</span></div>
+    </div>
+  </footer>
+
+  <dialog class="sheet" id="adListSheet" aria-labelledby="adListHead">
+    <div class="sheet-in">
+      <h3 id="adListHead">قائمة الأذكار</h3>
+      <div class="ad-list" id="adListBody"></div>
+      <div class="sheet-actions"><button class="btn btn-outline" id="adListClose" type="button">إغلاق</button></div>
+    </div>
+  </dialog>
+
+  <script src="adhkar-data.js?v=1.5"></script>
+  <script src="adhkar.js?v=1.5"></script>
+</body>
+</html>

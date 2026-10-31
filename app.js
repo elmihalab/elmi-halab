@@ -24,6 +24,8 @@
     if (/^\/?files\/[\w\-.\/]+$/i.test(u) && u.indexOf('..') < 0) return u;
     // رابط داخل الصفحة نفسها، مثل #meeting
     if (/^#[\w-]+$/.test(u)) return u;
+    // صفحة داخل الموقع، مثل adhkar.html#sabah
+    if (/^[\w-]+\.html(#[\w-]+)?$/.test(u)) return u;
     return '';
   }
   function lines(s) {
@@ -216,7 +218,7 @@
       (it.description ? '<span class="item-desc">' + esc(it.description) + '</span>' : '') + '</span>';
 
     if (!href) return '<div class="item is-soon">' + inner + '</div>';
-    var tgt = href.charAt(0) === '#' ? '' : ' target="_blank" rel="noopener"';
+    var tgt = /^https?:/i.test(href) || /^files\//.test(href) ? ' target="_blank" rel="noopener"' : '';
     return '<a class="item" href="' + esc(href) + '"' + tgt + '>' + inner +
       '<span class="item-go">' + icon('arrow-up-left', 20) + '</span></a>';
   }

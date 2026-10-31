@@ -16,6 +16,9 @@
   var KEY = 'elmi_prayer_region';
   var NAMES = ['الفجر', 'الشروق', 'الظهر', 'العصر', 'المغرب', 'العشاء'];
   var DAYS = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+  // الأشهر الميلادية بالتسميتين: الشامية والأخرى
+  var GMONTHS = ['كانون الثاني', 'شباط', 'آذار', 'نيسان', 'أيار', 'حزيران', 'تموز', 'آب', 'أيلول', 'تشرين الأول', 'تشرين الثاني', 'كانون الأول'];
+  var GMONTHS2 = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
   var HMONTHS = ['محرم', 'صفر', 'ربيع الأول', 'ربيع الآخر', 'جمادى الأولى', 'جمادى الآخرة', 'رجب', 'شعبان', 'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة'];
 
   var bar = document.getElementById('pbar');
@@ -23,6 +26,7 @@
   var $ = function (id) { return document.getElementById(id); };
 
   var IDX = null, GOV = {}, regionId = DEFAULT_REGION, today = null, timer = null;
+  var T = null; // { nextAt, prevAt, prevName } بالمللي ثانية بتوقيت سورية
 
   function ar(s) { return String(s).replace(/\d/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'[d]; }); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -125,7 +129,24 @@
     var diff = next >= 0 ? d.mins[next] - nowMin : tomorrow.mins[0] + 1440 - nowMin;
 
     $('pCityName').textContent = regionLabel(r);
-    $('pDate').textContent = DAYS[now.getUTCDay()] + ' ' + ar(d.hijri[0]) + ' ' + (HMONTHS[d.hijri[1] - 1] || '') + ' ' + ar(d.hijri[2]) + 'هـ';
+    var gm = now.getUTCMonth();
+    $('pDate').innerHTML =
+      '<span>' + DAYS[now.getUTCDay()] + ' ' + ar(d.hijri[0]) + ' ' + (HMONTHS[d.hijri[1] - 1] || '') + ' ' + ar(d.hijri[2]) + 'هـ</span>' +
+      '<span class="g">' + ar(now.getUTCDate()) + ' ' + GMONTHS[gm] + ' (' + GMONTHS2[gm] + ') ' + ar(now.getUTCFullYear()) + 'م</span>';
+
+    // العدادات: الوقت المتبقي للقادمة، والماضي على السابقة
+    var day0 = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+    var nextAt = next >= 0 ? day0 + d.mins[next] * 60000 : day0 + 86400000 + tomorrow.mins[0] * 60000;
+    var nowMs = now.getTime(), prev = -1;
+    [0, 2, 3, 4, 5].forEach(function (k) { if (day0 + d.mins[k] * 60000 <= nowMs) prev = k; });
+    var prevAt, prevName;
+    if (prev >= 0) { prevAt = day0 + d.mins[prev] * 60000; prevName = (prev === 2 && friday) ? 'الجمعة' : NAMES[prev]; }
+    else {
+      var yest = dayData(gd, r, new Date(now.getTime() - 86400000));
+      prevAt = day0 - 86400000 + yest.mins[5] * 60000; prevName = 'العشاء';
+    }
+    T = { nextAt: nextAt, prevAt: prevAt };
+    if ($('pPrevName')) $('pPrevName').textContent = prevName;
 
     $('pTimes').innerHTML = NAMES.map(function (n, i) {
       var label = (i === 2 && friday) ? 'الجمعة' : n;
@@ -138,13 +159,22 @@
     bar.classList.add('ready');
     today = dayKey(now);
 
+    // رابط الأذكار المناسب للوقت
+    var pa = $('pAdhkar');
+    if (pa) {
+      var at = (nowMin >= d.mins[0] && nowMin < d.mins[2]) ? ['sabah', 'حان وقت أذكار الصباح']
+        : (nowMin >= d.mins[3] && nowMin < d.mins[5]) ? ['masa', 'حان وقت أذكار المساء'] : ['salah', 'أذكار بعد الصلاة'];
+      pa.href = 'adhkar.html#' + at[0];
+      $('pAdhkarText').textContent = at[1];
+    }
+
     // رأس البطاقة: الصلاة القادمة ووقتها والمتبقي
     var ni0 = next >= 0 ? next : 0;
     if ($('pNextName')) {
       $('pNextName').textContent = (ni0 === 2 && friday) ? 'الجمعة' : NAMES[ni0];
       $('pNextTime').textContent = fmt(next >= 0 ? d.mins[ni0] : tomorrow.mins[0]);
-      $('pNextLeft').textContent = left(diff);
     }
+    clock();
 
     // الصلاة القادمة في الشريط العلوي الثابت
     var tb = $('tbNext');
@@ -154,6 +184,22 @@
       tb.innerHTML = '<small>' + nlabel + '</small><b>' + fmt(next >= 0 ? d.mins[ni] : tomorrow.mins[0]) + '</b>';
       tb.title = nlabel + ' ' + left(diff) + ' — ' + regionLabel(r);
     }
+  }
+
+  // عدّاد الثواني
+  function hms(ms) {
+    var t = Math.max(0, Math.floor(ms / 1000));
+    var p2 = function (n) { return (n < 10 ? '0' : '') + n; };
+    return ar(p2(Math.floor(t / 3600)) + ':' + p2(Math.floor(t / 60) % 60) + ':' + p2(t % 60));
+  }
+  function clock() {
+    if (!T || !$('pLeft')) return;
+    var now = syNow().getTime();
+    if (now >= T.nextAt) { render(); return; }  // دخل وقت الصلاة: يُعاد الحساب
+    $('pLeft').textContent = hms(T.nextAt - now);
+    $('pSince').textContent = hms(now - T.prevAt);
+    var span = T.nextAt - T.prevAt;
+    $('pProg').style.width = (span > 0 ? Math.min(100, (now - T.prevAt) / span * 100) : 0).toFixed(2) + '%';
   }
 
   function tick() {
@@ -238,7 +284,8 @@
     return ensureGov(region(regionId)[1]);
   }).then(function () {
     render();
-    timer = setInterval(tick, 20000);
+    timer = setInterval(tick, 60000);
+    setInterval(clock, 1000);
     document.addEventListener('visibilitychange', function () { if (!document.hidden) tick(); });
   }).catch(function () {
     bar.classList.add('failed'); // يختفي الشريط بهدوء إن تعذّر التحميل
