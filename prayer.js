@@ -26,7 +26,8 @@
   var $ = function (id) { return document.getElementById(id); };
 
   var IDX = null, GOV = {}, regionId = DEFAULT_REGION, today = null, timer = null;
-  var T = null; // { nextAt, prevAt, prevName } بالمللي ثانية بتوقيت سورية
+  var T = null; // { nextAt, prevAt, prevName, day0, mins, names } بالمللي ثانية بتوقيت سورية
+  var SEL = null, selTimer = null; // الصلاة التي ضغطها الزائر: { i, at, name }
 
   function ar(s) { return String(s).replace(/\d/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'[d]; }); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -145,14 +146,16 @@
       var yest = dayData(gd, r, new Date(now.getTime() - 86400000));
       prevAt = day0 - 86400000 + yest.mins[5] * 60000; prevName = 'العشاء';
     }
-    T = { nextAt: nextAt, prevAt: prevAt };
-    if ($('pPrevName')) $('pPrevName').textContent = prevName;
+    T = { nextAt: nextAt, prevAt: prevAt, prevName: prevName, day0: day0, mins: d.mins,
+          names: NAMES.map(function (n, i) { return (i === 2 && friday) ? 'الجمعة' : n; }) };
+    if (SEL) SEL.at = day0 + d.mins[SEL.i] * 60000;
 
     $('pTimes').innerHTML = NAMES.map(function (n, i) {
       var label = (i === 2 && friday) ? 'الجمعة' : n;
       var isNext = i === next || (next < 0 && i === 0);
       var val = (next < 0 && i === 0) ? tomorrow.mins[0] : d.mins[i];
-      return '<div class="pt' + (i === 1 ? ' sun' : '') + (isNext ? ' next' : '') + '">' +
+      return '<div class="pt' + (i === 1 ? ' sun' : '') + (isNext ? ' next' : '') + (SEL && SEL.i === i ? ' tapped' : '') +
+        '" role="button" tabindex="0" data-i="' + i + '" title="كم بقي على ' + label + ' أو كم مضى">' +
         '<small>' + label + '</small><b>' + fmt(val) + '</b>' +
         (isNext ? '<i>' + left(diff) + '</i>' : '') + '</div>';
     }).join('');
@@ -197,10 +200,42 @@
     var now = syNow().getTime();
     if (now >= T.nextAt) { render(); return; }  // دخل وقت الصلاة: يُعاد الحساب
     $('pLeft').textContent = hms(T.nextAt - now);
-    $('pSince').textContent = hms(now - T.prevAt);
+    if (SEL) {
+      var dd = SEL.at - now;
+      $('pSinceLabel').innerHTML = (dd >= 0 ? 'متبقٍّ على ' : 'مضى على ') + '<b>' + SEL.name + '</b>';
+      $('pSince').textContent = hms(Math.abs(dd));
+    } else {
+      $('pSinceLabel').innerHTML = 'مضى على <b>' + T.prevName + '</b>';
+      $('pSince').textContent = hms(now - T.prevAt);
+    }
     var span = T.nextAt - T.prevAt;
     $('pProg').style.width = (span > 0 ? Math.min(100, (now - T.prevAt) / span * 100) : 0).toFixed(2) + '%';
   }
+
+  // الضغط على صلاة: يظهر كم بقي عليها أو كم مضى، ثم يعود العدّاد بعد ١٥ ثانية
+  function pickPrayer(i) {
+    if (!T) return;
+    clearTimeout(selTimer);
+    if (SEL && SEL.i === i) SEL = null;
+    else {
+      SEL = { i: i, at: T.day0 + T.mins[i] * 60000, name: T.names[i] };
+      selTimer = setTimeout(function () { SEL = null; markTapped(); clock(); }, 15000);
+    }
+    markTapped(); clock();
+  }
+  function markTapped() {
+    Array.prototype.forEach.call($('pTimes').querySelectorAll('.pt'), function (el) {
+      el.classList.toggle('tapped', !!SEL && Number(el.dataset.i) === SEL.i);
+    });
+    var row = $('pSinceRow'); if (row) row.classList.toggle('sel', !!SEL);
+  }
+  $('pTimes').addEventListener('click', function (e) {
+    var c = e.target.closest('.pt[data-i]'); if (c) pickPrayer(Number(c.dataset.i));
+  });
+  $('pTimes').addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var c = e.target.closest('.pt[data-i]'); if (c) { e.preventDefault(); pickPrayer(Number(c.dataset.i)); }
+  });
 
   function tick() {
     if (!IDX || !GOV[(region(regionId) || {})[1]]) return;

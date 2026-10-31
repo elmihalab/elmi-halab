@@ -9,6 +9,19 @@
   var DEF = window.DEFAULT_CONTENT;
   var CACHE_KEY = 'elmi-halab-cache-v1';
   var $ = function (id) { return document.getElementById(id); };
+
+  // يفتح الموقع دائمًا من أعلاه: لا يستعيد المتصفح موضع التمرير القديم،
+  // ولا تبقى علامة # في الرابط تنقل الصفحة إلى قسم عند فتحها من جديد
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if (location.hash && history.replaceState) history.replaceState(null, '', location.pathname + location.search);
+  window.scrollTo(0, 0);
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href^="#"]'); if (!a) return;
+    var id = a.getAttribute('href').slice(1), el = id && document.getElementById(id);
+    if (!el) return;
+    e.preventDefault();
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
   var icon = window.iconSVG;
 
   /* ---------- أدوات مساعدة ---------- */

@@ -17,7 +17,7 @@ window.DEFAULT_CONTENT = {
     whatsapp_channel: 'https://www.whatsapp.com/channel/0029Vb7F8jREKyZPQP4L4A2y',
     whatsapp_contact: 'https://wa.me/message/ZOI2GZURI6OEN1',
     contact_phone: '',
-    version: '1.5',
+    version: '1.6',
 
     // رأس الصفحة: نقاط تحت السطر التعريفي، وزر رئيسي
     hero_points: 'طلب إذن الدروس والنشاطات العلمية في مساجد حلب\nاللقاء التطويري الشهري للأئمة والخطباء\nالدورات والإصدارات العلمية ومواد الدروس',
@@ -89,14 +89,14 @@ window.DEFAULT_CONTENT = {
     { id: 'd-it-23', section_id: 'd-sec-8', title: 'كراسي المذاهب الأربعة', description: 'للمتقدمين ومستمعين من العموم — مجلس أسبوعي دائم لكل كرسي', url: '', file_url: '', file_name: '', icon: 'landmark', badge: 'قريبًا', sort: 40, visible: true },
     { id: 'd-it-24', section_id: 'd-sec-8', title: 'الدورة الصيفية التأصيلية', description: 'للشباب وطلاب الجامعات — أسبوعان، ٢٨ مجلسًا', url: '', file_url: '', file_name: '', icon: 'calendar-days', badge: 'قريبًا', sort: 50, visible: true },
     { id: 'd-it-25', section_id: 'd-sec-8', title: 'محو الأمية الشرعية', description: 'للمؤذنين والخدام — ٨ أسابيع، ١٦ لقاءً', url: '', file_url: '', file_name: '', icon: 'pen-line', badge: 'قريبًا', sort: 60, visible: true },
-    { id: 'd-it-26', section_id: 'd-sec-8', title: 'دورة فقه الخلاف', description: 'للخطباء — ٤ أيام، ٢٠ ساعة', url: '', file_url: 'files/fiqh-alkhilaf.pdf', file_name: 'fiqh-alkhilaf.pdf', icon: 'users', badge: 'المنهج مكتمل', sort: 70, visible: true },
+    { id: 'd-it-26', section_id: 'd-sec-8', title: 'دورة فقه الخلاف', description: 'للخطباء — ٤ أيام، ٢٠ ساعة', url: '', file_url: '', file_name: '', icon: 'users', badge: 'المنهج مكتمل', sort: 70, visible: true },
     { id: 'd-it-27', section_id: 'd-sec-8', title: 'رفع المستوى العلمي', description: 'للأئمة والخطباء — لقاء شهري، ١٠ لقاءات في السنة', url: '#meeting', file_url: '', file_name: '', icon: 'mic', badge: 'انطلق', sort: 80, visible: true },
     { id: 'd-it-28', section_id: 'd-sec-8', title: 'التحقيق والمكتبات الوقفية', description: 'للباحثين وأمناء المكتبات — ١٠ مجالس وتطبيق على مخطوط', url: '', file_url: '', file_name: '', icon: 'library', badge: 'قريبًا', sort: 90, visible: true },
     { id: 'd-it-30', section_id: 'd-sec-8', title: 'الدورات عن بُعد', description: 'لأهل الريف والنساء ومن لا يستطيع الحضور — مسار دائم موازٍ', url: '', file_url: '', file_name: '', icon: 'video', badge: 'قريبًا', sort: 110, visible: true },
 
     // الإصدارات
     { id: 'd-it-3', section_id: 'd-sec-2', title: 'أسماء الله الحسنى: مجالس إيمانية في معرفة الله بأسمائه الحسنى', description: 'عشرة مجالس للتدريس في المساجد', url: '', file_url: 'files/asma-allah-alhusna.pdf', file_name: 'asma-allah-alhusna.pdf', icon: 'book-marked', badge: '', sort: 10, visible: true },
-    { id: 'd-it-1', section_id: 'd-sec-2', title: 'فقه الخلاف: من فهم الاختلاف إلى العمل المشترك — مختصر المختصر', description: 'خلاصة الكتاب في فصوله التسعة عشر، للخطيب', url: '', file_url: 'files/fiqh-alkhilaf.pdf', file_name: 'fiqh-alkhilaf.pdf', icon: 'book-open', badge: 'جديد', sort: 20, visible: true },
+    { id: 'd-it-1', section_id: 'd-sec-2', title: 'فقه الخلاف: من فهم الاختلاف إلى العمل المشترك — مختصر المختصر', description: 'خلاصة الكتاب في فصوله التسعة عشر، للخطيب', url: '', file_url: '', file_name: '', icon: 'book-open', badge: 'قريبًا', sort: 20, visible: true },
 
     // المجالس
     { id: 'd-it-4', section_id: 'd-sec-3', title: 'مجلس سماع صحيح البخاري', description: 'التسجيل والحضور والشهادات والتحقق منها', url: 'https://majlis-albukhari.vercel.app/', file_url: '', file_name: '', icon: 'book-open', badge: '', sort: 10, visible: true },

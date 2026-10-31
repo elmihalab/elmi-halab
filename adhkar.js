@@ -11,6 +11,8 @@
 
   var D = window.ADHKAR;
   var INITIAL_HASH = (location.hash || '').replace('#', '');
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
   var $ = function (id) { return document.getElementById(id); };
   var REGION_KEY = 'elmi_prayer_region';
   var DIG = '٠١٢٣٤٥٦٧٨٩';
