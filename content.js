@@ -68,7 +68,7 @@ window.DEFAULT_CONTENT = {
     // الخدمات
     { id: 'd-it-5', section_id: 'd-sec-4', title: 'طلب إذن درس', description: 'لإلقاء درس أو دورة أو نشاط علمي في أحد مساجد حلب', url: 'https://surveys.system.mow.gov.sy/client-surveys/mrLp66af03061ef0d7', file_url: '', file_name: '', icon: 'file-check', badge: '', sort: 10, visible: true },
     { id: 'd-it-6', section_id: 'd-sec-4', title: 'بيانات المحاضرين', description: 'سجّل سيرتك العلمية إن كنت تلقي دروسًا في مساجد حلب', url: 'https://surveys.system.mow.gov.sy/client-surveys/kbHCq6af05b2102362', file_url: '', file_name: '', icon: 'pen-line', badge: '', sort: 20, visible: true },
-    { id: 'd-it-7', section_id: 'd-sec-4', title: 'سجل علماء ومشايخ حلب', description: 'اقترح عالمًا أو شيخًا لإدراجه في السجل', url: 'https://docs.google.com/forms/d/e/1FAIpQLScqMigcBw4Fl8nquudoUeOjEH30fcGTE9_6lLV_Xr6DUK9_3w/viewform', file_url: '', file_name: '', icon: 'users', badge: '', sort: 30, visible: true },
+    { id: 'd-it-7', section_id: 'd-sec-4', title: 'سجل علماء ومشايخ حلب', description: 'اقترح عالمًا أو شيخًا لإدراجه في السجل', url: 'https://surveys.system.mow.gov.sy/client-surveys/conTJ6af2f69e14bca', file_url: '', file_name: '', icon: 'users', badge: '', sort: 30, visible: true },
     { id: 'd-it-16', section_id: 'd-sec-4', title: 'مراسلة الشعبة على واتساب', description: 'لكل سؤال أو اقتراح أو طلب', url: 'https://wa.me/message/ZOI2GZURI6OEN1', file_url: '', file_name: '', icon: 'whatsapp', badge: '', sort: 40, visible: true },
 
     // مصحف الشهباء
