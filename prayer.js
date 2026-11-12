@@ -132,8 +132,8 @@
     $('pCityName').textContent = regionLabel(r);
     var gm = now.getUTCMonth();
     $('pDate').innerHTML =
-      '<span>' + DAYS[now.getUTCDay()] + ' ' + ar(d.hijri[0]) + ' ' + (HMONTHS[d.hijri[1] - 1] || '') + ' ' + ar(d.hijri[2]) + 'هـ</span>' +
-      '<span class="g">' + ar(now.getUTCDate()) + ' ' + GMONTHS[gm] + ' (' + GMONTHS2[gm] + ') ' + ar(now.getUTCFullYear()) + 'م</span>';
+      '<span>' + DAYS[now.getUTCDay()] + ' ' + ar(d.hijri[0]) + ' ' + (HMONTHS[d.hijri[1] - 1] || '') + ' (' + ar(d.hijri[1]) + ') ' + ar(d.hijri[2]) + 'هـ</span>' +
+      '<span class="g">' + ar(now.getUTCDate()) + ' ' + GMONTHS[gm] + '/' + GMONTHS2[gm] + ' (' + ar(gm + 1) + ') ' + ar(now.getUTCFullYear()) + 'م</span>';
 
     // العدادات: الوقت المتبقي للقادمة، والماضي على السابقة
     var day0 = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());

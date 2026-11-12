@@ -98,10 +98,13 @@
     var t = String(m.meeting_time || '20:00').split(':').map(Number);
     return new Date(p[0], p[1] - 1, p[2], t[0] || 0, t[1] || 0);
   }
+  // مثال: الجمعة ٣٠ تشرين الأول/أكتوبر (١٠) ٢٠٢٦م
+  var WDAYS = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+  var GM1 = ['كانون الثاني', 'شباط', 'آذار', 'نيسان', 'أيار', 'حزيران', 'تموز', 'آب', 'أيلول', 'تشرين الأول', 'تشرين الثاني', 'كانون الأول'];
+  var GM2 = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
   function fmtDate(d) {
-    try {
-      return new Intl.DateTimeFormat('ar-SY', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(d);
-    } catch (e) { return d.toLocaleDateString(); }
+    var m = d.getMonth();
+    return WDAYS[d.getDay()] + ' ' + arNum(d.getDate()) + ' ' + GM1[m] + '/' + GM2[m] + ' (' + arNum(m + 1) + ') ' + arNum(d.getFullYear()) + 'م';
   }
   function fmtTime(d) {
     var h = d.getHours(), mi = d.getMinutes();

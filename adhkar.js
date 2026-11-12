@@ -86,6 +86,9 @@
       if (m >= MINS[4]) return 'غربت الشمس؛ وفي آخر القائمة ما يُقال بعد الغروب.';
       return b2;
     }
+    var sl = MINS ? prayerSlot() : '';
+    if (sl === 'p0') return 'تُقال بعد السلام من الصلاة المكتوبة، وفي آخرها ما يختص بصلاة الفجر.';
+    if (sl === 'p4') return 'تُقال بعد السلام من الصلاة المكتوبة، وفي «أذكار أخرى» ما يختص بالمغرب.';
     return 'تُقال بعد السلام من الصلاة المكتوبة.';
   }
 
@@ -106,10 +109,16 @@
     });
     return out;
   }
+  // ما قُيِّد بصلوات بعينها (الفجر p0، المغرب p4) لا يظهر إلا بعدها
+  function forSlot(items) {
+    var sl = MINS ? prayerSlot() : '';
+    return (items || []).filter(function (it) { return !it.only || it.only.indexOf(sl) >= 0; });
+  }
+  function extraOf(g) { return forSlot(g.extra); }
   function buildList() {
     var g = D.groups[tab];
-    if (mode === 'extra') return expand(g.extra || []);
-    var items = expand(g.items);
+    if (mode === 'extra') return expand(extraOf(g));
+    var items = expand(forSlot(g.items));
     if (g.night) items = items.concat(g.night.map(function (x) { var y = Object.assign({}, x); y.badge = 'بعد غروب الشمس'; return y; }));
     return items;
   }
@@ -154,7 +163,8 @@
     $('adTitle').innerHTML = (it.badge ? '<span class="ad-badge">' + esc(it.badge) + '</span>' : '') + (it.title ? esc(it.title) : '');
     $('adTitle').hidden = !(it.title || it.badge);
     $('adText').innerHTML = it.quran ? quranHTML(it.quran) : '<p>' + esc(it.text) + '</p>';
-    $('adSrc').innerHTML = '<b>' + esc(it.src || '') + '</b>' + (it.note ? '<span>' + esc(it.note) + '</span>' : '');
+    var notes = it.note ? [].concat(it.note) : [];
+    $('adSrc').innerHTML = '<b>' + esc(it.src || '') + '</b>' + notes.map(function (n) { return '<span>' + esc(n) + '</span>'; }).join('');
     $('adSrc').hidden = true; $('adSrcBtn').setAttribute('aria-expanded', 'false');
     $('adTasbih').hidden = !it.tasbih;
 
@@ -170,10 +180,10 @@
 
   function renderDone() {
     var g = D.groups[tab];
-    var hasExtra = mode === 'main' && g.extra && g.extra.length;
+    var ex = extraOf(g), hasExtra = mode === 'main' && ex.length;
     $('adDoneTitle').textContent = mode === 'extra' ? 'أتممت الأذكار الأخرى' : 'أتممت ' + g.title;
     $('adDoneExtra').hidden = !hasExtra;
-    if (hasExtra) $('adDoneExtra').textContent = 'أذكار أخرى واردة (' + ar(g.extra.length) + ')';
+    if (hasExtra) $('adDoneExtra').textContent = 'أذكار أخرى واردة (' + ar(ex.length) + ')';
     $('adDoneBack').hidden = mode !== 'extra';
   }
 
@@ -212,7 +222,7 @@
   function openList() {
     $('adListBody').innerHTML = list.map(function (it, i) {
       var c = st.c[it.id] || 0, ok = c >= it.count;
-      var label = it.title || (it.text || '').split(/[،؛]/)[0];
+      var label = it.label || it.title || (it.text || '').split(/[،؛]/)[0];
       return '<button type="button" class="ad-li' + (ok ? ' ok' : '') + (i === st.i ? ' cur' : '') + '" data-i="' + i + '">' +
         '<span class="ad-li-n">' + (ok ? '✓' : ar(i + 1)) + '</span><span class="ad-li-t">' + esc(label) + '</span>' +
         '<span class="ad-li-c">' + ar(Math.min(c, it.count)) + '/' + ar(it.count) + '</span></button>';
@@ -271,7 +281,9 @@
     MINS = m;
     var hadHash = D.groups[INITIAL_HASH];
     var anyProgress = st && Object.keys(st.c).length;
-    if (!hadHash && !anyProgress) setTab(autoTab()); else render();
+    if (!hadHash && !anyProgress) setTab(autoTab());
+    else if (tab === 'salah') setTab('salah', mode);
+    else render();
     setInterval(function () { if (!$('adStage').hidden || !$('adDone').hidden) $('adWhen').textContent = mode === 'extra' ? $('adWhen').textContent : whenText(tab); }, 30000);
   });
 })();

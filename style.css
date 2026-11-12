@@ -19,6 +19,9 @@
 @font-face { font-family: 'TajawalLocal'; font-weight: 500; font-display: swap; src: url('fonts/tajawal-arabic-500-normal.woff2') format('woff2'); }
 @font-face { font-family: 'TajawalLocal'; font-weight: 700; font-display: swap; src: url('fonts/tajawal-arabic-700-normal.woff2') format('woff2'); }
 @font-face { font-family: 'TajawalLocal'; font-weight: 900; font-display: swap; src: url('fonts/tajawal-arabic-900-normal.woff2') format('woff2'); }
+/* خط نصوص الأذكار: نسخي يضبط التشكيل على «لا» والتنوين ضبطًا صحيحًا */
+@font-face { font-family: 'AdhkarFont'; font-weight: 400; font-display: swap; src: url('fonts/noto-naskh-arabic-400-normal.woff2') format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
 
 /* ---------- الألوان المعتمدة ---------- */
 :root {
@@ -686,7 +689,7 @@ code.k { direction: ltr; display: inline-block; background: var(--cream); paddin
 .ad-card.is-done { box-shadow: 0 0 0 2px rgba(152, 133, 97, .55), 0 20px 50px -30px rgba(0, 38, 35, .45); }
 .ad-title { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; font-size: 14px; font-weight: 700; color: var(--gold-700); }
 .ad-badge { background: var(--forest-900); color: var(--gold-500); border-radius: 999px; padding: 1px 10px; font-size: 12px; }
-.ad-text p { margin: 0; font-size: calc(21px * var(--ad-scale)); line-height: 2.1; color: var(--ink); text-align: justify; text-align-last: center; }
+.ad-text p { margin: 0; font-family: 'AdhkarFont', var(--font); font-size: calc(23px * var(--ad-scale)); line-height: 2.05; color: var(--ink); text-align: justify; text-align-last: center; }
 .ad-sura + .ad-sura { margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(152, 133, 97, .35); }
 .ad-sura-name { display: inline-block; margin-bottom: 4px; padding: 1px 12px; border-radius: 999px; background: var(--cream); color: var(--forest-700); font-size: 13px; font-weight: 700; }
 .ad-text .ad-basmala { text-align: center; text-align-last: center; color: var(--forest-700); font-size: calc(19px * var(--ad-scale)); }
@@ -696,6 +699,7 @@ code.k { direction: ltr; display: inline-block; background: var(--cream); paddin
 .ad-src-btn { border: 0; background: none; color: var(--gold-700); font-size: 13px; font-weight: 700; cursor: pointer; border-bottom: 1px dashed rgba(152, 133, 97, .6); padding: 0 0 1px; }
 .ad-src { margin-top: 8px; padding: 10px 12px; border-radius: 12px; background: var(--bg); text-align: right; font-size: 14px; line-height: 1.8; color: var(--text); }
 .ad-src b { display: block; color: var(--forest-700); }
+.ad-src span { display: block; margin-top: 6px; }
 
 /* العدّاد: يبقى ظاهرًا أسفل الشاشة */
 .ad-dock {
@@ -738,6 +742,6 @@ code.k { direction: ltr; display: inline-block; background: var(--cream); paddin
 
 @media (min-width: 720px) {
   .ad-card { padding: 30px 34px 18px; }
-  .ad-text p { font-size: calc(24px * var(--ad-scale)); }
+  .ad-text p { font-size: calc(26px * var(--ad-scale)); }
   .ad-dock { margin: 14px 0 0; background: none; }
 }
