@@ -753,6 +753,10 @@ code.k { direction: ltr; display: inline-block; background: var(--cream); paddin
   background: var(--white); box-shadow: var(--shadow); color: var(--forest-700); font-size: 14px; font-weight: 800; cursor: pointer;
 }
 .ax-back::before { content: '→'; }
+.ax-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0 0 12px; }
+.ax-bar .ax-back { margin: 0; }
+.ax-size { display: flex; gap: 6px; }
+.ad-mini.is-off { opacity: .45; }
 .ax-card { margin: 0 0 12px; padding: 16px 18px 12px; border-radius: 18px; background: var(--white); box-shadow: var(--shadow); }
 .ax-time { margin-bottom: 4px; font-size: 13px; font-weight: 700; color: var(--gold-700); }
 .ax-text p + p { margin-top: 8px; }

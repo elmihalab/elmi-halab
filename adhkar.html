@@ -13,7 +13,7 @@
   <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="style.css?v=2.1">
+  <link rel="stylesheet" href="style.css?v=2.2">
 </head>
 <body class="adhkar-page">
 
@@ -84,8 +84,8 @@
       </div>
 
       <div class="ad-tools">
-        <button class="ad-mini" id="adSmaller" type="button" aria-label="تصغير الخط">أ−</button>
-        <button class="ad-mini" id="adBigger" type="button" aria-label="تكبير الخط">أ+</button>
+        <button class="ad-mini" id="adSmaller" type="button" data-size="-1" aria-label="تصغير الخط">أ−</button>
+        <button class="ad-mini" id="adBigger" type="button" data-size="1" aria-label="تكبير الخط">أ+</button>
         <button class="ad-mini" id="adReset" type="button">البدء من جديد</button>
       </div>
     </div>
@@ -108,7 +108,7 @@
 
   <footer class="foot">
     <div class="foot-in">
-      <div class="wrap foot-bottom" style="margin-top:0;border-top:0;padding-top:0"><span>شعبة الشؤون العلمية في حلب</span> — <span>الإصدار 2.1</span></div>
+      <div class="wrap foot-bottom" style="margin-top:0;border-top:0;padding-top:0"><span>شعبة الشؤون العلمية في حلب</span> — <span>الإصدار 2.2</span></div>
     </div>
   </footer>
 
@@ -120,8 +120,10 @@
     </div>
   </dialog>
 
-  <script src="adhkar-data.js?v=2.1"></script>
-  <script src="adhkar.js?v=2.1"></script>
-  <script src="search.js?v=2.1"></script>
+  <div class="toast" id="adToast" role="status" aria-live="polite"></div>
+
+  <script src="adhkar-data.js?v=2.2"></script>
+  <script src="adhkar.js?v=2.2"></script>
+  <script src="search.js?v=2.2"></script>
 </body>
 </html>

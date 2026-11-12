@@ -258,8 +258,30 @@
   function closeList() { var d = $('adListSheet'); if (d.close) d.close(); else d.removeAttribute('open'); }
 
   /* ---------- حجم الخط ---------- */
+  var SIZE_MIN = 0.8, SIZE_MAX = 1.6;
   var size = parseFloat(load('adhkar:size')) || 1;
-  function applySize() { document.documentElement.style.setProperty('--ad-scale', size); }
+  size = Math.min(SIZE_MAX, Math.max(SIZE_MIN, size));
+  function applySize() {
+    // على body لا على html: لأن .adhkar-page (وهي body) تعرّف المتغير، فكان يحجب القيمة الموروثة
+    document.body.style.setProperty('--ad-scale', size);
+    document.querySelectorAll('[data-size]').forEach(function (b) {
+      var off = (b.dataset.size === '1' && size >= SIZE_MAX - 0.001) || (b.dataset.size === '-1' && size <= SIZE_MIN + 0.001);
+      b.classList.toggle('is-off', off); b.setAttribute('aria-disabled', off ? 'true' : 'false');
+    });
+  }
+  function pct() { return ar(Math.round(size * 100)) + '٪'; }
+  function changeSize(d) {
+    if (d > 0 && size >= SIZE_MAX - 0.001) { toast('هذا أكبر حجم للخط (' + pct() + ')'); return; }
+    if (d < 0 && size <= SIZE_MIN + 0.001) { toast('هذا أصغر حجم للخط (' + pct() + ')'); return; }
+    size = Math.min(SIZE_MAX, Math.max(SIZE_MIN, +(size + d * 0.1).toFixed(2)));
+    save('adhkar:size', size); applySize();
+    toast('حجم الخط: ' + pct() + (size >= SIZE_MAX - 0.001 ? ' — أكبر حجم' : size <= SIZE_MIN + 0.001 ? ' — أصغر حجم' : ''));
+  }
+  function toast(msg) {
+    var t = $('adToast'); if (!t) return;
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(toast._t); toast._t = setTimeout(function () { t.classList.remove('show'); }, 1800);
+  }
 
   /* ---------- الربط ---------- */
   function init() {
@@ -287,8 +309,7 @@
     $('adRestart').addEventListener('click', function () { st = { i: 0, c: {} }; saveState(); render(); });
     $('adDoneExtra').addEventListener('click', function () { setTab(tab, 'extra'); });
     $('adDoneBack').addEventListener('click', function () { setTab(tab, 'main'); });
-    $('adBigger').addEventListener('click', function () { size = Math.min(1.6, +(size + 0.1).toFixed(2)); save('adhkar:size', size); applySize(); });
-    $('adSmaller').addEventListener('click', function () { size = Math.max(0.8, +(size - 0.1).toFixed(2)); save('adhkar:size', size); applySize(); });
+    document.addEventListener('click', function (e) { var b = e.target.closest('[data-size]'); if (b) changeSize(Number(b.dataset.size)); });
     $('adTasbih').addEventListener('click', function (e) {
       var b = e.target.closest('[data-v]'); if (!b || b.dataset.v === variant) return;
       variant = b.dataset.v; save('adhkar:tasbih', variant);
@@ -373,9 +394,11 @@
     setHash('all/' + id);
     $('adHeadTitle').textContent = s.title;
     $('adWhen').textContent = s.intro || '';
-    $('adAll').innerHTML = '<button type="button" class="ax-back" data-back="1">كل الأذكار</button>' +
+    $('adAll').innerHTML = '<div class="ax-bar"><button type="button" class="ax-back" data-back="1">كل الأذكار</button>' +
+      '<div class="ax-size"><button class="ad-mini" type="button" data-size="-1" aria-label="تصغير الخط">أ−</button><button class="ad-mini" type="button" data-size="1" aria-label="تكبير الخط">أ+</button></div></div>' +
       s.items.map(function (it, i) { return cardHTML(it, 'i' + i); }).join('') +
       (s.extra.length ? '<details class="ax-more"><summary>أذكار أخرى واردة (' + ar(s.extra.length) + ')</summary>' + s.extra.map(function (it, i) { return cardHTML(it, 'x' + i); }).join('') + '</details>' : '');
+    applySize();
     window.scrollTo(0, 0);
     if (focus) {
       var el = $('adAll').querySelector('[data-k="' + (/^x/.test(focus) ? focus : 'i' + focus) + '"]');

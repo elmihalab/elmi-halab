@@ -17,7 +17,7 @@ window.DEFAULT_CONTENT = {
     whatsapp_channel: 'https://www.whatsapp.com/channel/0029Vb7F8jREKyZPQP4L4A2y',
     whatsapp_contact: 'https://wa.me/message/ZOI2GZURI6OEN1',
     contact_phone: '',
-    version: '2.1',
+    version: '2.2',
 
     // رأس الصفحة: نقاط تحت السطر التعريفي، وزر رئيسي
     hero_points: 'طلب إذن الدروس والنشاطات العلمية في مساجد حلب\nاللقاء التطويري الشهري للأئمة والخطباء\nالدورات والإصدارات العلمية ومواد الدروس',
@@ -61,6 +61,7 @@ window.DEFAULT_CONTENT = {
     { id: 'd-sec-8', title: 'الدورات التخصصية', kicker: 'قريبًا بإذن الله', description: 'برامج علمية متدرجة تُفتح تباعًا، ويُعلن عن كل برنامج هنا وفي قناة الشعبة.', sort: 12, visible: true },
     { id: 'd-sec-2', title: 'إصدارات الشعبة', kicker: 'الإصدارات', description: '', sort: 20, visible: true },
     { id: 'd-sec-3', title: 'المجالس العلمية', kicker: 'المجالس', description: '', sort: 30, visible: true },
+    { id: 'd-sec-11', title: 'أدوات العمل', kicker: 'للشُّعب والدوائر', description: 'برامج مساعدة تعمل من المتصفح مباشرة، دون تثبيت، ولا يُرفع فيها أي ملف إلى الإنترنت.', sort: 40, visible: true },
     { id: 'd-sec-5', title: 'خطب الجمعة', kicker: 'المكتبة', description: '', sort: 50, visible: true }
   ],
 
@@ -72,6 +73,7 @@ window.DEFAULT_CONTENT = {
     { id: 'd-it-16', section_id: 'd-sec-4', title: 'مراسلة الشعبة على واتساب', description: 'لكل سؤال أو اقتراح أو طلب', url: 'https://wa.me/message/ZOI2GZURI6OEN1', file_url: '', file_name: '', icon: 'whatsapp', badge: '', sort: 40, visible: true },
 
     // مصحف الشهباء
+    { id: 'd-it-47', section_id: 'd-sec-11', title: 'مُعبِّئ الاستبيانات', description: 'يملأ ملفات الوورد تلقائيًا من ملف الإكسل الذي يُخرجه برنامج استبيانات الوزارة: ملف لكل طلب على قالبك', url: 'https://form-filler-khaki.vercel.app/', file_url: '', file_name: '', icon: 'file-text', badge: 'جديد', sort: 10, visible: true },
     { id: 'd-it-45', section_id: 'd-sec-10', title: 'مصحف الشهباء', description: 'تقليب وتمرير، وبحث بالكلمة أو برقم السورة والآية، ويعمل دون إنترنت', url: 'https://mushaf-elmi-halab.vercel.app/', file_url: '', file_name: '', icon: 'book-open', badge: 'جديد', sort: 10, visible: true },
 
     // الأذكار
