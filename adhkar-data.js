@@ -39,6 +39,7 @@
 
   window.ADHKAR = {
     BASMALA: BASMALA,
+    Q: { KURSI: KURSI, BAQARA_END: BAQARA_END, MUAWWIDHAT: MUAWWIDHAT },
     TASBIH: TASBIH,
     groups: {
       sabah: { title: 'أذكار الصباح', short: 'الصباح',

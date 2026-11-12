@@ -17,7 +17,7 @@ window.DEFAULT_CONTENT = {
     whatsapp_channel: 'https://www.whatsapp.com/channel/0029Vb7F8jREKyZPQP4L4A2y',
     whatsapp_contact: 'https://wa.me/message/ZOI2GZURI6OEN1',
     contact_phone: '',
-    version: '1.9.1',
+    version: '2.0',
 
     // رأس الصفحة: نقاط تحت السطر التعريفي، وزر رئيسي
     hero_points: 'طلب إذن الدروس والنشاطات العلمية في مساجد حلب\nاللقاء التطويري الشهري للأئمة والخطباء\nالدورات والإصدارات العلمية ومواد الدروس',
@@ -78,6 +78,7 @@ window.DEFAULT_CONTENT = {
     { id: 'd-it-40', section_id: 'd-sec-9', title: 'أذكار الصباح', description: 'من طلوع الفجر، والأفضل قبل طلوع الشمس', url: 'adhkar.html#sabah', file_url: '', file_name: '', icon: 'sun', badge: '', sort: 10, visible: true },
     { id: 'd-it-41', section_id: 'd-sec-9', title: 'أذكار المساء', description: 'من بعد العصر إلى غروب الشمس', url: 'adhkar.html#masa', file_url: '', file_name: '', icon: 'moon', badge: '', sort: 20, visible: true },
     { id: 'd-it-42', section_id: 'd-sec-9', title: 'أذكار بعد الصلاة', description: 'الاستغفار والتسبيح وآية الكرسي والمعوذات', url: 'adhkar.html#salah', file_url: '', file_name: '', icon: 'sparkles', badge: '', sort: 30, visible: true },
+    { id: 'd-it-46', section_id: 'd-sec-9', title: 'كل الأذكار', description: 'أذكار الاستيقاظ والوضوء والمسجد والصلاة والنوم وغيرها', url: 'adhkar.html#all', file_url: '', file_name: '', icon: 'book-open', badge: 'جديد', sort: 40, visible: true },
 
     // الدروس العلمية في حلب
     { id: 'd-it-12', section_id: 'd-sec-7', title: 'الدروس العلمية القائمة الآن', description: 'الدرس والشيخ والموعد، والمسجد على الخريطة', url: '', file_url: '', file_name: '', icon: 'map-pin', badge: 'قريبًا', sort: 10, visible: true },

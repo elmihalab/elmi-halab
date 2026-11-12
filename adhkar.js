@@ -10,6 +10,7 @@
   'use strict';
 
   var D = window.ADHKAR;
+  var VQ = (function () { var s = document.currentScript && document.currentScript.src || ''; var i = s.indexOf('?'); return i > 0 ? s.slice(i) : ''; })();
   var INITIAL_HASH = (location.hash || '').replace('#', '');
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   window.scrollTo(0, 0);
@@ -145,6 +146,7 @@
   }
 
   function render() {
+    view = 'counter'; $('adAll').hidden = true; $('adProg').hidden = false;
     var allDone = list.length && doneCount() === list.length;
     $('adDone').hidden = !allDone;
     $('adStage').hidden = allDone;
@@ -246,7 +248,10 @@
     $('adSrcBtn').addEventListener('click', function () {
       var s = $('adSrc'); s.hidden = !s.hidden; this.setAttribute('aria-expanded', s.hidden ? 'false' : 'true');
     });
-    document.querySelectorAll('.ad-tab').forEach(function (b) { b.addEventListener('click', function () { setTab(b.dataset.tab); }); });
+    document.querySelectorAll('.ad-tab').forEach(function (b) {
+      b.addEventListener('click', function () { if (b.dataset.tab === 'all') { if (view !== 'all') location.hash = 'all'; } else setTab(b.dataset.tab); });
+    });
+    $('adAll').addEventListener('click', onAllClick);
     $('adListBtn').addEventListener('click', openList);
     $('adListClose').addEventListener('click', closeList);
     $('adListSheet').addEventListener('click', function (e) { if (e.target === this) closeList(); });
@@ -265,7 +270,11 @@
       variant = b.dataset.v; save('adhkar:tasbih', variant);
       paintVariants(); setTab('salah');
     });
-    window.addEventListener('hashchange', function () { var h = location.hash.replace('#', ''); if (D.groups[h] && h !== tab) setTab(h); });
+    window.addEventListener('hashchange', function () {
+      var h = decodeURIComponent(location.hash.replace('#', ''));
+      if (/^all/.test(h)) { openAll(h.split('/')[1]); return; }
+      if (D.groups[h] && (h !== tab || view !== 'counter')) setTab(h);
+    });
     paintVariants();
   }
   function paintVariants() {
@@ -274,16 +283,106 @@
     }).join('');
   }
 
+  /* ---------- كل الأذكار: فهرس الأبواب وقراءة كل باب ---------- */
+  var view = 'counter', MORE = null, moreP = null;
+  function loadMore() {
+    if (MORE) return Promise.resolve(MORE);
+    if (!moreP) moreP = new Promise(function (res, rej) {
+      var s = document.createElement('script'); s.src = 'adhkar-more.js' + VQ;
+      s.onload = function () { MORE = window.ADHKAR_MORE || null; if (MORE) res(MORE); else { moreP = null; rej(); } };
+      s.onerror = function () { moreP = null; rej(); };
+      document.head.appendChild(s);
+    });
+    return moreP;
+  }
+  function paintTabs(t) {
+    Array.prototype.forEach.call(document.querySelectorAll('.ad-tab'), function (b) {
+      var on = b.dataset.tab === t; b.classList.toggle('on', on); b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+  }
+  function howMany(n) { return n === 1 ? 'ذكر واحد' : n === 2 ? 'ذكران' : n <= 10 ? ar(n) + ' أذكار' : ar(n) + ' ذكرًا'; }
+  function openAll(sec) {
+    view = 'all';
+    $('adProg').hidden = true; $('adStage').hidden = true; $('adDone').hidden = true; $('adAll').hidden = false;
+    paintTabs('all');
+    if (!MORE) { $('adHeadTitle').textContent = 'كل الأذكار'; $('adWhen').textContent = 'جارٍ التحميل…'; $('adAll').innerHTML = ''; }
+    loadMore().then(function () {
+      if (view !== 'all') return;
+      if (sec && MORE.sections[sec]) renderSec(sec); else renderIndex();
+    }).catch(function () {
+      $('adWhen').textContent = '';
+      $('adAll').innerHTML = '<p class="ax-err">تعذّر تحميل الأذكار. تحقّق من الاتصال ثم اضغط «كل الأذكار» مرة أخرى.</p>';
+    });
+  }
+  function setHash(h) { if (location.hash !== '#' + h && history.replaceState) history.replaceState(null, '', '#' + h); }
+  function renderIndex() {
+    setHash('all');
+    $('adHeadTitle').textContent = 'كل الأذكار';
+    $('adWhen').textContent = 'أذكار يوم المسلم وليلته، مرتّبةً على أوقاتها.';
+    $('adAll').innerHTML = MORE.groups.map(function (g) {
+      return '<div class="ax-group"><h2>' + esc(g[0]) + '</h2><div class="ax-grid">' + g[1].map(function (id) {
+        if (id.charAt(0) === '@') {
+          var k = id.slice(1), G = D.groups[k]; if (!G) return '';
+          return '<button type="button" class="ax-tile is-counter" data-go="' + k + '"><b>' + esc(G.title) + '</b><small>بالعدّاد</small></button>';
+        }
+        var s = MORE.sections[id]; if (!s) return '';
+        return '<button type="button" class="ax-tile" data-sec="' + id + '"><b>' + esc(s.title) + '</b><small>' + howMany(s.items.length + s.extra.length) + '</small></button>';
+      }).join('') + '</div></div>';
+    }).join('');
+  }
+  function cardHTML(it) {
+    var body;
+    if (it.quran) body = quranHTML([[it.quran[0], MORE.Q[it.quran[1]] || D.Q[it.quran[1]], it.quran[2]]]);
+    else body = [].concat(it.text).map(function (t) { return '<p>' + esc(t) + '</p>'; }).join('');
+    var cnt = !it.count ? '' : it.n
+      ? '<button type="button" class="ax-cnt" data-n="' + it.n + '" data-c="0" data-l="' + esc(it.count) + '">' + esc(it.count) + '</button>'
+      : '<span class="ax-cnt is-text">' + esc(it.count) + '</span>';
+    return '<article class="ax-card">' + (it.time ? '<div class="ax-time">' + esc(it.time) + '</div>' : '') +
+      '<div class="ad-text ax-text">' + body + '</div>' +
+      '<div class="ax-foot">' + cnt + '<button type="button" class="ad-src-btn ax-src-btn" aria-expanded="false">المصدر والفضل</button></div>' +
+      '<div class="ad-src ax-src" hidden><b>' + esc(it.src || '') + '</b>' + (it.fadl ? '<span>' + esc(it.fadl) + '</span>' : '') + '</div></article>';
+  }
+  function renderSec(id) {
+    var s = MORE.sections[id];
+    setHash('all/' + id);
+    $('adHeadTitle').textContent = s.title;
+    $('adWhen').textContent = s.intro || '';
+    $('adAll').innerHTML = '<button type="button" class="ax-back" data-back="1">كل الأذكار</button>' +
+      s.items.map(cardHTML).join('') +
+      (s.extra.length ? '<details class="ax-more"><summary>أذكار أخرى واردة (' + ar(s.extra.length) + ')</summary>' + s.extra.map(cardHTML).join('') + '</details>' : '');
+    window.scrollTo(0, 0);
+  }
+  function onAllClick(e) {
+    var b;
+    if ((b = e.target.closest('[data-sec]'))) { location.hash = 'all/' + b.dataset.sec; return; }
+    if ((b = e.target.closest('[data-go]'))) { setTab(b.dataset.go); window.scrollTo(0, 0); return; }
+    if (e.target.closest('[data-back]')) { location.hash = 'all'; return; }
+    if ((b = e.target.closest('.ax-src-btn'))) {
+      var src = b.closest('.ax-card').querySelector('.ax-src'); src.hidden = !src.hidden;
+      b.setAttribute('aria-expanded', src.hidden ? 'false' : 'true'); return;
+    }
+    if ((b = e.target.closest('.ax-cnt[data-n]'))) {
+      var n = +b.dataset.n, c = +b.dataset.c;
+      c = c >= n ? 0 : c + 1; b.dataset.c = c;
+      b.classList.toggle('full', c >= n);
+      b.textContent = c === 0 ? b.dataset.l : c >= n ? '✓ ' + b.dataset.l : ar(c) + ' من ' + ar(n);
+      if (c >= n && navigator.vibrate) { try { navigator.vibrate(30); } catch (er) { } }
+    }
+  }
+
   init();
-  setTab(autoTab());                      // يعمل فورًا بلا مواقيت
+  if (/^all/.test(INITIAL_HASH)) { setTab(autoTab()); openAll(INITIAL_HASH.split('/')[1]); }
+  else setTab(autoTab());                 // يعمل فورًا بلا مواقيت
   loadTimes().then(function (m) {         // ثم يحسّن التبويب والتنبيه بالمواقيت
     if (!m) return;
     MINS = m;
-    var hadHash = D.groups[INITIAL_HASH];
-    var anyProgress = st && Object.keys(st.c).length;
-    if (!hadHash && !anyProgress) setTab(autoTab());
-    else if (tab === 'salah') setTab('salah', mode);
-    else render();
+    if (view !== 'all') {
+      var hadHash = D.groups[INITIAL_HASH];
+      var anyProgress = st && Object.keys(st.c).length;
+      if (!hadHash && !anyProgress) setTab(autoTab());
+      else if (tab === 'salah') setTab('salah', mode);
+      else render();
+    }
     setInterval(function () { if (!$('adStage').hidden || !$('adDone').hidden) $('adWhen').textContent = mode === 'extra' ? $('adWhen').textContent : whenText(tab); }, 30000);
   });
 })();

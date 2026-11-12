@@ -13,7 +13,7 @@
   <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="style.css?v=1.9.1">
+  <link rel="stylesheet" href="style.css?v=2.0">
 </head>
 <body class="adhkar-page">
 
@@ -36,6 +36,7 @@
         <button class="ad-tab" data-tab="sabah" role="tab" type="button">الصباح</button>
         <button class="ad-tab" data-tab="masa" role="tab" type="button">المساء</button>
         <button class="ad-tab" data-tab="salah" role="tab" type="button">بعد الصلاة</button>
+        <button class="ad-tab" data-tab="all" role="tab" type="button">كل الأذكار</button>
       </div>
       <h1 id="adHeadTitle">الأذكار</h1>
       <p class="ad-when" id="adWhen"></p>
@@ -43,7 +44,7 @@
   </header>
 
   <main class="wrap ad-main">
-    <div class="ad-progress">
+    <div class="ad-progress" id="adProg">
       <span id="adStep"></span>
       <div class="ad-bar" aria-hidden="true"><span id="adBar"></span></div>
       <button class="ad-mini" id="adListBtn" type="button">القائمة</button>
@@ -95,12 +96,14 @@
       </div>
     </section>
 
+    <section class="ax" id="adAll" hidden></section>
+
     <p class="ad-credit">نصوص الأذكار وتخريجها من كتاب «الأذكار الثابتة» لشعبة الشؤون العلمية، والآيات من «المكتبة الشاملة».</p>
   </main>
 
   <footer class="foot">
     <div class="foot-in">
-      <div class="wrap foot-bottom" style="margin-top:0;border-top:0;padding-top:0"><span>شعبة الشؤون العلمية في حلب</span> — <span>الإصدار 1.9.1</span></div>
+      <div class="wrap foot-bottom" style="margin-top:0;border-top:0;padding-top:0"><span>شعبة الشؤون العلمية في حلب</span> — <span>الإصدار 2.0</span></div>
     </div>
   </footer>
 
@@ -112,7 +115,7 @@
     </div>
   </dialog>
 
-  <script src="adhkar-data.js?v=1.9.1"></script>
-  <script src="adhkar.js?v=1.9.1"></script>
+  <script src="adhkar-data.js?v=2.0"></script>
+  <script src="adhkar.js?v=2.0"></script>
 </body>
 </html>
