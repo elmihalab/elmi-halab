@@ -233,9 +233,10 @@
       '<span class="item-body"><span class="item-title">' + esc(it.title) + badge + '</span>' +
       (it.description ? '<span class="item-desc">' + esc(it.description) + '</span>' : '') + '</span>';
 
-    if (!href) return '<div class="item is-soon">' + inner + '</div>';
+    var iid = it.id ? ' data-iid="' + esc(it.id) + '"' : '';
+    if (!href) return '<div class="item is-soon"' + iid + '>' + inner + '</div>';
     var tgt = /^https?:/i.test(href) || /^files\//.test(href) ? ' target="_blank" rel="noopener"' : '';
-    return '<a class="item" href="' + esc(href) + '"' + tgt + '>' + inner +
+    return '<a class="item"' + iid + ' href="' + esc(href) + '"' + tgt + '>' + inner +
       '<span class="item-go">' + icon('arrow-up-left', 20) + '</span></a>';
   }
 
@@ -247,7 +248,7 @@
       var its = items.filter(function (it) { return it.section_id === s.id; }).sort(bySort);
       if (!its.length) return;
       var sid = 'sec-' + (i + 1);
-      var html = '<section class="block" id="' + sid + '"><div class="block-head">';
+      var html = '<section class="block" id="' + sid + '" data-sid="' + esc(s.id) + '"><div class="block-head">';
       if (s.kicker) html += '<span class="kicker">' + esc(s.kicker) + '</span>';
       html += '<h2>' + esc(s.title) + '</h2>';
       if (s.description) html += '<p>' + esc(s.description) + '</p>';
@@ -444,6 +445,7 @@
   function render(d) {
     var s = d.settings;
     SETTINGS = s;
+    window.SITE_DATA = d; // يقرؤه البحث (search.js)
     $('siteTitle').textContent = s.site_title || DEF.settings.site_title;
     $('orgName').textContent = s.org_name || DEF.settings.org_name;
     $('tagline').textContent = s.tagline || '';

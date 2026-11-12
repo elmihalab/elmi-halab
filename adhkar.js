@@ -95,6 +95,7 @@
 
   /* ---------- بناء القائمة ---------- */
   var tab = 'sabah', mode = 'main', list = [], st = null;
+  var peek = false; // فُتح ذكرٌ بعينه من البحث: يُعرض وإن اكتمل الباب
   var variant = load('adhkar:tasbih') || 'a';
   if (!D.TASBIH[variant]) variant = 'a';
 
@@ -147,7 +148,7 @@
 
   function render() {
     view = 'counter'; $('adAll').hidden = true; $('adProg').hidden = false;
-    var allDone = list.length && doneCount() === list.length;
+    var allDone = list.length && doneCount() === list.length && !peek;
     $('adDone').hidden = !allDone;
     $('adStage').hidden = allDone;
     $('adHeadTitle').textContent = mode === 'extra' ? 'أذكار أخرى واردة' : D.groups[tab].title;
@@ -214,7 +215,30 @@
   function next() { if (st.i < list.length - 1) { st.i++; saveState(); render(); } }
   function prev() { if (st.i > 0) { st.i--; saveState(); render(); } }
 
+  /* ---------- الروابط المباشرة (من البحث): #sabah/<id>  و  #all/<باب>/<رقم> ---------- */
+  function parseHash(h) {
+    var p = decodeURIComponent(String(h || '').replace(/^#/, '')).split('/');
+    return { tab: p[0] || '', a: p[1] || '', b: p[2] || '' };
+  }
+  function goItem(t, id) {
+    var g = D.groups[t]; if (!g) return;
+    var inExtra = (g.extra || []).some(function (x) { return x.id === id; });
+    setTab(t, inExtra ? 'extra' : 'main');
+    var k = -1;
+    list.forEach(function (it, i) { if (k < 0 && (it.id === id || (id === 'tasbih' && it.tasbih))) k = i; });
+    if (k >= 0) { st.i = k; peek = true; saveState(); render(); }
+    window.scrollTo(0, 0);
+  }
+  function go(h) {
+    var P = parseHash(h);
+    if (P.tab === 'all') { openAll(P.a, P.b); return; }
+    if (!D.groups[P.tab]) return;
+    if (P.a) goItem(P.tab, P.a); else { setTab(P.tab); window.scrollTo(0, 0); }
+  }
+  window.adhkarGo = go; // يستعمله البحث (search.js)
+
   function setTab(t, m) {
+    if (t !== tab || (m || 'main') !== mode) peek = false;
     tab = t; mode = m || 'main';
     list = buildList(); loadState(); render();
     if (history.replaceState) history.replaceState(null, '', '#' + t);
@@ -249,7 +273,7 @@
       var s = $('adSrc'); s.hidden = !s.hidden; this.setAttribute('aria-expanded', s.hidden ? 'false' : 'true');
     });
     document.querySelectorAll('.ad-tab').forEach(function (b) {
-      b.addEventListener('click', function () { if (b.dataset.tab === 'all') { if (view !== 'all') location.hash = 'all'; } else setTab(b.dataset.tab); });
+      b.addEventListener('click', function () { peek = false; if (b.dataset.tab === 'all') { if (view !== 'all') location.hash = 'all'; } else setTab(b.dataset.tab); });
     });
     $('adAll').addEventListener('click', onAllClick);
     $('adListBtn').addEventListener('click', openList);
@@ -271,9 +295,11 @@
       paintVariants(); setTab('salah');
     });
     window.addEventListener('hashchange', function () {
-      var h = decodeURIComponent(location.hash.replace('#', ''));
-      if (/^all/.test(h)) { openAll(h.split('/')[1]); return; }
-      if (D.groups[h] && (h !== tab || view !== 'counter')) setTab(h);
+      var P = parseHash(location.hash);
+      if (P.tab === 'all') { openAll(P.a, P.b); return; }
+      if (!D.groups[P.tab]) return;
+      if (P.a) goItem(P.tab, P.a);
+      else if (P.tab !== tab || view !== 'counter') setTab(P.tab);
     });
     paintVariants();
   }
@@ -301,14 +327,14 @@
     });
   }
   function howMany(n) { return n === 1 ? 'ذكر واحد' : n === 2 ? 'ذكران' : n <= 10 ? ar(n) + ' أذكار' : ar(n) + ' ذكرًا'; }
-  function openAll(sec) {
+  function openAll(sec, focus) {
     view = 'all';
     $('adProg').hidden = true; $('adStage').hidden = true; $('adDone').hidden = true; $('adAll').hidden = false;
     paintTabs('all');
     if (!MORE) { $('adHeadTitle').textContent = 'كل الأذكار'; $('adWhen').textContent = 'جارٍ التحميل…'; $('adAll').innerHTML = ''; }
     loadMore().then(function () {
       if (view !== 'all') return;
-      if (sec && MORE.sections[sec]) renderSec(sec); else renderIndex();
+      if (sec && MORE.sections[sec]) renderSec(sec, focus); else renderIndex();
     }).catch(function () {
       $('adWhen').textContent = '';
       $('adAll').innerHTML = '<p class="ax-err">تعذّر تحميل الأذكار. تحقّق من الاتصال ثم اضغط «كل الأذكار» مرة أخرى.</p>';
@@ -330,27 +356,37 @@
       }).join('') + '</div></div>';
     }).join('');
   }
-  function cardHTML(it) {
+  function cardHTML(it, k) {
     var body;
     if (it.quran) body = quranHTML([[it.quran[0], MORE.Q[it.quran[1]] || D.Q[it.quran[1]], it.quran[2]]]);
     else body = [].concat(it.text).map(function (t) { return '<p>' + esc(t) + '</p>'; }).join('');
     var cnt = !it.count ? '' : it.n
       ? '<button type="button" class="ax-cnt" data-n="' + it.n + '" data-c="0" data-l="' + esc(it.count) + '">' + esc(it.count) + '</button>'
       : '<span class="ax-cnt is-text">' + esc(it.count) + '</span>';
-    return '<article class="ax-card">' + (it.time ? '<div class="ax-time">' + esc(it.time) + '</div>' : '') +
+    return '<article class="ax-card"' + (k ? ' data-k="' + k + '"' : '') + '>' + (it.time ? '<div class="ax-time">' + esc(it.time) + '</div>' : '') +
       '<div class="ad-text ax-text">' + body + '</div>' +
       '<div class="ax-foot">' + cnt + '<button type="button" class="ad-src-btn ax-src-btn" aria-expanded="false">المصدر والفضل</button></div>' +
       '<div class="ad-src ax-src" hidden><b>' + esc(it.src || '') + '</b>' + (it.fadl ? '<span>' + esc(it.fadl) + '</span>' : '') + '</div></article>';
   }
-  function renderSec(id) {
+  function renderSec(id, focus) {
     var s = MORE.sections[id];
     setHash('all/' + id);
     $('adHeadTitle').textContent = s.title;
     $('adWhen').textContent = s.intro || '';
     $('adAll').innerHTML = '<button type="button" class="ax-back" data-back="1">كل الأذكار</button>' +
-      s.items.map(cardHTML).join('') +
-      (s.extra.length ? '<details class="ax-more"><summary>أذكار أخرى واردة (' + ar(s.extra.length) + ')</summary>' + s.extra.map(cardHTML).join('') + '</details>' : '');
+      s.items.map(function (it, i) { return cardHTML(it, 'i' + i); }).join('') +
+      (s.extra.length ? '<details class="ax-more"><summary>أذكار أخرى واردة (' + ar(s.extra.length) + ')</summary>' + s.extra.map(function (it, i) { return cardHTML(it, 'x' + i); }).join('') + '</details>' : '');
     window.scrollTo(0, 0);
+    if (focus) {
+      var el = $('adAll').querySelector('[data-k="' + (/^x/.test(focus) ? focus : 'i' + focus) + '"]');
+      if (el) {
+        var det = el.closest('details'); if (det) det.open = true;
+        setTimeout(function () {
+          el.scrollIntoView({ block: 'center' });
+          el.classList.add('srch-flash'); setTimeout(function () { el.classList.remove('srch-flash'); }, 2600);
+        }, 80);
+      }
+    }
   }
   function onAllClick(e) {
     var b;
@@ -371,13 +407,15 @@
   }
 
   init();
-  if (/^all/.test(INITIAL_HASH)) { setTab(autoTab()); openAll(INITIAL_HASH.split('/')[1]); }
+  var P0 = parseHash(INITIAL_HASH);
+  if (P0.tab === 'all') { setTab(autoTab()); openAll(P0.a, P0.b); }
+  else if (D.groups[P0.tab] && P0.a) goItem(P0.tab, P0.a);
   else setTab(autoTab());                 // يعمل فورًا بلا مواقيت
   loadTimes().then(function (m) {         // ثم يحسّن التبويب والتنبيه بالمواقيت
     if (!m) return;
     MINS = m;
     if (view !== 'all') {
-      var hadHash = D.groups[INITIAL_HASH];
+      var hadHash = D.groups[P0.tab];
       var anyProgress = st && Object.keys(st.c).length;
       if (!hadHash && !anyProgress) setTab(autoTab());
       else if (tab === 'salah') setTab('salah', mode);

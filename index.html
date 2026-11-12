@@ -23,7 +23,7 @@
   <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="style.css?v=2.0">
+  <link rel="stylesheet" href="style.css?v=2.1">
 </head>
 <body>
 
@@ -36,6 +36,10 @@
       </a>
       <div class="tb-links" id="tbLinks"></div>
       <button class="tb-next" id="tbNext" type="button" hidden aria-label="مواقيت الصلاة"></button>
+      <button class="tb-menu tb-search" type="button" data-search aria-label="البحث في الموقع">
+        <svg class="ic" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="m21 21-4.3-4.3"/></svg>
+        <span>بحث</span>
+      </button>
       <button class="tb-menu" id="menuBtn" type="button" aria-haspopup="dialog">
         <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
         <span>الأقسام</span>
@@ -54,6 +58,7 @@
           <a class="btn btn-dark" id="ctaBtn" href="#sectionsTop"></a>
           <a class="btn btn-line" id="waBtn" href="https://www.whatsapp.com/channel/0029Vb7F8jREKyZPQP4L4A2y" target="_blank" rel="noopener"></a>
         </div>
+        <button class="srch-trigger" type="button" data-search><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="m21 21-4.3-4.3"/></svg><span>ابحث في الموقع والأذكار ومواقيت المدن…</span></button>
         <button class="hero-share" id="shareBtn" type="button"></button>
       </div>
 
@@ -166,6 +171,7 @@
       <h3 id="menuHead">أقسام الموقع</h3>
       <nav class="menu-list" id="menuList"></nav>
       <div class="sheet-actions">
+        <button class="btn btn-outline" type="button" data-search>بحث</button>
         <button class="btn btn-forest" id="menuShare" type="button">باركود ومشاركة</button>
         <button class="btn btn-outline" id="menuClose" type="button">إغلاق</button>
       </div>
@@ -200,11 +206,12 @@
   </dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="config.js?v=2.0"></script>
-  <script src="content.js?v=2.0"></script>
-  <script src="icons.js?v=2.0"></script>
+  <script src="config.js?v=2.1"></script>
+  <script src="content.js?v=2.1"></script>
+  <script src="icons.js?v=2.1"></script>
   <script src="vendor/qrcode.js"></script>
-  <script src="app.js?v=2.0"></script>
-  <script src="prayer.js?v=2.0"></script>
+  <script src="app.js?v=2.1"></script>
+  <script src="prayer.js?v=2.1"></script>
+  <script src="search.js?v=2.1"></script>
 </body>
 </html>

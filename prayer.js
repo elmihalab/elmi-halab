@@ -249,6 +249,7 @@
     save(KEY, String(id));
     return ensureGov(r[1]).then(render);
   }
+  window.prayerSetRegion = setRegion; // يستعمله البحث (search.js)
 
   /* ---------- قائمة المدن ---------- */
   function norm(s) {
