@@ -735,8 +735,15 @@ code.k { direction: ltr; display: inline-block; background: var(--cream); paddin
 /* ---------- كل الأذكار ---------- */
 .ax { margin-top: 14px; }
 .ax-group { margin: 0 0 18px; }
-.ax-group h2 { margin: 0 0 8px; font-size: 15px; font-weight: 800; color: var(--gold-700); display: flex; align-items: center; gap: 8px; }
-.ax-group h2::after { content: ''; flex: 1; height: 1px; background: rgba(152, 133, 97, .3); }
+.ax-group h2, .ax-group h3 { margin: 0 0 8px; font-size: 15px; font-weight: 800; color: var(--gold-700); display: flex; align-items: center; gap: 8px; }
+.ax-group h2::after, .ax-group h3::after { content: ''; flex: 1; height: 1px; background: rgba(152, 133, 97, .3); }
+/* اسم الكتاب فوق مجموعاته */
+.ax-book {
+  margin: 26px 0 12px; padding: 10px 14px; border-radius: 12px; background: var(--forest-900); color: var(--white);
+  font-size: 17px; font-weight: 900; display: flex; align-items: center; gap: 10px;
+}
+.ax-book::before { content: ''; width: 9px; height: 9px; background: var(--gold-500); flex: none; }
+.ax-book:first-child { margin-top: 4px; }
 .ax-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
 .ax-tile {
   display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 6px; min-height: 76px;

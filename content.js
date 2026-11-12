@@ -17,7 +17,7 @@ window.DEFAULT_CONTENT = {
     whatsapp_channel: 'https://www.whatsapp.com/channel/0029Vb7F8jREKyZPQP4L4A2y',
     whatsapp_contact: 'https://wa.me/message/ZOI2GZURI6OEN1',
     contact_phone: '',
-    version: '2.2',
+    version: '2.3',
 
     // رأس الصفحة: نقاط تحت السطر التعريفي، وزر رئيسي
     hero_points: 'طلب إذن الدروس والنشاطات العلمية في مساجد حلب\nاللقاء التطويري الشهري للأئمة والخطباء\nالدورات والإصدارات العلمية ومواد الدروس',

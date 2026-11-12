@@ -365,9 +365,13 @@
   function renderIndex() {
     setHash('all');
     $('adHeadTitle').textContent = 'كل الأذكار';
-    $('adWhen').textContent = 'أذكار يوم المسلم وليلته، مرتّبةً على أوقاتها.';
+    $('adWhen').textContent = 'كتاب «الأذكار الثابتة» كله: أذكار اليوم والليلة على أوقاتها، ثم بقية الكتب.';
+    var lastBook = null;
     $('adAll').innerHTML = MORE.groups.map(function (g) {
-      return '<div class="ax-group"><h2>' + esc(g[0]) + '</h2><div class="ax-grid">' + g[1].map(function (id) {
+      var head = '';
+      if (g[2] && g[2] !== lastBook) { lastBook = g[2]; head = '<h2 class="ax-book">' + esc(g[2]) + '</h2>'; }
+      var sub = g[0] && g[0] !== g[2] ? '<h3>' + esc(g[0]) + '</h3>' : '';
+      return head + '<div class="ax-group">' + sub + '<div class="ax-grid">' + g[1].map(function (id) {
         if (id.charAt(0) === '@') {
           var k = id.slice(1), G = D.groups[k]; if (!G) return '';
           return '<button type="button" class="ax-tile is-counter" data-go="' + k + '"><b>' + esc(G.title) + '</b><small>بالعدّاد</small></button>';
