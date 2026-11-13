@@ -19,6 +19,22 @@
   var DIG = '٠١٢٣٤٥٦٧٨٩';
   function ar(n) { return String(n).replace(/\d/g, function (d) { return DIG[d]; }); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  // «لا» المشكولة (لَا، لًا، لِأ…) لا يضبطها خط الموقع (قمرة وتجوّل)، فيظهر الألف منفصلًا.
+  // فنصوص المصدر والفضل وأقوال العلماء تُكتب بخط الأذكار النسخي دائمًا (في style.css)،
+  // وما سواها من العناوين والأوقات يُنقل إليه وحده إن كان فيه «لا» مشكولة.
+  var LA = /ل[ً-ْٰ]+[آأإا]/;
+  var LA_SEL = '#adHeadTitle, #adWhen, #adTitle, .ax-tile b, .ax-time, .ax-grp, .ax-who, .ad-src > b';
+  function fixLA() {
+    Array.prototype.forEach.call(document.querySelectorAll(LA_SEL), function (el) { el.classList.toggle('lf', LA.test(el.textContent)); });
+  }
+  (function () {
+    var pend = false;
+    fixLA();
+    if (window.MutationObserver) new MutationObserver(function () {
+      if (pend) return; pend = true;
+      (window.requestAnimationFrame || setTimeout)(function () { pend = false; fixLA(); });
+    }).observe(document.body, { childList: true, subtree: true, characterData: true });
+  })();
   function load(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
   function save(k, v) { try { localStorage.setItem(k, v); } catch (e) { } }
   function syNow() { return new Date(Date.now() + 3 * 3600000); } // توقيت سورية

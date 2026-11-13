@@ -8,7 +8,7 @@
    عند كل إصدار جديد: غيّر V هنا بما يوافق ?v= في adhkar.html،
    فيُحفظ الجديد ويُحذف القديم وحده.
    ============================================================ */
-var V = '2.7';
+var V = '2.8';
 var CACHE = 'adhkar-' + V;
 var Q = '?v=' + V;
 
@@ -17,7 +17,7 @@ var CORE = ['/adhkar', '/adhkar-data.js' + Q, '/adhkar.js' + Q, '/search.js' + Q
 // ما يُحسّنها: يُحفظ ما تيسّر منه
 var EXTRA = [
   '/content.js' + Q, '/times/index.json', '/times/g0.json', '/adhkar.webmanifest',
-  '/fonts/noto-naskh-arabic-400-normal.woff2', '/fonts/tajawal-arabic-400-normal.woff2', '/fonts/tajawal-arabic-500-normal.woff2',
+  '/fonts/noto-naskh-arabic-400-normal.woff2', '/fonts/noto-naskh-arabic-700-normal.woff2', '/fonts/tajawal-arabic-400-normal.woff2', '/fonts/tajawal-arabic-500-normal.woff2',
   '/fonts/tajawal-arabic-700-normal.woff2', '/fonts/tajawal-arabic-900-normal.woff2',
   '/images/eagle.svg', '/images/favicon.svg', '/favicon.ico', '/images/pattern-light.svg', '/images/aleppo-skyline.png',
   '/images/adhkar-192.png', '/images/adhkar-512.png'

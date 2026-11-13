@@ -17,6 +17,9 @@
   var REGION_KEY = 'elmi_prayer_region';
   var DIG = '٠١٢٣٤٥٦٧٨٩';
   function ar(n) { return String(n).replace(/\d/g, function (d) { return DIG[d]; }); }
+  // «لا» المشكولة (لَا، لًا، لِأ…) لا يضبطها خط الموقع، فما فيها يُكتب بخط الأذكار النسخي
+  var LA = /ل[ً-ْٰ]+[آأإا]/;
+  function lf(s) { return LA.test(s || '') ? ' class="lf"' : ''; }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 
   /* ---------- تطبيع النص العربي للمقارنة ----------
@@ -310,6 +313,7 @@
     '.srch-b small{display:block;font-size:12.5px;color:var(--gold-700,#988561);margin-top:1px}' +
     '.srch-s{display:block;font-size:14.5px;line-height:1.9;margin-top:4px;color:var(--text,#3d3a3b);overflow-wrap:anywhere}' +
     '.srch-s.ar{font-family:"AdhkarFont",var(--font,serif);font-size:16px;line-height:2}' +
+    '.srch .lf{font-family:"AdhkarFont",var(--font,serif)}' +
     '.srch mark{background:rgba(185,167,121,.38);color:inherit;border-radius:3px;padding:0 1px}' +
     '.srch-more{display:block;width:100%;border:1px dashed var(--gold-500,#b9a779);background:transparent;color:var(--forest-700,#054239);border-radius:14px;padding:10px;font:inherit;font-size:14px;cursor:pointer;margin-bottom:6px}' +
     '.srch-empty{text-align:center;padding:36px 12px;color:var(--muted,#6f6a66);line-height:1.9}' +
@@ -396,8 +400,8 @@
       part.slice(0, lim).forEach(function (x) {
         var e = x.e, i = CUR.push(e) - 1;
         var sn = e.b ? '<span class="srch-s' + (e.g === 'adhkar' ? ' ar' : '') + '">' + snippet(e.b, r.toks, e.g === 'adhkar' ? 170 : 130) + '</span>' : '';
-        html += '<button type="button" class="srch-r" data-i="' + i + '"><span class="srch-ic">' + svg(e.ic, 20) + '</span><span class="srch-b"><b>' + hl(e.t, r.toks) + '</b>' +
-          (e.s ? '<small>' + esc(e.s) + '</small>' : '') + sn + '</span></button>';
+        html += '<button type="button" class="srch-r" data-i="' + i + '"><span class="srch-ic">' + svg(e.ic, 20) + '</span><span class="srch-b"><b' + lf(e.t) + '>' + hl(e.t, r.toks) + '</b>' +
+          (e.s ? '<small' + lf(e.s) + '>' + esc(e.s) + '</small>' : '') + sn + '</span></button>';
       });
       if (part.length > lim) html += '<button type="button" class="srch-more" data-more="' + g + '">عرض كل نتائج ' + GNAME[g] + ' (' + ar(part.length) + ')</button>';
       html += '</section>';
