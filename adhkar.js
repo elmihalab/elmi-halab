@@ -89,7 +89,7 @@
     }
     var sl = MINS ? prayerSlot() : '';
     if (sl === 'p0') return 'تُقال بعد السلام من الصلاة المكتوبة، وفي آخرها ما يختص بصلاة الفجر.';
-    if (sl === 'p4') return 'تُقال بعد السلام من الصلاة المكتوبة، وفي «أذكار أخرى» ما يختص بالمغرب.';
+    if (sl === 'p4') return 'تُقال بعد السلام من الصلاة المكتوبة، وفي «المختلف في ثبوته» ما يختص بالمغرب.';
     return 'تُقال بعد السلام من الصلاة المكتوبة.';
   }
 
@@ -137,6 +137,15 @@
   /* ---------- العرض ---------- */
   var R = 52, CIRC = 2 * Math.PI * R;
 
+  var EXTRA_WHEN = 'أذكار اختلف أهل العلم في ثبوتها؛ جُعلت هنا على حدة، وتحت «المصدر» أقوال العلماء فيها.';
+  // أقوال العلماء في المختلف في ثبوته: [القائل، المصدر، العبارة]
+  function verdHTML(v) {
+    if (!v || !v.length) return '';
+    return '<div class="ad-verd"><i>أقوال العلماء في ثبوته</i><ul>' + v.map(function (x) {
+      return '<li><b>' + esc(x[0]) + '</b>' + (x[1] ? ' <small>(' + esc(x[1]) + ')</small>' : '') + (x[2] ? ': «' + esc(x[2]) + '»' : '') + '</li>';
+    }).join('') + '</ul></div>';
+  }
+
   function quranHTML(q) {
     return q.map(function (s) {
       var verses = s[1].map(function (v, i) { return v + ' <span class="aya-n">﴿' + ar(s[2] + i) + '﴾</span>'; }).join(' ');
@@ -151,8 +160,8 @@
     var allDone = list.length && doneCount() === list.length && !peek;
     $('adDone').hidden = !allDone;
     $('adStage').hidden = allDone;
-    $('adHeadTitle').textContent = mode === 'extra' ? 'أذكار أخرى واردة' : D.groups[tab].title;
-    $('adWhen').textContent = mode === 'extra' ? 'ما ورد في هذا الباب زيادةً على الأذكار الأساسية.' : whenText(tab);
+    $('adHeadTitle').textContent = mode === 'extra' ? 'المختلف في ثبوته' : D.groups[tab].title;
+    $('adWhen').textContent = mode === 'extra' ? EXTRA_WHEN : whenText(tab);
     Array.prototype.forEach.call(document.querySelectorAll('.ad-tab'), function (b) {
       var on = b.dataset.tab === tab; b.classList.toggle('on', on); b.setAttribute('aria-selected', on ? 'true' : 'false');
     });
@@ -167,7 +176,8 @@
     $('adTitle').hidden = !(it.title || it.badge);
     $('adText').innerHTML = it.quran ? quranHTML(it.quran) : '<p>' + esc(it.text) + '</p>';
     var notes = it.note ? [].concat(it.note) : [];
-    $('adSrc').innerHTML = '<b>' + esc(it.src || '') + '</b>' + notes.map(function (n) { return '<span>' + esc(n) + '</span>'; }).join('');
+    $('adSrc').innerHTML = '<b>' + esc(it.src || '') + '</b>' + notes.map(function (n) { return '<span>' + esc(n) + '</span>'; }).join('') + verdHTML(it.v);
+    $('adSrcBtn').textContent = it.v ? 'المصدر وأقوال العلماء' : 'المصدر والفضل';
     $('adSrc').hidden = true; $('adSrcBtn').setAttribute('aria-expanded', 'false');
     $('adTasbih').hidden = !it.tasbih;
 
@@ -184,9 +194,9 @@
   function renderDone() {
     var g = D.groups[tab];
     var ex = extraOf(g), hasExtra = mode === 'main' && ex.length;
-    $('adDoneTitle').textContent = mode === 'extra' ? 'أتممت الأذكار الأخرى' : 'أتممت ' + g.title;
+    $('adDoneTitle').textContent = mode === 'extra' ? 'أتممت المختلف في ثبوته' : 'أتممت ' + g.title;
     $('adDoneExtra').hidden = !hasExtra;
-    if (hasExtra) $('adDoneExtra').textContent = 'أذكار أخرى واردة (' + ar(ex.length) + ')';
+    if (hasExtra) $('adDoneExtra').textContent = 'المختلف في ثبوته (' + ar(ex.length) + ')';
     $('adDoneBack').hidden = mode !== 'extra';
   }
 
@@ -277,10 +287,10 @@
     save('adhkar:size', size); applySize();
     toast('حجم الخط: ' + pct() + (size >= SIZE_MAX - 0.001 ? ' — أكبر حجم' : size <= SIZE_MIN + 0.001 ? ' — أصغر حجم' : ''));
   }
-  function toast(msg) {
+  function toast(msg, ms) {
     var t = $('adToast'); if (!t) return;
     t.textContent = msg; t.classList.add('show');
-    clearTimeout(toast._t); toast._t = setTimeout(function () { t.classList.remove('show'); }, 1800);
+    clearTimeout(toast._t); toast._t = setTimeout(function () { t.classList.remove('show'); }, ms || 1800);
   }
 
   /* ---------- الربط ---------- */
@@ -377,7 +387,7 @@
           return '<button type="button" class="ax-tile is-counter" data-go="' + k + '"><b>' + esc(G.title) + '</b><small>بالعدّاد</small></button>';
         }
         var s = MORE.sections[id]; if (!s) return '';
-        return '<button type="button" class="ax-tile" data-sec="' + id + '"><b>' + esc(s.title) + '</b><small>' + howMany(s.items.length + s.extra.length) + '</small></button>';
+        return '<button type="button" class="ax-tile' + (s.kicker === 'ملحق' ? ' is-annex' : '') + '" data-sec="' + id + '"><b>' + esc(s.title) + '</b><small>' + howMany(s.items.length + s.extra.length) + '</small></button>';
       }).join('') + '</div></div>';
     }).join('');
   }
@@ -388,10 +398,10 @@
     var cnt = !it.count ? '' : it.n
       ? '<button type="button" class="ax-cnt" data-n="' + it.n + '" data-c="0" data-l="' + esc(it.count) + '">' + esc(it.count) + '</button>'
       : '<span class="ax-cnt is-text">' + esc(it.count) + '</span>';
-    return '<article class="ax-card"' + (k ? ' data-k="' + k + '"' : '') + '>' + (it.time ? '<div class="ax-time">' + esc(it.time) + '</div>' : '') +
+    return '<article class="ax-card"' + (k ? ' data-k="' + k + '"' : '') + '>' + (it.who ? '<div class="ax-who">' + esc(it.who) + '</div>' : '') + (it.time ? '<div class="ax-time">' + esc(it.time) + '</div>' : '') +
       '<div class="ad-text ax-text">' + body + '</div>' +
-      '<div class="ax-foot">' + cnt + '<button type="button" class="ad-src-btn ax-src-btn" aria-expanded="false">المصدر والفضل</button></div>' +
-      '<div class="ad-src ax-src" hidden><b>' + esc(it.src || '') + '</b>' + (it.fadl ? '<span>' + esc(it.fadl) + '</span>' : '') + '</div></article>';
+      '<div class="ax-foot">' + cnt + '<button type="button" class="ad-src-btn ax-src-btn" aria-expanded="false">' + (it.v ? 'المصدر وأقوال العلماء' : 'المصدر والفضل') + '</button></div>' +
+      '<div class="ad-src ax-src" hidden><b>' + esc(it.src || '') + '</b>' + (it.fadl ? '<span>' + esc(it.fadl) + '</span>' : '') + verdHTML(it.v) + '</div></article>';
   }
   function renderSec(id, focus) {
     var s = MORE.sections[id];
@@ -400,8 +410,11 @@
     $('adWhen').textContent = s.intro || '';
     $('adAll').innerHTML = '<div class="ax-bar"><button type="button" class="ax-back" data-back="1">كل الأذكار</button>' +
       '<div class="ax-size"><button class="ad-mini" type="button" data-size="-1" aria-label="تصغير الخط">أ−</button><button class="ad-mini" type="button" data-size="1" aria-label="تكبير الخط">أ+</button></div></div>' +
-      s.items.map(function (it, i) { return cardHTML(it, 'i' + i); }).join('') +
-      (s.extra.length ? '<details class="ax-more"><summary>أذكار أخرى واردة (' + ar(s.extra.length) + ')</summary>' + s.extra.map(function (it, i) { return cardHTML(it, 'x' + i); }).join('') + '</details>' : '');
+      s.items.map(function (it, i) {
+        var h = it.grp && (i === 0 || s.items[i - 1].grp !== it.grp) ? '<h3 class="ax-grp">' + esc(it.grp) + '</h3>' : '';
+        return h + cardHTML(it, 'i' + i);
+      }).join('') +
+      (s.extra.length ? '<details class="ax-more"><summary>المختلف في ثبوته (' + ar(s.extra.length) + ')</summary>' + s.extra.map(function (it, i) { return cardHTML(it, 'x' + i); }).join('') + '</details>' : '');
     applySize();
     window.scrollTo(0, 0);
     if (focus) {
@@ -433,7 +446,35 @@
     }
   }
 
+  /* ---------- التثبيت والعمل دون إنترنت ---------- */
+  function setupApp() {
+    var standalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+    var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    var box = $('adInstall'), deferred = null;
+    function show() { if (box && !standalone) box.hidden = false; }
+    window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferred = e; show(); });
+    window.addEventListener('appinstalled', function () { if (box) box.hidden = true; toast('ثُبّتت الأذكار على جهازك', 3000); });
+    if (isIOS) show();
+    if ($('adInstallBtn')) $('adInstallBtn').addEventListener('click', function () {
+      if (deferred) {
+        deferred.prompt();
+        deferred.userChoice.then(function (c) { if (c && c.outcome === 'accepted' && box) box.hidden = true; deferred = null; });
+      } else if ($('adIosSheet') && $('adIosSheet').showModal) $('adIosSheet').showModal();
+    });
+    if ($('adIosClose')) $('adIosClose').addEventListener('click', function () { $('adIosSheet').close(); });
+    // عامل الخدمة: يحفظ الصفحة وبياناتها، ونطاقه صفحة الأذكار وحدها
+    if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
+    var first = !navigator.serviceWorker.controller;
+    navigator.serviceWorker.register('adhkar-sw.js', { scope: './adhkar' }).then(function () {
+      return navigator.serviceWorker.ready;
+    }).then(function () {
+      var key = 'adhkar:offline' + VQ;
+      if (first && load(key) !== '1') { save(key, '1'); toast('حُفظت الأذكار على جهازك؛ وصارت تعمل دون إنترنت', 4200); }
+    }).catch(function () { });
+  }
+
   init();
+  setupApp();
   var P0 = parseHash(INITIAL_HASH);
   if (P0.tab === 'all') { setTab(autoTab()); openAll(P0.a, P0.b); }
   else if (D.groups[P0.tab] && P0.a) goItem(P0.tab, P0.a);

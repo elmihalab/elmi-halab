@@ -139,7 +139,7 @@
         }
         (g.items || []).forEach(function (it) { one(it, g.title); });
         (g.night || []).forEach(function (it) { one(it, g.title + ' — بعد غروب الشمس'); });
-        (g.extra || []).forEach(function (it) { one(it, g.title + ' — أذكار أخرى واردة'); });
+        (g.extra || []).forEach(function (it) { one(it, g.title + ' — المختلف في ثبوته'); });
       });
     }
 
@@ -155,7 +155,7 @@
         function one(it, k, extra) {
           var text = it.quran ? qText([it.quran], M) : [].concat(it.text || '').join(' ');
           add({
-            g: 'adhkar', ic: 'dhikr', t: it.label || firstPhrase(text), s: s.title + (extra ? ' — أذكار أخرى واردة' : '') + (it.time ? ' — ' + it.time : ''),
+            g: 'adhkar', ic: 'dhikr', t: it.label || firstPhrase(text), s: s.title + (extra ? ' — المختلف في ثبوته' : '') + (it.time ? ' — ' + it.time : ''),
             b: text, x: it.fadl || '', quran: !!it.quran, go: { adhkar: 'all/' + id + '/' + k }
           });
         }

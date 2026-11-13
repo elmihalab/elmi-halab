@@ -744,6 +744,31 @@ code.k { direction: ltr; display: inline-block; background: var(--cream); paddin
 }
 .ax-book::before { content: ''; width: 9px; height: 9px; background: var(--gold-500); flex: none; }
 .ax-book:first-child { margin-top: 4px; }
+/* الملحقان: آثار الصحابة والتابعين، والمختلف في ثبوته */
+.ax-tile.is-annex { border-color: rgba(107, 31, 42, .22); border-inline-start: 4px solid #6b1f2a; }
+.ax-tile.is-annex b { color: #4a151e; }
+.ax-grp { margin: 18px 0 8px; font-size: 14px; font-weight: 800; color: #6b1f2a; display: flex; align-items: center; gap: 8px; }
+.ax-grp::after { content: ''; flex: 1; height: 1px; background: rgba(107, 31, 42, .2); }
+.ax-who { display: inline-block; margin-bottom: 6px; padding: 3px 10px; border-radius: 999px; background: #f5ecec; color: #4a151e; font-size: 13px; font-weight: 700; }
+.ad-verd { margin-top: 10px; padding-top: 8px; border-top: 1px dashed rgba(152, 133, 97, .45); }
+.ad-verd i { display: block; font-style: normal; font-weight: 800; color: #6b1f2a; font-size: 13px; }
+.ad-verd ul { margin: 4px 0 0; padding: 0 18px 0 0; list-style: square; }
+.ad-verd li { margin: 3px 0; font-size: 13.5px; line-height: 1.75; }
+.ad-verd li b { display: inline; color: var(--forest-700); }
+.ad-verd li small { color: var(--muted); font-size: 12px; }
+/* تثبيت صفحة الأذكار تطبيقًا */
+.ad-install {
+  display: flex; align-items: center; gap: 12px; margin: 22px 0 6px; padding: 12px 14px; border-radius: 16px;
+  background: var(--white); border: 1px solid rgba(5, 66, 57, .12); box-shadow: var(--shadow);
+}
+.ad-install img { border-radius: 11px; flex: none; }
+.ad-install-t { flex: 1; min-width: 0; }
+.ad-install-t b { display: block; color: var(--forest-900); font-weight: 900; font-size: 15px; }
+.ad-install-t small { display: block; color: var(--muted); font-size: 12.5px; line-height: 1.6; }
+.ad-install .btn { flex: none; padding-inline: 18px; }
+.ad-ios-steps { margin: 6px 0 10px; padding: 0 22px 0 0; line-height: 2; color: var(--text); }
+.ad-ios-steps svg { display: inline-block; vertical-align: -3px; color: #0a84ff; margin: 0 2px; }
+.ad-ios-note { margin: 0 0 14px; font-size: 13px; color: var(--muted); }
 .ax-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
 .ax-tile {
   display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 6px; min-height: 76px;
