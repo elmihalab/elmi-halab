@@ -1,418 +1,217 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>مصحف الشهباء</title>
-<meta name="description" content="مصحف الشهباء — مصحف المدينة النبوية بخط مجمع الملك فهد، من شعبة الشؤون العلمية في حلب">
-<meta name="theme-color" content="#054239">
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" type="image/png" href="icons/favicon-32.png">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<link rel="manifest" href="manifest.webmanifest">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="مصحف الشهباء">
-<link rel="stylesheet" href="css/app.css">
-<script>
-  // apply the saved theme before first paint
-  try { var t = localStorage.getItem('shahba.theme'); if (t) document.documentElement.dataset.theme = t;
-        var pp = localStorage.getItem('shahba.paper'); if (pp && pp !== 'cream') document.documentElement.dataset.paper = pp; } catch (e) {}
-  // after an update the new offline copy takes over: reload once so the page and its code are the same version
-  (function () {
-    var V = '0.8.0';
-    if (!('serviceWorker' in navigator) || !navigator.serviceWorker.controller) return;
-    navigator.serviceWorker.addEventListener('controllerchange', function () {
-      try { if (sessionStorage.getItem('shahba.reloaded') === V) return; sessionStorage.setItem('shahba.reloaded', V); } catch (e) { return; }
-      location.reload();
-    });
-  })();
-</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>شعبة الشؤون العلمية في حلب</title>
+  <meta name="description" content="موقع شعبة الشؤون العلمية في حلب: خدمات الأئمة والخطباء، واللقاء التطويري الشهري، والدروس العلمية في مساجد حلب، والدورات والإصدارات، ومواقيت الصلاة.">
+  <meta name="theme-color" content="#002623">
+
+  <!-- المعاينة عند مشاركة الرابط في واتساب وفيسبوك
+       إن اخترت في Vercel اسمًا غير elmi-halab فغيّر الرابطين التاليين -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ar_AR">
+  <meta property="og:title" content="شعبة الشؤون العلمية في حلب">
+  <meta property="og:description" content="خدمات الأئمة والخطباء، واللقاء التطويري الشهري، والدروس والدورات العلمية، ومواقيت الصلاة.">
+  <meta property="og:url" content="https://elmi-halab.vercel.app/">
+  <meta property="og:image" content="https://elmi-halab.vercel.app/images/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css?v=2.8">
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
-  <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></symbol>
-  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></symbol>
-  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
-  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
-  <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></symbol>
-  <symbol id="i-pages" viewBox="0 0 24 24"><path d="M12 5c-2-1.5-5-2-8-1.5v15c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5v-15c-3-.5-6 0-8 1.5zM12 5v15"/></symbol>
-  <symbol id="i-scroll" viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="8" rx="1"/><rect x="6" y="13.5" width="12" height="8" rx="1"/></symbol>
-  <symbol id="i-read" viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h16M8 18h12"/></symbol>
-  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h2"/></symbol>
-  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
-  <symbol id="i-next" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
-  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
-  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
-  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
-  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></symbol>
-  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></symbol>
-  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/></symbol>
-  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
-  <symbol id="i-tafsir" viewBox="0 0 24 24"><path d="M4 4.5h6a2 2 0 0 1 2 2V20a1.5 1.5 0 0 0-1.5-1.5H4zM20 4.5h-6a2 2 0 0 0-2 2V20a1.5 1.5 0 0 1 1.5-1.5H20z"/><path d="M15 9h2.5M15 12.5h2.5M6.5 9H9M6.5 12.5H9"/></symbol>
-  <symbol id="i-flip" viewBox="0 0 24 24"><path d="M12 4v16"/><path d="M12 6c-2-1.3-4.6-1.8-7.5-1.4v13.8c2.9-.4 5.5.1 7.5 1.4"/><path d="M15.5 8.5l2.5-2.5 2.5 2.5M18 6v6.5a3 3 0 0 1-3 3"/></symbol>
-  <symbol id="i-up" viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></symbol>
-  <symbol id="i-dn" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
-  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></symbol>
-  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14" stroke-width="3.2"/></symbol>
-  <symbol id="i-head" viewBox="0 0 24 24"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4.5" height="6.5" rx="1.5"/><rect x="16.5" y="14" width="4.5" height="6.5" rx="1.5"/></symbol>
-  <symbol id="i-tune" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></symbol>
-  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></symbol>
-  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.3 1.1 2.2h5c0-.9.4-1.6 1.1-2.2A6 6 0 0 0 12 3z"/></symbol>
-  <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor"/></symbol>
-  <symbol id="i-box" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="5" rx="1"/><path d="M5 9v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9M10 13h4"/></symbol>
-  <symbol id="i-install" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M12 7v7M9 11l3 3 3-3"/></symbol>
-</svg>
 
-<header class="topbar">
-  <a class="brand" href="./" aria-label="مصحف الشهباء">
-    <span class="eagle" aria-hidden="true"></span>
-    <span class="brand-text"><b>مصحف الشهباء</b><small>شعبة الشؤون العلمية بحلب</small></span>
-  </a>
-  <nav class="tools">
-    <button class="ib" id="btnSearch" aria-label="البحث"><svg><use href="#i-search"/></svg></button>
-    <button class="ib" id="btnMarkPage" aria-label="علامة على هذه الصفحة"><svg><use href="#i-bookmark"/></svg></button>
-    <button class="ib" id="btnTheme" aria-label="الوضع الليلي"><svg><use href="#i-moon"/></svg></button>
-    <button class="ib" id="btnMenu" aria-label="القائمة"><svg><use href="#i-menu"/></svg></button>
+  <!-- الشريط العلوي الثابت -->
+  <nav class="topbar" id="topbar" aria-label="التنقل">
+    <div class="wrap topbar-in">
+      <a class="brand" href="#top" aria-label="أعلى الصفحة">
+        <img src="images/eagle.svg" alt="" width="40" height="30">
+        <span><b id="brandTitle">شعبة الشؤون العلمية</b><small id="brandOrg">مديرية أوقاف حلب</small></span>
+      </a>
+      <div class="tb-links" id="tbLinks"></div>
+      <button class="tb-next" id="tbNext" type="button" hidden aria-label="مواقيت الصلاة"></button>
+      <button class="tb-menu tb-search" type="button" data-search aria-label="البحث في الموقع">
+        <svg class="ic" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="m21 21-4.3-4.3"/></svg>
+        <span>بحث</span>
+      </button>
+      <button class="tb-menu" id="menuBtn" type="button" aria-haspopup="dialog">
+        <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <span>الأقسام</span>
+      </button>
+    </div>
   </nav>
-</header>
 
-<div class="strip" id="strip">
-  <span id="stripSurah">…</span>
-  <button class="flipb" id="btnFlip" hidden><svg><use href="#i-flip"/></svg><span>تفسير الصفحة</span></button>
-  <span id="stripPage"></span>
-</div>
-
-<main id="main">
-  <section id="vPage" class="view pager" aria-label="تقليب الصفحات"></section>
-  <section id="vScroll" class="view scroller" aria-label="تمرير متصل" hidden></section>
-  <section id="vRead" class="view reader" aria-label="القراءة الحرة" hidden>
-    <div class="rbar">
-      <button class="ib sm" id="rPrev" aria-label="السورة السابقة"><svg><use href="#i-prev"/></svg></button>
-      <button class="rsel" id="rTitle">…</button>
-      <button class="ib sm" id="rNext" aria-label="السورة التالية"><svg><use href="#i-next"/></svg></button>
-      <span class="sp"></span>
-      <button class="ib sm" id="zOut" aria-label="تصغير"><svg><use href="#i-minus"/></svg></button>
-      <span class="zv" id="zVal">١٠٠٪</span>
-      <button class="ib sm" id="zIn" aria-label="تكبير"><svg><use href="#i-plus"/></svg></button>
-    </div>
-    <div class="rbody" id="rBody"></div>
-  </section>
-</main>
-
-<nav class="bottombar" id="modes">
-  <button data-act="index"><svg><use href="#i-list"/></svg><span>الفهرس</span></button>
-  <button data-mode="page"><svg><use href="#i-pages"/></svg><span>تقليب</span></button>
-  <button data-mode="scroll"><svg><use href="#i-scroll"/></svg><span>تمرير</span></button>
-  <button data-mode="read"><svg><use href="#i-read"/></svg><span>قراءة</span></button>
-  <button data-act="listen"><svg><use href="#i-head"/></svg><span>استماع</span></button>
-</nav>
-
-<!-- Player -->
-<div class="player" id="player" hidden>
-  <div class="pprog"><i id="plBar"></i></div>
-  <button class="plbig" id="plPlay" aria-label="تشغيل أو إيقاف"><svg><use href="#i-play"/></svg></button>
-  <div class="plinfo" id="plInfo" role="button" tabindex="0"><b id="plTitle"></b><small id="plRec"></small><button class="plchip" id="plBack" hidden>↩ إلى موضع التلاوة</button></div>
-  <span class="plrep" id="plRep" hidden></span>
-  <button class="ib sm" id="plPrev" aria-label="الآية السابقة"><svg><use href="#i-prev"/></svg></button>
-  <button class="ib sm" id="plNext" aria-label="الآية التالية"><svg><use href="#i-next"/></svg></button>
-  <button class="ib sm" id="plMore" aria-label="القارئ والتكرار والتلقين"><svg><use href="#i-tune"/></svg></button>
-  <button class="ib sm" id="plClose" aria-label="إغلاق المشغّل"><svg><use href="#i-x"/></svg></button>
-</div>
-
-<!-- Index -->
-<div class="panel" id="pIndex" hidden>
-  <div class="phead">
-    <div class="tabs" role="tablist">
-      <button class="on" data-tab="tSurah">السور</button>
-      <button data-tab="tPage">الصفحات</button>
-      <button data-tab="tMarks">العلامات</button>
-    </div>
-    <button class="ib close" aria-label="إغلاق"><svg><use href="#i-x"/></svg></button>
-  </div>
-  <div class="pbody">
-    <div class="tab" id="tSurah">
-      <input class="field" id="sFilter" type="search" placeholder="اكتب اسم السورة أو رقمها" autocomplete="off">
-      <div class="cont" id="contRow" hidden></div>
-      <ol class="slist" id="sList"></ol>
-    </div>
-    <div class="tab" id="tPage" hidden>
-      <label class="kick">انتقل إلى صفحة</label>
-      <div class="row"><input class="field" id="pNum" type="number" min="1" max="604" inputmode="numeric" placeholder="من ١ إلى ٦٠٤"><button class="btn" id="pGo">انتقل</button></div>
-      <p class="note">فهرس الأجزاء والأحزاب يُضاف قريبًا بإذن الله، حين تصل بياناته الموثقة.</p>
-    </div>
-    <div class="tab" id="tMarks" hidden><ul class="mlist" id="mList"></ul></div>
-  </div>
-</div>
-
-<!-- Search -->
-<div class="panel" id="pSearch" hidden>
-  <div class="phead">
-    <input class="field big" id="qIn" type="search" placeholder="ابحث بكلمة أو جزء من آية" autocomplete="off">
-    <button class="ib close" aria-label="إغلاق"><svg><use href="#i-x"/></svg></button>
-  </div>
-  <div class="chips" id="qScope" role="tablist"><button data-sc="q">في القرآن</button><button data-sc="t">في التفاسير</button><button data-sc="a">في الكل</button></div>
-  <div class="pbody"><p class="note" id="qInfo">اكتب كلمتين أو أكثر. ويمكنك كتابة رقم السورة والآية هكذا: ٢:٢٥٥</p><div id="qOut"></div></div>
-</div>
-
-<!-- Menu -->
-<div class="panel" id="pMenu" hidden>
-  <div class="phead"><b class="ptitle">مصحف الشهباء</b><button class="ib close" aria-label="إغلاق"><svg><use href="#i-x"/></svg></button></div>
-  <div class="pbody">
-    <button class="mitem" id="mTsm"><svg><use href="#i-mic"/></svg><span><b>التسميع</b><small>اقرأ من حفظك، والبرنامج يتابعك ويعلّم الأخطاء</small></span></button>
-    <button class="mitem" id="mSet"><svg><use href="#i-gear"/></svg><span><b>الإعدادات</b><small>التفسير، الضغط على الآية، التقليب، النسخ، المظهر</small></span></button>
-    <button class="mitem" id="mOffline"><svg><use href="#i-down"/></svg><span><b>تنزيل المصحف كاملًا</b><small id="offInfo">ليعمل مع التفاسير دون إنترنت (نحو ١٠٥ ميغا)</small></span></button>
-    <div class="prog" id="offProg" hidden><i></i></div>
-    <button class="mitem" id="mStore"><svg><use href="#i-box"/></svg><span><b>المحفوظات في جهازي</b><small>نزّل تلاوة المصحف كله أو سورًا تختارها، واحذف ما لا تحتاجه</small></span></button>
-    <button class="mitem" id="mInstall"><svg><use href="#i-install"/></svg><span><b>تثبيت المصحف على الجوال</b><small>يظهر بين تطبيقاتك ويفتح دون متصفح</small></span></button>
-    <button class="mitem" id="mAbout"><svg><use href="#i-info"/></svg><span><b>عن المصحف ومصادره</b><small>المصادر والتراخيص</small></span></button>
-    <div class="about" id="aboutBox" hidden>
-      <h3>مصادر هذا المصحف</h3>
-      <p>لم يُكتب في هذا الموقع حرف واحد من القرآن الكريم باليد؛ كل ما فيه مأخوذ كما هو من مصادره الموثقة:</p>
-      <ul>
-        <li><b>رسم المصحف وخطوط صفحاته الـ٦٠٤</b> (QPC V2 — طبعة ١٤٢١هـ): مجمع الملك فهد لطباعة المصحف الشريف.</li>
-        <li><b>ترتيب الأسطر والصفحات</b> (KFGQPC V2 15 lines) و<b>النص العثماني كلمةً كلمة</b> (KFGQPC Hafs) و<b>خط إطار اسم السورة</b>: من إنتاج المجمع، نُزّلت من منصة <a href="https://qul.tarteel.ai" target="_blank" rel="noopener">QUL</a> التابعة لـ Tarteel.</li>
-        <li>الخطوط محفوظة الحقوق لمجمع الملك فهد، وتُعرض كما هي دون أي تعديل على ملفاتها.</li>
-        <li><b>الرسم الإملائي كلمةً كلمة</b>: من QUL، مطابق لكلمات المصحف نفسها.</li>
-        <li>خط عرض الآيات داخل التفسير وبطاقة الكلمة: <b>خط حفص العثماني</b> (KFGQPC HAFS Uthmanic Script) من مجمع الملك فهد، كما هو دون تعديل.</li>
-        <li>خط الواجهة: قمرة (itf Qomra Arabic).</li>
-      </ul>
-      <h3>مصادر التلاوات</h3>
-      <ul>
-        <li>التلاوات المقسّمة آيةً آية من موقع <a href="https://everyayah.com" target="_blank" rel="noopener">EveryAyah</a>، والسور الكاملة وتوقيت آياتها والروايات الأخرى من موقع <a href="https://mp3quran.net" target="_blank" rel="noopener">mp3quran.net</a>.</li>
-        <li>تُشغَّل من خوادم الموقعين مباشرة ولا تُرفع إلى هذا الموقع، ويحفظ القارئ في جهازه ما يختاره منها.</li>
-        <li>التلاوات بغير رواية حفص للاستماع فقط، لأن المصحف المعروض برواية حفص عن عاصم.</li>
-      </ul>
-      <h3>التسميع</h3>
-      <ul>
-        <li>المحرّك السريع: خدمة التعرّف على الكلام في المتصفح (جوجل في كروم، وآبل في سفاري).</li>
-        <li>المحرّك الدقيق: نموذج <b>whisper-base-ar-quran</b> الذي نشره فريق «ترتيل» (Tarteel) مدرّبًا على تلاوة القرآن، بترخيص Apache-2.0، بنسخة ONNX منشورة باسم «Basira»، ويعمل في جهاز القارئ بمكتبة Transformers.js (Apache-2.0)؛ فلا يخرج الصوت من الجهاز.</li>
-        <li>المحرّك الصوتي الصامت وملاحظات التجويد: نموذج <b>HisnLabs/tajweed-v2</b> بترخيص Apache-2.0، يكتب ما نطقه القارئ بالرسم الصوتي، ويعمل في جهاز القارئ بمكتبة ONNX Runtime Web من مايكروسوفت (MIT) المحفوظة في هذا الموقع؛ فلا يخرج الصوت من الجهاز.</li>
-        <li>الرسم الصوتي المرجعي لكل آية، وأحكام التجويد المرتبطة بحروفها، وطريقة المقارنة بينهما: من مكتبة <b>quran-transcript</b> (MIT) المبنية على نص مشروع <a href="https://tanzil.net" target="_blank" rel="noopener">Tanzil</a>، برواية حفص من طريق الشاطبية (المنفصل والمتصل ٤ حركات)، وقد نُقلت طريقة المقارنة إلى جافاسكربت وفُحصت نتائجها فطابقت الأصل. وحساب خصائص الصوت على طريقة مكتبة faster-whisper (MIT).</li>
-        <li>يحكم البرنامج على الكلمات، ولا تظهر ملاحظة تجويد إلا إذا كان النموذج واثقًا منها، وقد يخطئ السماع؛ فالمعلّم هو الحَكَم.</li>
-      </ul>
-      <h3>مصادر التفاسير</h3>
-      <ul>
-        <li><b>التفسير الميسر</b>: نخبة من العلماء، إصدار مجمع الملك فهد لطباعة المصحف الشريف. وفقرتا «تسمية السورة» و«من مقاصد السورة» في أول كل سورة واردتان في نسخة QUL، وتظهران مطويتين تحت «مقدمة السورة»، ويمكن إخفاؤهما من الإعدادات.</li>
-        <li><b>المختصر في تفسير القرآن الكريم</b>: إصدار مركز تفسير للدراسات القرآنية.</li>
-        <li><b>الميسر في غريب القرآن الكريم</b>: معاني الكلمات الغريبة، وقد رُبط كل شرح بكلماته في المصحف.</li>
-        <li>نُزّلت نصوص التفاسير الثلاثة من منصة <a href="https://qul.tarteel.ai" target="_blank" rel="noopener">QUL</a>، وتُعرض كما هي.</li>
-      </ul>
-      <p class="note">أسماء السور في الفهرس مؤقتة إلى أن تصل بيانات السور الرسمية.</p>
-    </div>
-    <footer class="foot">شعبة الشؤون العلمية في حلب — الإصدار <span id="ver"></span></footer>
-  </div>
-</div>
-
-<!-- Ayah actions -->
-<div class="sheetbar" id="aBar" hidden>
-  <div class="ahead"><b id="aTitle"></b><button class="aplay" id="aPlay"><svg><use href="#i-play"/></svg>استمع</button><button class="aplay alt" id="aTsm"><svg><use href="#i-mic"/></svg>سمّع</button><button class="ib close" id="aClose" aria-label="إغلاق"><svg><use href="#i-x"/></svg></button></div>
-  <button class="tline" id="aLine" hidden><b class="tl-src" id="aLineSrc"></b><span class="tl-txt" id="aLineTxt">…</span><span class="tl-more">التفسير كاملًا ‹</span></button>
-  <div class="abtns">
-    <button id="aCopyU"><svg><use href="#i-copy"/></svg><span>نسخ عثماني</span></button>
-    <button id="aCopyI"><svg><use href="#i-copy"/></svg><span>نسخ إملائي</span></button>
-    <button id="aTafsir"><svg><use href="#i-tafsir"/></svg><span>التفسير</span></button>
-    <button id="aMark"><svg><use href="#i-bookmark"/></svg><span>علامة</span></button>
-    <button id="aShare"><svg><use href="#i-share"/></svg><span>مشاركة</span></button>
-  </div>
-</div>
-
-<!-- Tafsir -->
-<div class="panel tpanel" id="pTafsir" hidden>
-  <button class="tgrip" id="tGrip" aria-label="تكبير لوحة التفسير أو تصغيرها"><i></i></button>
-  <div class="phead">
-    <button class="ib sm" id="tPrev" aria-label="الآية السابقة"><svg><use href="#i-prev"/></svg></button>
-    <b class="ttitle" id="tTitle"></b>
-    <button class="ib sm" id="tNext" aria-label="الآية التالية"><svg><use href="#i-next"/></svg></button>
-    <button class="ib close" aria-label="إغلاق"><svg><use href="#i-x"/></svg></button>
-  </div>
-  <div class="ttabs" id="tTabs" role="tablist"></div>
-  <div class="pbody tbody" id="tBody"><div class="tslide" id="tSlide"></div></div>
-  <div class="tfoot">
-    <button id="tCopy"><svg><use href="#i-copy"/></svg><span>نسخ التفسير</span></button>
-    <button id="tCopyA"><svg><use href="#i-copy"/></svg><span>نسخ الآية</span></button>
-    <button id="tMark"><svg><use href="#i-bookmark"/></svg><span>علامة</span></button>
-    <button id="tShare"><svg><use href="#i-share"/></svg><span>مشاركة</span></button>
-    <button id="tPlay"><svg><use href="#i-head"/></svg><span>استماع</span></button>
-  </div>
-</div>
-
-<!-- Settings -->
-<div class="panel" id="pSet" hidden>
-  <div class="phead"><b class="ptitle">الإعدادات</b><button class="ib close" aria-label="إغلاق"><svg><use href="#i-x"/></svg></button></div>
-  <div class="pbody">
-    <h4 class="sh">التفسير</h4>
-    <div class="mrow"><span><b>التفسير الأساس</b><small>يظهر سطر منه عند الضغط على الآية</small></span>
-      <div class="seg" id="setBook"><button data-v="muyassar">الميسر</button><button data-v="mukhtasar">المختصر</button></div></div>
-    <div class="mrow col"><span><b>كتب التفسير في اللوحة</b><small>فعّل ما تريد ورتّبه بالسهمين</small></span><ol class="blist" id="setBooks"></ol></div>
-    <div class="mrow"><span><b>مقدمة السورة في الميسر</b><small>تسمية السورة ومقاصدها، مطوية</small></span><button class="sw" id="setIntro" role="switch"></button></div>
-    <div class="mrow"><span><b>حجم خط التفسير</b></span>
-      <div class="stepper"><button class="ib sm" id="tfsMinus" aria-label="تصغير"><svg><use href="#i-minus"/></svg></button><b id="tfsVal"></b><button class="ib sm" id="tfsPlus" aria-label="تكبير"><svg><use href="#i-plus"/></svg></button></div></div>
-
-    <h4 class="sh">عند الضغط على آية</h4>
-    <div class="opts" id="setTap">
-      <button data-v="line"><i></i><span><b>سطر من التفسير مع الأزرار</b><small>تقرأ أول التفسير، وتفتحه كاملًا بلمسة</small></span></button>
-      <button data-v="panel"><i></i><span><b>فتح التفسير كاملًا مباشرة</b><small>لوحة التفسير بكتبه، وتنتقل بين الآيات بالسحب</small></span></button>
-      <button data-v="copy"><i></i><span><b>أزرار النسخ والعلامة فقط</b><small>دون سطر التفسير</small></span></button>
-    </div>
-    <div class="mrow"><span><b>بطاقة الكلمة</b><small>اضغط مطوّلًا على أي كلمة لترى معناها</small></span><button class="sw" id="setWord" role="switch"></button></div>
-
-    <h4 class="sh">الاستماع</h4>
-    <button class="mitem" id="mAudio"><svg><use href="#i-head"/></svg><span><b>القارئ والتكرار والتلقين</b><small>اختيار الشيخ، تكرار الآية والمقطع، مهلة الترديد، السرعة، الحفظ دون إنترنت</small></span></button>
-
-    <button class="mitem" id="mTsm2"><svg><use href="#i-mic"/></svg><span><b>التسميع</b><small>المحرّك (سريع أو دقيق)، وضع الحفظ أو المتابعة</small></span></button>
-
-    <h4 class="sh">التقليب</h4>
-    <div class="mrow"><span><b>قلب الصفحة إلى تفسيرها</b><small>زر «تفسير الصفحة» في الشريط العلوي</small></span><button class="sw" id="setFlip" role="switch"></button></div>
-    <div class="mrow"><span><b>على الشاشة العريضة</b><small>الحاسوب والجوال الأفقي</small></span>
-      <div class="seg" id="setWide"><button data-v="spread">صفحتان</button><button data-v="tafsir">المصحف والتفسير</button></div></div>
-
-    <h4 class="sh">النسخ</h4>
-    <div class="mrow"><span><b>نسخ ما تحدده بإصبعك أو بالفأرة</b><small>زرّا الآية فيهما الرسمان دائمًا</small></span>
-      <div class="seg" id="setCopy"><button data-v="uthmani">عثماني</button><button data-v="imlaei">إملائي</button></div></div>
-
-    <h4 class="sh">المظهر</h4>
-    <div class="mrow"><span><b>لون الصفحة</b><small>في الوضع النهاري</small></span>
-      <div class="seg" id="paperOpts"><button data-paper="cream"><i style="background:#FBF9F2"></i>كريمي</button><button data-paper="white"><i style="background:#FFFFFF"></i>أبيض</button></div></div>
-    <div class="mrow"><span><b>الوضع</b></span>
-      <div class="seg" id="themeOpts"><button data-th="auto">تلقائي</button><button data-th="light">نهاري</button><button data-th="dark">ليلي</button></div></div>
-    <button class="btn ghost" id="setReset">إعادة الإعدادات إلى أصلها</button>
-  </div>
-</div>
-
-<!-- Tasmee' -->
-<div class="player tsbar" id="tsBar" hidden>
-  <button class="tsmic" id="tsMic" aria-label="الميكروفون"><svg><use href="#i-mic"/></svg></button>
-  <div class="plinfo" id="tsInfo" role="button" tabindex="0"><b id="tsTitle"></b><small id="tsSub"></small></div>
-  <span class="tsc ok" id="tsOk">٠</span><span class="tsc bad" id="tsBad">٠</span><span class="tsc soft" id="tsSoft" hidden>٠</span><span class="tsc tj" id="tsTjN" hidden title="ملاحظات التجويد">٠</span>
-  <button class="ib sm tslive" id="tsHint" aria-label="تلميح: أظهر الكلمة التالية"><svg><use href="#i-bulb"/></svg></button>
-  <button class="ib sm tslive" id="tsPause" aria-label="إيقاف مؤقت"><svg><use href="#i-pause"/></svg></button>
-  <button class="tsres tsdone" id="tsRes">النتيجة</button>
-  <button class="ib sm" id="tsStop" aria-label="إنهاء التسميع"><svg><use href="#i-stop"/></svg></button>
-</div>
-<div class="panel" id="pTsm" hidden>
-  <div class="phead"><b class="ptitle" id="tsmTitle">التسميع</b><button class="ib close" aria-label="إغلاق"><svg><use href="#i-x"/></svg></button></div>
-  <div class="pbody">
-    <div id="tsSetup">
-      <div class="tserr" id="tsErr" hidden></div>
-      <h4 class="sh">المحرّك</h4>
-      <div class="opts" id="tsEng">
-        <button data-v="auto"><i></i><span><b>تلقائي — يُنصح به</b><small id="tsAutoNote"></small></span></button>
-        <button data-v="ph"><i></i><span><b>صوتي — صامت وسريع</b><small>نموذج قرآني في جهازك يسمع نطقك حرفًا حرفًا ويتابعك كلمةً كلمة وأنت تقرأ، دون نغمات ودون إنترنت بعد تنزيله (نحو ٢٣ ميغا)</small></span></button>
-        <button data-v="web"><i></i><span><b>سريع</b><small></small></span></button>
-        <button data-v="ai"><i></i><span><b>دقيق — نموذج «ترتيل» الكبير</b><small>يعمل في جهازك دون إنترنت بعد تنزيله (نحو ١٠٢ ميغا). أبطأ، وتظهر النتيجة بعد كل وقفة.</small></span></button>
+  <header class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div class="hero-text">
+        <span class="kicker" id="orgName">مديرية أوقاف حلب</span>
+        <h1 id="siteTitle">شعبة الشؤون العلمية</h1>
+        <p class="tagline" id="tagline">تنظيم الدروس والدورات والبرامج العلمية في مساجد حلب وتطويرها</p>
+        <ul class="hero-feats" id="heroPoints"></ul>
+        <div class="hero-actions">
+          <a class="btn btn-dark" id="ctaBtn" href="#sectionsTop"></a>
+          <a class="btn btn-line" id="waBtn" href="https://www.whatsapp.com/channel/0029Vb7F8jREKyZPQP4L4A2y" target="_blank" rel="noopener"></a>
+        </div>
+        <button class="srch-trigger" type="button" data-search><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="m21 21-4.3-4.3"/></svg><span>ابحث في الموقع والأذكار ومواقيت المدن…</span></button>
+        <button class="hero-share" id="shareBtn" type="button"></button>
       </div>
-      <div class="mrow col" id="tsModelRow" hidden><span><b>النموذج</b><small id="tsModel"></small></span><button class="btn ghost2" id="tsModelDel" hidden>حذف النموذج من جهازي</button></div>
-      <div class="tjbox" id="tsTjRow" hidden>
-        <div class="mrow"><span><b>ملاحظات التجويد <em class="beta">تجريبي</em></b><small>يسمع المدود والغنّة والقلقلة والحركات، ولا يُظهر إلا ما هو واثق منه. يعمل مع المحرّك الصوتي والدقيق.</small></span><button class="sw" id="tsTj" role="switch"></button></div>
-        <div class="mrow col in" id="tsTjModelRow"><small id="tsTjModel"></small><button class="btn ghost2" id="tsTjDel" hidden>حذف نموذج التجويد من جهازي</button></div>
-      </div>
-      <div class="mrow" id="tsGpuRow" hidden><span><b>تسريع بمعالج الرسوميات</b><small>أسرع على الأجهزة القوية، والتنزيل أكبر (١٦٠–٢٠٠ ميغا)</small></span><button class="sw" id="tsGpu" role="switch"></button></div>
-      <h4 class="sh">الوضع</h4>
-      <div class="opts" id="tsMode">
-        <button data-v="hide"><i></i><span><b>الحفظ</b><small>تُخفى الكلمات، وتظهر كلمةً كلمة كلما قرأتها صحيحة</small></span></button>
-        <button data-v="follow"><i></i><span><b>المتابعة</b><small>الكلمات ظاهرة، وتتلوّن وأنت تقرأ</small></span></button>
-      </div>
-      <h4 class="sh">من أين</h4>
-      <div class="opts" id="tsFrom">
-        <button data-v="here"><i></i><span><b id="tsHere"></b><small>لتبدأ من آية أخرى: اضغطها في المصحف ثم «سمّع»</small></span></button>
-        <button data-v="any"><i></i><span><b>من أي مكان</b><small>ابدأ القراءة من حيث شئت، وأنا أكتشف الموضع</small></span></button>
-      </div>
-      <p class="note" id="tsAnyNote" hidden>«من أي مكان» يعمل مع وضع المتابعة، لأن الكلمات لا تُخفى قبل معرفة الموضع.</p>
-      <div class="mrow"><span><b>ينتهي في آخر السورة</b></span><button class="sw" id="tsStopS" role="switch"></button></div>
-      <button class="btn wide" id="tsGo">ابدأ التسميع</button>
-      <p class="note">الألوان: <b class="c-ok">أخضر</b> صحيح، <b class="c-bad">أحمر</b> خطأ أو كلمة متروكة، <b class="c-soft">برتقالي</b> للمراجعة أو بتلميح، و<b class="c-tj">خطّ ذهبي متقطّع</b> تحت الكلمة: ملاحظة تجويد. البرنامج يحكم على الكلمات، وملاحظات التجويد تجريبية، وقد يخطئ السماع؛ فالمعلّم هو الحَكَم.</p>
-      <div class="probe" id="tsDiagRow">
-        <div class="mrow"><span><b>افحص الميكروفون والتسميع</b><small>إن لم يعمل التسميع: يختبر خدمة الكلام والميكروفون وملفات الموقع والوصول إلى النماذج، ثم يعطيك تقريرًا ترسله</small></span><button class="btn ghost2" id="tsDiag">افحص</button></div>
-        <div id="tsDiagOut"></div>
-      </div>
-      <div class="probe" id="tsProbeRow" hidden>
-        <div class="mrow"><span><b>افحص المحرّك على جهازك</b><small>يسمع تلاوة الحصري لسورة الإخلاص، فترى دقته وسرعته على هذا الجهاز</small></span><button class="btn ghost2" id="tsProbe">افحص</button></div>
-        <div id="tsProbeOut"></div>
+
+      <!-- بطاقة مواقيت الصلاة: تُملأ من prayer.js -->
+      <div class="hero-side">
+        <div class="pcard" id="pbar" role="region" aria-label="مواقيت الصلاة">
+          <img class="pc-mark" src="images/eagle.svg" alt="" width="120" height="91" aria-hidden="true">
+          <div class="pc-head">
+            <div class="pc-next"><small>الصلاة القادمة</small><b id="pNextName">—</b></div>
+            <div class="pc-time"><small>الأذان</small><b id="pNextTime">–</b></div>
+          </div>
+          <div class="pc-left"><small>الوقت المتبقي</small><b id="pLeft" class="num">–</b></div>
+          <div class="pc-prog" aria-hidden="true"><span id="pProg"></span></div>
+          <div class="pc-since" id="pSinceRow"><span id="pSinceLabel">مضى على <b>—</b></span><b id="pSince" class="num">–</b></div>
+          <div class="pbar-times" id="pTimes">
+            <div class="pt"><small>الفجر</small><b>–</b></div><div class="pt sun"><small>الشروق</small><b>–</b></div><div class="pt"><small>الظهر</small><b>–</b></div><div class="pt"><small>العصر</small><b>–</b></div><div class="pt"><small>المغرب</small><b>–</b></div><div class="pt"><small>العشاء</small><b>–</b></div>
+          </div>
+          <p class="pc-hint">اضغط على أي صلاة لترى كم بقي عليها أو كم مضى</p>
+          <a class="pc-adhkar" id="pAdhkar" href="adhkar.html"><span id="pAdhkarText">الأذكار</span><span aria-hidden="true">←</span></a>
+          <div class="pc-foot">
+            <button class="pbar-city" id="pCity" type="button" aria-haspopup="dialog" title="تغيير المدينة">
+              <svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+              <b id="pCityName">حلب</b>
+              <svg class="ic chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <span class="pbar-date" id="pDate"></span>
+          </div>
+        </div>
       </div>
     </div>
-    <div id="tsSum" hidden></div>
-  </div>
-</div>
+    <div class="hero-sky" aria-hidden="true"></div>
+  </header>
 
-<!-- Listening -->
-<div class="panel" id="pAudio" hidden>
-  <div class="phead"><b class="ptitle">الاستماع والتلقين</b><button class="ib close" aria-label="إغلاق"><svg><use href="#i-x"/></svg></button></div>
-  <div class="pbody">
-    <h4 class="sh">القارئ</h4>
-    <div class="qwarn" id="qWarn" hidden></div>
-    <div class="reclist" id="recList"></div>
+  <main>
+    <div class="wrap">
+      <!-- القسم الأول في الترتيب (الخدمات) يظهر هنا قبل اللقاء الشهري -->
+      <div id="sectionsTop"></div>
 
-    <h4 class="sh">التكرار والتلقين</h4>
-    <div class="mrow col"><span><b>تكرار كل آية</b></span>
-      <div class="seg wrap" id="auRep"><button data-v="1">مرة</button><button data-v="2">٢</button><button data-v="3">٣</button><button data-v="5">٥</button><button data-v="7">٧</button><button data-v="10">١٠</button><button data-v="0">∞</button></div></div>
-    <div class="mrow col"><span><b>مهلة للترديد بعد كل آية</b><small>يسكت القارئ لتردّد الآية بعده — طريقة التلقين في الحلقات</small></span>
-      <div class="seg wrap" id="auGap"><button data-v="0">بلا مهلة</button><button data-v="1">بقدر الآية</button><button data-v="1.5">مرة ونصف</button><button data-v="2">ضعفها</button></div></div>
-    <div class="mrow col" id="rangeBox"><span><b>مقطع للحفظ</b><small>تختار آيات فيُعاد ما بينها</small></span>
-      <p class="note" id="rangeNote" hidden>المقطع يعمل مع قرّاء الآيات المفردة (غير «سورة كاملة» والروايات الأخرى).</p>
-      <div class="range"><label>السورة<select id="rgS"></select></label><label>من الآية<select id="rgF"></select></label><label>إلى الآية<select id="rgT"></select></label></div>
-      <div class="mrow in"><span><b id="auRRepLabel">تكرار المقطع</b></span>
-        <div class="seg wrap" id="auRRep"><button data-v="1">مرة</button><button data-v="2">٢</button><button data-v="3">٣</button><button data-v="5">٥</button><button data-v="10">١٠</button><button data-v="0">∞</button></div></div>
-      <div class="row"><button class="btn" id="rgGo">استمع إلى المقطع</button><button class="btn ghost2" id="rgPage">الصفحة التي أمامي</button><button class="btn ghost2" id="rgClear" hidden>إلغاء</button></div>
+      <section class="block" id="meeting" aria-labelledby="meetingHead">
+        <div class="block-head">
+          <span class="kicker">للأئمة والخطباء</span>
+          <h2 id="meetingHead">اللقاء التطويري الشهري</h2>
+        </div>
+        <div id="meetingBox"><div class="skeleton" style="height:220px"></div></div>
+      </section>
+
+      <div id="sections">
+        <div class="skeleton" style="margin-top:28px"></div>
+        <div class="skeleton" style="margin-top:10px"></div>
+      </div>
+
+      <section class="block" id="steps" aria-labelledby="stepsHead" hidden>
+        <div class="block-head">
+          <span class="kicker">للإمام والخطيب</span>
+          <h2 id="stepsHead">كيف تستفيد من الشعبة؟</h2>
+        </div>
+        <ol class="steps-grid" id="stepsBox"></ol>
+      </section>
+
+      <section class="block" id="faq" aria-labelledby="faqHead" hidden>
+        <div class="block-head">
+          <span class="kicker">أسئلة شائعة</span>
+          <h2 id="faqHead">قبل أن تسأل</h2>
+        </div>
+        <div class="faq" id="faqBox"></div>
+      </section>
+
+      <section class="block" id="about" aria-labelledby="aboutHead">
+        <div class="block-head">
+          <span class="kicker">تعريف</span>
+          <h2 id="aboutHead">عن الشعبة</h2>
+        </div>
+        <div class="about" id="aboutBox"></div>
+      </section>
     </div>
 
-    <h4 class="sh">التشغيل</h4>
-    <div class="mrow"><span><b>السرعة</b></span>
-      <div class="seg" id="auSpeed"><button data-v="0.75">٠٫٧٥</button><button data-v="1">١</button><button data-v="1.25">١٫٢٥</button><button data-v="1.5">١٫٥</button></div></div>
-    <div class="mrow"><span><b>متابعة الصفحة مع التلاوة</b><small>تتلوّن الآية وتنتقل الصفحة وحدها</small></span><button class="sw" id="auFollow" role="switch"></button></div>
-    <div class="mrow"><span><b>البسملة في أول السورة</b><small>قبل الآية الأولى، إلا الفاتحة والتوبة</small></span><button class="sw" id="auBasmala" role="switch"></button></div>
-    <div class="mrow col"><span><b>إيقاف تلقائي</b><small>يتوقف عند تمام الآية</small></span>
-      <div class="seg wrap" id="auSleep"><button data-v="0">لا</button><button data-v="15">بعد ١٥ دقيقة</button><button data-v="30">بعد ٣٠ دقيقة</button><button data-v="s">آخر السورة</button></div></div>
+    <!-- دعوة ختامية -->
+    <section class="cta-band" aria-labelledby="ctaHead">
+      <div class="wrap">
+        <div class="cta-card">
+          <span class="kicker">تواصل</span>
+          <h2 id="ctaHead">كن على صلة بالشعبة</h2>
+          <p>أخبار الدروس والدورات واللقاءات تصلك أولًا بأول، ولكل سؤال أو اقتراح رسالة على واتساب.</p>
+          <div class="cta-actions" id="ctaActions"></div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-    <h4 class="sh">الاستماع دون إنترنت</h4>
-    <p class="note" id="offAudioInfo">تُحفظ السورة في جهازك لتسمعها دون إنترنت.</p>
-    <button class="btn wide" id="auSave"></button>
-    <div class="prog" id="auProg" hidden><i></i></div>
-    <div class="schips" id="auSaved"></div>
-    <button class="btn ghost2 wide" id="auStore">المصحف كله أو سور تختارها، وإدارة المحفوظات</button>
-  </div>
-</div>
+  <footer class="foot">
+    <div class="foot-sky" aria-hidden="true"></div>
+    <div class="foot-in">
+      <div class="wrap foot-grid">
+        <div class="foot-brand">
+          <img src="images/eagle.svg" alt="" width="58" height="44">
+          <b>شعبة الشؤون العلمية في حلب</b>
+          <p id="footTag">تنظيم الدروس والدورات والبرامج العلمية في مساجد حلب وتطويرها</p>
+        </div>
+        <div class="foot-col"><h3>الأقسام</h3><ul id="footSections"></ul></div>
+        <div class="foot-col"><h3>تواصل</h3><ul id="footContact"></ul></div>
+        <div class="foot-col"><h3>روابط</h3><ul id="footLinks"></ul></div>
+      </div>
+      <div class="wrap foot-bottom"><span>شعبة الشؤون العلمية في حلب</span> · <span id="ver">الإصدار 1.3</span></div>
+    </div>
+  </footer>
 
-<!-- Saved on this device -->
-<div class="panel" id="pStore" hidden>
-  <div class="phead"><b class="ptitle">المحفوظات في جهازي</b><button class="ib close" aria-label="إغلاق"><svg><use href="#i-x"/></svg></button></div>
-  <div class="pbody">
-    <div class="stotal" id="stTotal"></div>
-    <h4 class="sh">تنزيل تلاوة لتسمعها دون إنترنت</h4>
-    <label class="stlab">القارئ<select class="field" id="stRec"></select></label>
-    <div class="chips wrap" id="stQuick"><button data-q="all">المصحف كله</button><button data-q="amma">جزء عمّ</button><button data-q="tabarak">جزء تبارك</button><button data-q="mufassal">المفصّل (ق–الناس)</button><button data-q="none">إلغاء الاختيار</button></div>
-    <input class="field" id="stFilter" type="search" placeholder="ابحث عن سورة باسمها أو رقمها" autocomplete="off">
-    <p class="stkey"><span class="k full"></span>محفوظة <span class="k part"></span>ناقصة <span class="k on"></span>مختارة للتنزيل</p>
-    <div class="sgrid" id="stList"></div>
-    <p class="note" id="stEst"></p>
-    <button class="btn wide" id="stGo">نزّل</button>
-    <div class="stjob" id="stJob" hidden></div>
-    <h4 class="sh">تلاواتي المحفوظة</h4>
-    <div id="stSaved"></div>
-    <h4 class="sh">المصحف والتفاسير والنماذج</h4>
-    <div id="stOther"></div>
-    <button class="btn ghost wide" id="stWipe">احذف كل المحفوظات</button>
-    <p class="note">ما يُحفظ هنا يبقى في هذا الجهاز وحده، ولا يُرفع منه شيء.</p>
-  </div>
-</div>
+  <!-- قائمة الأقسام -->
+  <dialog class="sheet menu-sheet" id="menuSheet" aria-labelledby="menuHead">
+    <div class="sheet-in">
+      <h3 id="menuHead">أقسام الموقع</h3>
+      <nav class="menu-list" id="menuList"></nav>
+      <div class="sheet-actions">
+        <button class="btn btn-outline" type="button" data-search>بحث</button>
+        <button class="btn btn-forest" id="menuShare" type="button">باركود ومشاركة</button>
+        <button class="btn btn-outline" id="menuClose" type="button">إغلاق</button>
+      </div>
+    </div>
+  </dialog>
 
-<!-- Word card -->
-<div class="wcard" id="wCard" hidden role="dialog" aria-label="بطاقة الكلمة">
-  <div class="wc-top"><span class="wc-g" id="wcG"></span><span class="wc-i" id="wcI"></span></div>
-  <div class="wc-loc" id="wcLoc"></div>
-  <div class="wc-m" id="wcM"></div>
-  <div class="wc-b"><button id="wcT"><svg><use href="#i-tafsir"/></svg>تفسير الآية</button><button id="wcC"><svg><use href="#i-copy"/></svg>نسخ الكلمة</button></div>
-</div>
+  <dialog class="sheet" id="shareSheet">
+    <div class="sheet-in">
+      <h3 id="shareHead">شارك الموقع</h3>
+      <p id="shareNote">امسح الباركود بكاميرا الهاتف، أو انسخ الرابط</p>
+      <div class="seg" id="qrSeg" hidden>
+        <button type="button" data-k="site" class="on" aria-pressed="true">باركود الموقع</button>
+        <button type="button" data-k="wa" aria-pressed="false">واتساب الشعبة</button>
+      </div>
+      <div class="qr-box" id="qrBox"></div>
+      <div class="url-line" id="urlLine"></div>
+      <div class="sheet-actions">
+        <button class="btn btn-forest" id="copyBtn" type="button">نسخ الرابط</button>
+        <button class="btn btn-outline" id="closeShare" type="button">إغلاق</button>
+      </div>
+    </div>
+  </dialog>
+  <dialog class="sheet city-sheet" id="citySheet" aria-labelledby="cityHead">
+    <div class="sheet-in">
+      <h3 id="cityHead">اختر مدينتك</h3>
+      <p>مواقيت تقويم وزارة الأوقاف لكل مناطق سورية</p>
+      <input class="inp" id="citySearch" type="search" placeholder="ابحث: منبج، عفرين، دمشق…" autocomplete="off" aria-label="ابحث عن مدينة">
+      <div class="city-list" id="cityList"></div>
+      <a class="atlas-link" id="masjidakLink" href="https://masjidak.mow.gov.sy/ar" target="_blank" rel="noopener">مواقيت الصلاة وخريطة المساجد ودروسها في تطبيق <b>«مسجدك»</b> من وزارة الأوقاف</a>
+      <div class="sheet-actions"><button class="btn btn-outline" id="cityClose" type="button">إغلاق</button></div>
+    </div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-<div class="scrim" id="scrim" hidden></div>
-
-<script src="js/app.js"></script>
-<script src="js/tafsir.js"></script>
-<script src="js/audio.js"></script>
-<script src="js/tasmee-core.js"></script>
-<script src="js/tajweed-core.js"></script>
-<script src="js/tasmee.js"></script>
-<script src="js/store.js"></script>
+  <script src="config.js?v=2.8"></script>
+  <script src="content.js?v=2.8"></script>
+  <script src="icons.js?v=2.8"></script>
+  <script src="vendor/qrcode.js"></script>
+  <script src="app.js?v=2.8"></script>
+  <script src="prayer.js?v=2.8"></script>
+  <script src="search.js?v=2.8"></script>
 </body>
 </html>
